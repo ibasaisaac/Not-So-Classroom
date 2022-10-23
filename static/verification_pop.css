@@ -1,0 +1,72 @@
+@import url("https://fonts.googleapis.com/css? family=Comfortaa: 400, 700 Actor: 400 Permanent+Marker: 400| Inter:400");
+@import "pp.css";
+
+.heading {
+    font-family: marker;
+}
+.lpl {
+    font-family: comfortaa;
+}
+.llo {
+    font-family: actor;
+}
+
+.giraffe {
+    width: 100vh;
+    height: 40vh;
+    margin: 0 auto;
+    position: fixed;
+    left: 20%;
+    top: 79%;
+    transform: translate(-50%, -50%);
+}
+
+.birdie {
+    width: 100vh;
+    height: 30vh;
+    margin: 0 auto;
+    position: fixed;
+    left: 80%;
+    top: 19%;
+    transform: translate(-50%, -50%);
+}
+
+.form-container {
+    padding: 50px 40px;
+    border: 1px none;
+
+    position: fixed;
+    padding: 1em;
+    left: 46%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+a {
+    text-decoration: none;
+    color: black
+}
+
+.email-box {
+    background-color: var(--white);
+    border: 1px none;
+    height: 48px;
+    left: 484px;
+    position: fixed;
+    width: 451px;
+    z-index: 5;
+}
+
+.mm {
+    background-color: var(--vista);
+    border: none;
+    border-radius: 0%;
+    align-content: right;
+    color: var(--black);
+}
+
+.ll {
+    background-color: #d9d9d9;
+
+    border-radius: 0%;
+}
