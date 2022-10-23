@@ -8,23 +8,19 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <!--link html with css-->
-    <link rel="stylesheet" href="assets/login.css">
-    <link href="css/assets/login.css" type="text/css" rel="stylesheet">
-    <link rel="stylesheet" href="css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="static/style.css" type="text/css">
     <title>Not So Classroom</title>
 </head>
 
 <body>
     <div class="container-fluid bg">
         <div class="row content">
-            <div class="col-md-4"></div>
             <div class="col-md-4">
-                <form class="form-container" style="width: 50%;">
-                    <h3 class="text-center signin-text mb-3"> Sign In</h3>
+                <form class="form-container" style="width: 50%;" action="/auth" method="post">
+                    <h3 class="signin-text mb-3 text-center"> Not So Classroom</h3>
                     <div class="form-group mb-3">
                         <label for="email">Email</label>
-                        <input type="email" name="email" class="form-control" id="inputemail"
+                        <input type="email" name="email" class="form-control" id="email"
                             placeholder="name@iut-dhaka.edu">
                     </div>
                     <div class="form-group mb-3">
@@ -39,7 +35,7 @@
                         <button type="submit" class="btn btn-light btn-lg btn-success btn-block">Login</button>
                     </div>
                     <div class="need-an-account-register comfortaa-normal-black-24px">
-                        <a href="reg.html">Need an account Register</a>
+                        Need an account <a href="./register.html">Register</a>
                     </div>
                 </form>
             </div>

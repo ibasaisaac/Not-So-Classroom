@@ -1,0 +1,288 @@
+@import url("https://fonts.googleapis.com/css? family=Comfortaa: 400, 700 Actor: 400 Permanent+Marker: 400| Inter:400");
+
+:root {
+
+    --black-2: rgba(0, 0, 0, 0.502);
+    /* --black: rgba(0, 0, 0, 1); */
+    --gray: rgba(145, 145, 145, 1);
+    /* --cornflower: rgba(154, 200, 235, 1); */
+    -aqua-island: rgba(166, 223, 218, 1);
+    -alto-2: rgba(217, 217, 217, 0.902);
+    -alto: rgba(217, 217, 217, 1);
+    --crystal: #a6dfda;
+    --melon: #feb8b3;
+    --caramel: #FED58A;
+    --vista: #7D99DA;
+    --black: #000000;
+    /* --melon: Irgba(254, 184, 179, 1); */
+    --grandis: rgba(254, 213, 138, 1);
+    --white: rgba(255, 255, 255, 1);
+    --font-size-xs: 18px;
+    --font-size-s: 20px;
+    -font-size-m: 22px;
+    -font-size-1: 24px;
+    -font-size-x1: 26px;
+    --font-size-xx1: 30px;
+    --font-size-xxx1: 40px;
+    --font-family-actor: "Actor";
+    -font-family-comfortaa: "Comfortaa";
+    --font-family-inter: "Inter";
+     -font-family-kokoro-regular: "Kokoro-Regular";
+     -font-family-permanent-marker: "Permanent Marker";
+}
+
+#signin-text {
+    font-family: fantasy;
+}
+
+.bg {
+    background: url('bg.png') no-repeat;
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    height: 100vh;
+    margin: 0 auto;
+    position: relative;
+}
+.bg2 {
+    background: url('bg2.svg') no-repeat;
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    height: 100vh;
+    margin: 0 auto;
+    position: relative;
+}
+
+.form-container {
+    background-color: #A6DFDA;
+    padding: 50px 40px;
+    border: 1px none;
+
+    position: fixed;
+    padding: 1em;
+    left: 46%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.ff {
+    padding: 50px 40px;
+    border: 1px none;
+
+    position: fixed;
+    padding: 1em;
+    left: 46%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+a {
+    text-decoration: none;
+    color: black
+}
+.rectangle-1 {
+    background-color: #A6DFDA;
+    padding: 50px 40px;
+    border: 1px none;
+
+    position: fixed;
+    padding: 1em;
+    left: 46%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+} 
+.email-box {
+    background-color: var(--white);
+    border: 1px none;
+    height: 48px;
+    left: 484px;
+    position: fixed;
+    width: 451px;
+    z-index: 5;
+}
+/* .register {
+
+    align-items: flex-start;
+    background-color: var(--white);
+    border: 1px none;
+    display: flex;
+    width: 1440px;
+}
+
+.hidden,
+.hidden * {
+    pointer-events: none;
+    visibility: hidden;
+}
+
+
+
+
+
+.already-have-an-account {
+    cursor: pointer;
+    height: 29px;
+    left: 480px;
+    position: fixed;
+    width: 270px;
+    top: 729px;
+    z-index: 13;
+}
+
+.username-box {
+    background-color: var(--white);
+    border: 1px none;
+    height: 484px;
+    width: 451px;
+    left: 484px;
+    position: fixed;
+    top: 452px;
+    z-index: 8;
+}
+
+.by-registering-you {
+
+    color: var(--black);
+    font-family: var(--font-family-comfortaa);
+    font-size: var (--font-size-s);
+    font-weight: 400;
+    height: 44px;
+    left: 519px;
+    letter-spacing: -0.3px;
+    position: fixed;
+    top: 800px;
+    width: 431px;
+    z-index: 11;
+}
+
+.valign-text-middle {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.create-an-account {
+
+    color: var(--black);
+    font-family: var (--font-family-comfortaa);
+    font-size: var(--font-size-x1);
+    font-weight: 400;
+    height: 29px;
+    left: 596px;
+    letter-spacing: -0.39px;
+    position: fixed;
+    top: 240px;
+    z-index: 3;
+}
+
+.check_box_fil10_wght400_grade_opsz48-1 {
+    height: 30px;
+    left: 480px;
+    position: fixed;
+    top: 800px;
+    width: 30px;
+    z-index: 14;
+}
+
+.password-box {
+
+    background-color: var(--white);
+
+    border: 1px none;
+    height: 48px;
+
+    background-color: var(--white);
+    border: 1px none;
+    left: 484px;
+    z-index: 10;
+
+    position: fixed;
+    top: 564px;
+
+    width: 451px;
+
+}
+
+.username {
+    height: 27px;
+    left: 479px;
+    letter-spacing: -0.36px;
+    position: fixed;
+    top: 421px;
+    z-index: 7;
+}
+
+.iut-dhakaedu {
+
+    color: #7c7878;
+    font-family: var(--font-family-comfortaa);
+    font-size: var(--font-size-s);
+    font-weight: 400;
+    height: 22px;
+    left: 768px;
+    letter-spacing: -0.3px;
+    position: fixed;
+    top: 366px;
+    z-index: 6;
+}
+
+.password {
+
+    height: 27px;
+    left: 480px;
+    letter-spacing: -0.36px;
+    position: fixed;
+    top: 535px;
+    z-index: 9;
+}
+
+.register-1 {
+
+    align-items: flex-start;
+    background-color: var(--white);
+    border: 1px none;
+    cursor: pointer;
+    display: flex;
+    height: 60px;
+    left: 485px;
+    min-width: 451px;
+    position: fixed;
+    top: 659px;
+    z-index: 12;
+}
+
+.overlap-group {
+    align-items: flex-end;
+
+    min-width: 451px;
+    padding: 2.1px 50px;
+    display: flex;
+    height: 60px;
+}
+
+.title {
+
+    color: var(--black);
+    font-family: var(--font-family-comfortaa);
+    font-size: var(--font-size-xx1);
+    font-weight: 400;
+    letter-spacing: -0.42px;
+    min-height: 43px;
+    text-align: center;
+    width: 351px;
+}
+
+.email {
+    height: 27px;
+    left: 480px;
+    position: fixed;
+    top: 318px;
+    z-index: 4;
+    letter-spacing: -0.36px;
+}
+
+
+
