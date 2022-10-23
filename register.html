@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--Bootstrap CSS-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <!--link html with css-->
+    <link href="static/register.css" type="text/css" rel="stylesheet">
+    <title>Not So Classroom</title>
+</head>
+
+<body>
+    <div class="container-fluid bg">
+        <div class="row content">
+            <div class="col-md-4">
+                <form class="form-container" style="width: 30%;" action="/auth2" method="post">
+                    <h3 class="text-center createanaccount-text mb-3">Create an account</h3>
+                    <div class="form-group mb-3">
+                        <label for="inputstid">Student ID</label>
+                        <input type="number" name="inputstid" class="form-control" id="inputstid" placeholder="Student ID">
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="inputemail">Email</label>
+                        <input type="email" name="inputemail" class="form-control" id="inputemail" placeholder="name@iut-dhaka.edu">
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="inputusername">Username</label>
+                        <input type="text" name="inputusername" class="form-control" id="inputusername" placeholder="Username">
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="inputpassword">Password</label>
+                        <input type="password" name="inputpassword" class="form-control" id="inputpassword" placeholder="Password">
+                    </div>
+                    <div class="d-grid gap-2 mb-3">
+                        <button type="submit" class="btn btn-light btn-lg btn-success btn-block">Continue</button>
+                    </div>
+
+                    <div class="already-have-an-account? comfortaa-normal-black-24px">
+                        <a href="./login.html">Already have an account?</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
