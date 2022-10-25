@@ -45,7 +45,7 @@ var registerverify2 = function (req, res) {
                         throw error;
                     // Redirect to home page
 
-                    res.redirect('/login.html');
+                    //res.redirect('/login.html');
                     res.end();
 
                 });
