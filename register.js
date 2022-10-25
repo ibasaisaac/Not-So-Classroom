@@ -1,10 +1,13 @@
-
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 var connection = require('./database');
 const express = require('express');
 
 const app = express();
+
+//hashing
+const bcrypt = require('bcrypt');
+const saltRounds = 10; //rounds the plaintex goes thru to hash
 
 let id, email, username, password;
 
@@ -31,16 +34,22 @@ var registerverify1 = function (request, response) {
 var registerverify2 = function (req, res) {
 
     if (req.body.otp == otp) {
-        res.send("You has been successfully registered");
+        res.send("You have been successfully registered");
 
-        connection.query('INSERT INTO students (id, email, username, password) VALUES (?, ?, ?, ?)', [id, email, email, password], function (error, results, fields) {
-            // If there is an issue with the query, output the error
-            if (error) throw error;
-            // Redirect to home page
+        bcrypt.genSalt(saltRounds, function(err, salt) {
+            bcrypt.hash(password, salt, function(err, hash) {
+                connection.query('INSERT INTO students (id, email, username, password) VALUES (?, ?, ?, ?)', [id, email, username, hash], 
+                function (error, results, fields) {
+                    // If there is an issue with the query, output the error
+                    if (error) 
+                        throw error;
+                    // Redirect to home page
 
-            res.redirect('/login.html');
-            res.end();
+                    res.redirect('/login.html');
+                    res.end();
 
+                });
+            });
         });
 
     }
@@ -73,8 +82,8 @@ otp = otp * 1000000;
 otp = parseInt(otp);
 const mailConfigurations = {
 
-    from: 'tasnimhasan241@gmail.com',
-    to: 'ummetasnim@iut-dhaka.edu',
+    from: 'isaba190041223@gmail.com',
+    to: 'isabaishrak@iut-dhaka.edu',
    // to: email,
 
     subject: 'Verify Email Address for Not So Classroom',
@@ -91,9 +100,10 @@ const transporter = nodemailer.createTransport({
     // secure: true,
     service: 'gmail',
     auth: {
-        user: "tasnimhasan241@gmail.com",
-        pass: "yajkgidelqzbwmlz"
+        user: 'isaba190041223@gmail.com',
+        pass: 'gepalrtinqthiwbd'
     }
+    
 });
 
 
