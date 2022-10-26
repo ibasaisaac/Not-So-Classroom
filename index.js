@@ -1,13 +1,13 @@
-// var login = require('./login');
-// var register = require('./register');
 import {express, session, path, cookieparser, app} from './bundles.js';
+import * as login from './login.js';
+import * as register from './register.js';
 
 const PORT = process.env.PORT || 3001;
 app.use(express.static('./static'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 //cookie and session
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
 // app.use(session({
 //     secret: 'secret',
 //     resave: false,
@@ -29,26 +29,25 @@ app.get('/', function (request, response) {
 
 // http://localhost:3001/auth
 app.post('/auth', login.loginverify);
-app.post('/send-email-otp', register.registerverify1);
-app.post('/verify-email-otp', register.registerverify2);
-app.post('/resend-email-otp', register.registerverify3);
+app.post('/send_email_otp', register.send_email_otp);
+app.post('/verify_email_otp', register.verify_email_otp);
 
 // http://localhost:3000/home
-app.get('/home', function (request, response) {
-    // If the user is loggedin
-    if (request.session.loggedin) {
-        // Output username
-        usern = request.session.username;
-        response.sendFile(path.resolve(__dirname, 'home.html'));
-        // // response.sendFile( path.join(__dirname + '/home.html'));
+// app.get('/home', function (request, response) {
+//     // If the user is loggedin
+//     if (request.session.loggedin) {
+//         // Output username
+//         usern = request.session.username;
+//         response.sendFile(path.resolve(__dirname, 'home.html'));
+//         // // response.sendFile( path.join(__dirname + '/home.html'));
 
 
-    } else {
-        // Not logged in
-        response.send('Please login to view this page!');
-    }
+//     } else {
+//         // Not logged in
+//         response.send('Please login to view this page!');
+//     }
 
-});
+// });
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
