@@ -1,7 +1,6 @@
-var connection = require('./database');
+import {bcrypt} from './bundles.js';
 
 //hashing
-const bcrypt = require('bcrypt');
 const saltRounds = 10; //rounds the plaintex goes thru to hash
 
 // http://localhost:3000/auth

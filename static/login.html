@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="./login.css">
+    <title>Not So Classroom</title>
+</head>
+
+<body>
+    <div class="container-fluid bg">
+        <div class="row content">
+            <div class="col-md-8">
+                <form class="form-container" style="font-family: comfortaa;" action="/auth" method="post">
+                    <h3 class="text-center mb-3">Welcome back!</h3>
+
+                    <div class="form-group mb-3">
+                        <label for="email">Email</label>
+                        <div class="input-group">
+                            <input type="text" id="email" name="email" required class="form-control" style="border-radius:0;">
+                            <div class="input-group-append">
+                                <span class="input-group-text" style="border-radius:0;">@iut-dhaka.edu</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required class="form-control" style="border-radius:0;">
+                        <div class="mt-1" style="font-size: 13px; font-family: actor;">
+                            <a href="#">Forgot your password?</a>
+                        </div>
+                    </div>
+
+                    <div class="text-center mb-3">
+                        <button type="submit" class="btn btn-light btn-lg bt">Login</button>
+                    </div>
+
+                    <div>
+                        Need an account? <a href="./register.html">Register</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
