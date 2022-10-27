@@ -1,13 +1,16 @@
 import { session, connection, bcrypt, nodemailer } from './bundles.js';
 
+const salt = 10;
+
 // http://localhost:3000/auth
 export var loginverify = function (request, response) {
 
-    let email_input = request.body.email;
+    let email_input = request.body.email + "@iut-dhaka.edu";
     let password_input = request.body.password;
+    let session_save = request.body.sessionsave;
 
     if (email_input && password_input) {
-        connection.query('SELECT student_id, username, password FROM students WHERE email = ?', [email_input],
+        connection.query('SELECT student_id, username, password FROM accounts WHERE email = ?', [email_input],
             (error, results) => {
 
                 if (error) console.log(error);
@@ -36,7 +39,6 @@ export var loginverify = function (request, response) {
                     console.log('Email doesnt exist');
                     response.redirect('./login.html');
                 }
-                // response.end();
             });
     }
     else {
@@ -51,20 +53,33 @@ export var loginverify = function (request, response) {
 //     response.redirect('/');
 // }
 
+var email, password;
 export var send_forget_otp = function (request, response) {
+    email = request.body.email + "@iut-dhaka.edu";
 
-    id = request.body.id;
-    email = request.body.email;
-    username = request.body.username;
-    password = request.body.password;
+    generateOTP();
+    const mailConfigurations = make_mailConfig(email);
 
     transporter.sendMail(mailConfigurations, (error, info) => {
         if (error) {
             return console.log(error);
         }
         console.log('Message sent: %s', info.messageId);
-        console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-        // response.redirect('/verification_pop.html');
+        setTimeout(destroyOTP, 60000);
+    });
+}
+
+export var resend_forget_otp = function (request, response) {
+
+    generateOTP();
+    const mailConfigurations = make_mailConfig(email);
+
+    transporter.sendMail(mailConfigurations, (error, info) => {
+        if (error) {
+            return console.log(error);
+        }
+        console.log('Message sent: %s', info.messageId);
+        setTimeout(destroyOTP, 60000);
     });
 
 }
@@ -72,11 +87,11 @@ export var send_forget_otp = function (request, response) {
 export var verify_forget_otp = function (req, res) {
     if (req.body.otp == otp) {
         console.log("OTP verified");
-        // var modal = document.getElementById("verificationModal");
-        // modal.style.display = "none";
+        destroyOTP();
+        password = req.body.password;
 
         bcrypt.hash(password, salt, function (err, hash) {
-            connection.query('INSERT INTO students (student_id, email, username, password) VALUES (?, ?, ?, ?)', [id, email, username, hash],
+            connection.query('UPDATE accounts SET password = ? WHERE email = ?', [hash, email],
                 function (error, results, fields) {
                     if (error) {
                         console.log(error);
@@ -93,22 +108,26 @@ export var verify_forget_otp = function (req, res) {
 }
 
 
-var otp = Math.random();
-otp = otp * 1000000;
-otp = parseInt(otp);
+var otp;
+function generateOTP() {
+    otp = Math.random();
+    otp = otp * 1000000;
+    otp = parseInt(otp);
+}
 
-const mailConfigurations = {
+function destroyOTP() {
+    otp = null;
+    console.log('OTP expired');
+  }
+function make_mailConfig(email) {
+    return {
+        from: 'isaba190041223@gmail.com',
+        to: `${email}`,
 
-    from: 'isaba190041223@gmail.com',
-    to: 'ummetasnim@iut-dhaka.edu',
-    // to: email,
-
-    subject: 'Verify Email Address for Not So Classroom',
-    text: `Hey!
-    Thanks for registering for an account on Not So Classroom! 
-    Before we get started, we just need to confirm that this is you. 
-    Here's your code: ${otp} `
-};
+        subject: 'Verify Email Address for Not So Classroom',
+        text: `Thanks for registering for an account on Not So Classroom! Before we get started, we just need to confirm that this is you. Here's your code: ${otp}`
+    };
+}
 
 const transporter = nodemailer.createTransport({
     // host: "smtp.gmail.com",

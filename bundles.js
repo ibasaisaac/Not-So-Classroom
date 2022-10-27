@@ -1,9 +1,3 @@
-// export const express = require('express')
-// export const path = require('path');
-// export const session = require('express-session');
-// export const cookieparser = require("cookie-parser");
-// export const mysql = require('mysql');
-// export const nodemailer = require('nodemailer');
 // const jwt = require('jsonwebtoken');
 import express from 'express';
 import path from 'path';

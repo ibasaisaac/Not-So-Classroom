@@ -29,8 +29,12 @@ app.get('/', function (request, response) {
 
 // http://localhost:3001/auth
 app.post('/auth', login.loginverify);
+app.post('/validate_register_form', register.validate_register_form);
 app.post('/send_email_otp', register.send_email_otp);
 app.post('/verify_email_otp', register.verify_email_otp);
+app.post('/send_forget_otp', login.send_forget_otp);
+app.post('/resend_forget_otp', login.resend_forget_otp);
+app.post('/verify_forget_otp', login.verify_forget_otp);
 
 // http://localhost:3000/home
 // app.get('/home', function (request, response) {

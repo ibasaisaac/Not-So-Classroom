@@ -16,17 +16,16 @@
     <title>Not So Classroom</title>
 </head>
 
-
 <body>
     <div class="container-fluid bg">
         <div class="row content">
             <div class="col-md-8">
-                <form class="form-container" style="font-family: comfortaa;" action="/send_email_otp" method="post">
+                <form class="form-container" style="font-family: comfortaa;" action="/validate_register_form" method="post">
                     <h3 class="text-center mb-4">Create an account</h3>
 
                     <div class="form-group mb-3">
                         <label for="id">Student ID</label>
-                        <input type="number" id="id" name="id" required class="form-control" style="border-radius:0;">
+                        <input type="number" id="id" name="id" pattern=".{11}" required class="form-control" style="border-radius:0;">
                     </div>
 
                     <div class="form-group mb-3">
@@ -75,7 +74,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-body">
-                    <iframe src="./verification_pop.html">
+                    <iframe id="myFrame" src="./verification_pop.html"></iframe>
                 </div>
             </div>
         </div>
@@ -83,15 +82,66 @@
 </body>
 
 
-<script src="register.js">
-    $(window).load(function () {
-        $("#submit-button").click(function () {
-            // if ($("#id").val() != "" && $("#email").val() != "" && $("#username").val() != "" && $("#password").val() != "") {
-            $('#verificationModal').modal('show');
-            // $(this).closest("form").submit();
-            // }
+<script>
+    $(document).ready(function () {
+        $(window).load(function () {
+            $("#submit-button").click(function () {
+                $('#verificationModal').modal('show');
+            });
+        });
+        $("#myFrame").load(function () {
+            var doc = this.contentDocument || this.contentWindow.document;
+            var target = doc.getElementById("pop_submit_button");
+            target.onclick = function () {
+                $('#verificationModal').modal('hide');
+            }
         });
     });
 </script>
+
+<!-- <script>
+    $(document).ready(function () {
+        $(window).load(function () {
+            console.log("loaded donno");
+            $("#submit-button").click(function () {
+                // if ($("#id").val() != "" && $("#email").val() != "" && $("#username").val() != "" && $("#password").val() != "") {
+                $('#verificationModal').modal('show');
+                // $(this).closest("form").submit();
+                // }
+            });
+            // $("#myFrame").contents().find("#pop_submit_button").click(function () {
+            //     $('#verificationModal').modal('hide');
+            // });
+        });
+        $("#myFrame").load(function () {
+            console.log("loaded frame");
+            var doc = this.contentDocument || this.contentWindow.document;
+            var target = doc.getElementById("pop_submit_button");
+            console.log("Found It");
+            $(target).click(function () {
+                console.log("clicked");
+                $('#verificationModal').modal('hide');
+            });
+            // target.onclick = function () {
+    //         console.log("clicked");
+    //         modal.style.display = "none";
+    //         // $('#verificationModal').modal('hide');
+    //     }
+        });
+    });
+
+    // function access() {
+    //     console.log("loaded");
+    //     var iframe = document.getElementById("myFrame");
+    //     var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+    //     var elmnt = innerDoc.getElementsById("pop_submit_button");
+    //     var modal = document.getElementsById("verificationModal");
+    //     elmnt.onclick = function () {
+    //         console.log("clicked");
+    //         modal.style.display = "none";
+    //         // $('#verificationModal').modal('hide');
+    //     }
+    // }
+</script> -->
 
 </html>
