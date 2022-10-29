@@ -1,0 +1,18 @@
+@import "style.css";
+
+.offcanvas-header{
+    background-color: #A6DFDA;
+}
+
+.offcanvas-body{
+    background-color: #A6DFDA;
+}
+
+.btn-block{
+    background-color: white;
+    width: 100%;
+}
+
+.offcanvas-size-xxl {
+    --bs-offcanvas-width: min(20vw, 90vw) !important;
+}
