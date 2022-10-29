@@ -13,7 +13,7 @@
     background-color: var(--crystal);
     padding: 50px 40px;
     border: 1px none;
-    width: 30%;
+    width: 45%;
     position: fixed;
     padding: 1em;
     left: 46%;
@@ -23,20 +23,13 @@
 
 .bt {
     border-radius: 0;
-    /* min-width: 150px; */
+    min-width: 250px;
 }
 
 a {
     text-decoration: none;
     color: black;
 }
-
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
 
 .modal {
     display: none;

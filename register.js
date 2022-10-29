@@ -1,99 +1,120 @@
-const nodemailer = require('nodemailer');
-const jwt = require('jsonwebtoken');
-var connection = require('./database');
-const express = require('express');
-
-const app = express();
+import { connection, bcrypt, nodemailer } from './bundles.js';
 
 //hashing
-const bcrypt = require('bcrypt');
-const saltRounds = 10; //rounds the plaintex goes thru to hash
+const salt = 10; //rounds the plaintex goes thru to hash
 
-let id, email, username, password;
+var id_input, email_input, username_input, password_input;
 
+export var validate_register_form = function (request, response) {
+    id_input = request.body.id;
+    email_input = request.body.email + "@iut-dhaka.edu";
+    username_input = request.body.username;
+    password_input = request.body.password;
 
-var registerverify1 = function (request, response) {
-    id = request.body.inputstid;
-    email = request.body.inputemail;
-    username = request.body.inputusername;
-    password = request.body.inputpassword;
+    connection.query('SELECT student_id FROM student_list WHERE student_id = ?', [id_input],
+        (error, results) => {
+            if (error) console.log(error);
+
+            if (results.length > 0) {
+                connection.query('SELECT student_id FROM accounts WHERE student_id = ?', [id_input],
+                    (error, results) => {
+                        if (error) console.log(error);
+
+                        if (results.length > 0) {
+                            console.log('Already registered!');
+                            response.sendFile('./static/register.html', { root: '.' });
+                        }
+                        else {
+                            connection.query('SELECT student_id FROM accounts WHERE email = ?', [email_input],
+                                (error, results) => {
+                                    if (error) console.log(error);
+
+                                    if (results.length > 0) {
+                                        console.log('Email is already registered!');
+                                        response.sendFile('./static/register.html', { root: '.' });
+                                    }
+                                    else {
+                                        connection.query('SELECT student_id FROM accounts WHERE username = ?', [username_input],
+                                            (error, results) => {
+                                                if (error) console.log(error);
+
+                                                if (results.length > 0) {
+                                                    console.log('Username taken!');
+                                                    response.sendFile('./static/register.html', { root: '.' });
+                                                }
+                                                else {
+                                                    send_email_otp;
+                                                }
+                                            });
+                                    }
+                                });
+                        }
+                    });
+            }
+            else {
+                console.log('No such ID');
+                response.sendFile('./static/register.html', { root: '.' });
+            }
+        });
+}
+
+export var send_email_otp = function (request, response) {
+
+    generateOTP();
+    const mailConfigurations = make_mailConfig(email_input);
 
     transporter.sendMail(mailConfigurations, (error, info) => {
         if (error) {
             return console.log(error);
         }
         console.log('Message sent: %s', info.messageId);
-        console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-        response.redirect('/verification_pop.html');
+        setTimeout(destroyOTP, 60000);
     });
-
 }
 
-
-
-var registerverify2 = function (req, res) {
-
+export var verify_email_otp = function (req, res) {
     if (req.body.otp == otp) {
-        res.send("You have been successfully registered");
+        console.log("OTP verified");
+        destroyOTP();
 
-        bcrypt.genSalt(saltRounds, function(err, salt) {
-            bcrypt.hash(password, salt, function(err, hash) {
-                connection.query('INSERT INTO students (id, email, username, password) VALUES (?, ?, ?, ?)', [id, email, username, hash], 
+        bcrypt.hash(password_input, salt, function (err, hash) {
+            connection.query('INSERT INTO accounts (student_id, email, username, password) VALUES (?, ?, ?, ?)', [id_input, email_input, username_input, hash],
                 function (error, results, fields) {
-                    // If there is an issue with the query, output the error
-                    if (error) 
-                        throw error;
-                    // Redirect to home page
-
-                    //res.redirect('/login.html');
-                    res.end();
-
+                    if (error) {
+                        console.log(error);
+                    }
+                    res.redirect('./login.html');
                 });
-            });
         });
-
     }
     else {
+        console.log("Wrong OTP");
         res.redirect('/verification_pop.html');
-        // res.render('verification_pop.html', { msg: 'otp is incorrect' });
     }
 }
 
-var registerverify3 = function (req, res) {
 
-    transporter.sendMail(mailConfigurations, (error, info) => {
-        if (error) {
-            return console.log(error);
-        }
-        console.log('Message sent: %s', info.messageId);
-        console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-        res.redirect('/verification_pop.html'); 
-        //res.render('verification_pop.html', { msg: "otp has been sent" });
-    });
+var otp;
+function generateOTP() {
+    otp = Math.random();
+    otp = otp * 1000000;
+    otp = parseInt(otp);
 }
 
+function destroyOTP() {
+    otp = null;
+    console.log('OTP expired');
+}
 
+function make_mailConfig(email) {
+    return {
+        from: 'isaba190041223@gmail.com',
+        to: `${email}`,
 
-
-
-
-var otp = Math.random();
-otp = otp * 1000000;
-otp = parseInt(otp);
-const mailConfigurations = {
-
-    from: 'isaba190041223@gmail.com',
-    to: 'isabaishrak@iut-dhaka.edu',
-   // to: email,
-
-    subject: 'Verify Email Address for Not So Classroom',
-    html: "<h3>Hey!Thanks for registering for an account on Not So Classroom! Before we get started, we just need to confirm that this is you. Here's your code:</h3>" +"<h1>"+otp+"</h1>"
-
-    // text: `Hey!
-    // Thanks for registering for an account on Not So Classroom! 
-    // Before we get started, we just need to confirm that this is you. 
-    // Here's your code: ${otp} `
-};
+        subject: 'Verify Email Address for Not So Classroom',
+        text: `Thanks for registering for an account on Not So Classroom! Before we get started, we just need to confirm that this is you. Here's your code: ${otp}`
+    };
+}
 const transporter = nodemailer.createTransport({
     // host: "smtp.gmail.com",
     // port: 465,
@@ -103,13 +124,4 @@ const transporter = nodemailer.createTransport({
         user: 'isaba190041223@gmail.com',
         pass: 'gepalrtinqthiwbd'
     }
-    
 });
-
-
-// const token = jwt.sign({
-//     data: 'Token Data'
-// }, 'ourSecretKey', { expiresIn: '10m' }
-// );
-
-module.exports = { registerverify1, registerverify2, registerverify3 } 

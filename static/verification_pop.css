@@ -1,23 +1,12 @@
-@import url("https://fonts.googleapis.com/css? family=Comfortaa: 400, 700 Actor: 400 Permanent+Marker: 400| Inter:400");
-@import "pp.css";
-
-.heading {
-    font-family: marker;
-}
-.lpl {
-    font-family: comfortaa;
-}
-.llo {
-    font-family: actor;
-}
+@import "style.css";
 
 .giraffe {
     width: 100vh;
-    height: 40vh;
+    height: 30vh;
     margin: 0 auto;
     position: fixed;
     left: 20%;
-    top: 79%;
+    bottom: 15%;
     transform: translate(-50%, -50%);
 }
 
@@ -27,19 +16,22 @@
     margin: 0 auto;
     position: fixed;
     left: 80%;
-    top: 19%;
+    top: 18%;
     transform: translate(-50%, -50%);
 }
 
 .form-container {
-    padding: 50px 40px;
-    border: 1px none;
-
+    width: 40%;
     position: fixed;
-    padding: 1em;
-    left: 46%;
-    top: 50%;
+    left: 50%;
+    top: 40%;
     transform: translate(-50%, -50%);
+    background-color: white;
+}
+
+.otp-box {
+    background-color: #d9d9d9;
+    border-radius: 0;
 }
 
 a {
@@ -47,26 +39,26 @@ a {
     color: black
 }
 
-.email-box {
-    background-color: var(--white);
-    border: 1px none;
-    height: 48px;
-    left: 484px;
-    position: fixed;
-    width: 451px;
-    z-index: 5;
-}
-
-.mm {
+.bt {
     background-color: var(--vista);
+    border-radius: 0;
     border: none;
-    border-radius: 0%;
-    align-content: right;
+    min-width: 150px;
     color: var(--black);
 }
 
-.ll {
-    background-color: #d9d9d9;
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 60%;
+    top: 60%;
+    width: 150px;
+    height: 50px;
+    padding: 10px;
+    background-color: var(--vista);
+}
 
-    border-radius: 0%;
+.modal-content {
+    width: auto;
 }
