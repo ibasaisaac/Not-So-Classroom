@@ -9,6 +9,8 @@
     integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <!--link html with css-->
     <link href="homepage.css" type="text/css" rel="stylesheet">
+    <!-- font -->
+    <script src="https://kit.fontawesome.com/02e0e8f2b2.js" crossorigin="anonymous"></script>
     <title>Not So Classroom</title>
 </head>
 <body>
@@ -21,26 +23,36 @@
             <button class="btn btn-light btn-sm club" type="button">Clubs</button>
         </div>
     
-        <div class="middle">
+        <div class="container-fluid main-content">
             <!-- create posts -->
-            <form class="row g-3 create-post">
-                <div class="col-auto">
-                  <input type="text" class="form-control" id="create-post" placeholder="What's on your mind?">
-                </div>
-                <div class="col-auto">
-                  <button type="submit" class="btn btn-info mb-3">Post</button>
-                </div>
-            </form>
+            <div class="create-post-container">
+                <form class="form-container">
+                    <div class="col-auto">
+                        <textarea row="3" class="form-control" 
+                        id="create-post" placeholder="Whats on your mind?"></textarea>
+
+                        <div class="add-post-links">
+                            <a href="#"><i class="fa-solid fa-image"></i>Add Photo</a>
+                            <a style="padding-left: 2rem;" href="#"><i class="fa-solid fa-paperclip"></i>Attach File</a>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                    <button type="submit" class="btn btn-info"disabled>Post</button>
+                    </div>
+                    
+                </form>
+            </div>
 
             <!-- feed -->
-            <!-- <div class="card feed">
-                <img class="card-img-top" src="snake.png" alt="Card image">
+            <div class="card feed">
                 <div class="card-body">
-                    <h4 class="card-title">John Doe</h4>
-                    <p class="card-text">Some example text.</p>
-                    <a href="#" class="btn btn-primary">See Profile</a>
+                    <h4 class="card-title">@190041223</h4>
+                    <small>Gazipur, 6h</small>
+                    <p class="card-text">Snake in iut.</p>
+                    <img class="card-img-bottom" src="snake.png" alt="Card image">
+                    <a href="#"><i class="fa-regular fa-comment"></i></a>
                 </div>
-            </div> -->
+            </div>
 
 
         </div>

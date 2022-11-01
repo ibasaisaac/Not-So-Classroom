@@ -25,7 +25,7 @@
 }
 
 .butpos{
-    position: absolute;
+    position: fixed;
     right: 0.625rem;
     top: 0;
 }
@@ -56,27 +56,51 @@
     font-size: xx-large;
 }
 
-.middle{
+.main-content{
     background-color: #D9D9D9;
     width: 65%;
     height: auto;
     margin-top: 3rem;
     margin-left: 3rem;
+    z-index:2;
+    position: static;
 }
 
-.create-post{
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding: 0.8rem 1rem;
-    border: 1rem;
+.create-post-container{
+    background-color: white;
+    z-index:3;
+    position: sticky;
+    margin-top: 0.75rem;
+    padding: 1rem 1rem;
+    top: 0;
+    border-radius: 10px;
+}
 
-    display: inline-block;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: left;
+.create-post-container button{
+    margin-left: 94%;
+}
+
+.create-post-container textarea{
+    resize: none;
 }
 
 .feed{
     background-color: white;
+    top: 0.75rem;
+    border-radius: 10px;
+    overflow: scroll hidden;
+}
+
+.feed-img{
+    width: 22rem;
+    height: 19rem;
+}
+
+.feed a{
+    color: black;
+}
+
+.add-post-links a{
+    color: black;
+    text-decoration: none;
 }
