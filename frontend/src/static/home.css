@@ -1,0 +1,106 @@
+@import "style.css";
+
+:root{
+    --border-radius: 2rem;
+    --card-border-radius: 1rem;
+    --btn-padding: 0.6rem 2rem;
+    --search-padding: 0.6rem 1rem;
+    --card-padding: 1rem;
+    --sticky-top-left: 5.4rem;
+    --stricky-top-right: 18rem;
+}
+
+.wh{
+    position: relative;
+}
+
+.k{
+    left: 77.04%;
+    right: 3.94%;
+    top: 70%;
+    width: 20%;
+    height: auto;
+    margin: 0 auto;
+    position: fixed;
+}
+
+.butpos{
+    position: fixed;
+    right: 0.625rem;
+    top: 0;
+}
+
+.shop{
+    background: #FEB8B3;
+    margin-top: 3rem;
+    margin-right: 0;
+    width: 21rem;
+    height: 7rem;
+    margin-left: 55%;
+    font-size: xx-large;
+}
+.group{
+    background: #FED58A;
+    margin-right: 0;
+    width: 21rem;
+    height: 7rem;
+    margin-left: 55%;
+    font-size: xx-large;
+}
+.club{
+    background: #9AC8EB;
+    margin-right: 0;
+    width: 21rem;
+    height: 7rem;
+    margin-left: 55%;
+    font-size: xx-large;
+}
+
+.main-content{
+    background-color: #D9D9D9;
+    width: 65%;
+    height: auto;
+    margin-top: 3rem;
+    margin-left: 3rem;
+    z-index:2;
+    position: static;
+}
+
+.create-post-container{
+    background-color: white;
+    z-index:3;
+    position: sticky;
+    margin-top: 0.75rem;
+    padding: 1rem 1rem;
+    top: 0;
+    border-radius: 10px;
+}
+
+.create-post-container button{
+    margin-left: 94%;
+}
+
+.create-post-container textarea{
+    resize: none;
+}
+
+.feed{
+    background-color: white;
+    top: 0.75rem;
+    border-radius: 10px;
+    overflow: scroll hidden;
+}
+
+.feed-img{
+    width: 22rem;
+    height: 19rem;
+}
+
+.feed a{
+    color: black;
+}
+
+.add-post-links a{
+    color: black;
+    text-decoration: none;
+}

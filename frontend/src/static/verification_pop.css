@@ -1,30 +1,56 @@
 @import "style.css";
 
+.PopUp {
+    position: fixed;
+
+    left: 20%;
+    top: 20%;
+
+    width: 60%;
+    height: 70%;
+
+    border: 1px solid black;
+    box-shadow: 1px 1px 10px black;
+
+    background-color: white;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+}
+
+.popup-x {
+    width: 3em;
+    height: 2em;
+    border: none;
+    align-self: flex-end;
+    background-color: #d9d9d9;
+}
+
 .giraffe {
     width: 100vh;
     height: 30vh;
-    margin: 0 auto;
-    position: fixed;
-    left: 20%;
-    bottom: 15%;
+    position: absolute;
+    left: 15%;
+    top: 78%;
     transform: translate(-50%, -50%);
 }
 
 .birdie {
-    width: 100vh;
     height: 30vh;
-    margin: 0 auto;
-    position: fixed;
-    left: 80%;
-    top: 18%;
+    position: absolute;
+    left: 85%;
+    top: 23%;
     transform: translate(-50%, -50%);
 }
 
-.form-container {
-    width: 40%;
+.form-container_modal {
+    width: 30%;
     position: fixed;
     left: 50%;
-    top: 40%;
+    top: 60%;
     transform: translate(-50%, -50%);
     background-color: white;
 }
@@ -34,31 +60,31 @@
     border-radius: 0;
 }
 
+.left {
+    display: block;
+    float: left;
+    width: 50%;
+}
+
+.right {
+    display: block;
+    float: right;
+    width: 50%;
+}
+
 a {
     text-decoration: none;
     color: black
 }
+a:hover {
+    color: black !important;
+}
 
-.bt {
+.bt_modal {
     background-color: var(--vista);
     border-radius: 0;
     border: none;
     min-width: 150px;
-    color: var(--black);
+    color: black;
 }
 
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 60%;
-    top: 60%;
-    width: 150px;
-    height: 50px;
-    padding: 10px;
-    background-color: var(--vista);
-}
-
-.modal-content {
-    width: auto;
-}
