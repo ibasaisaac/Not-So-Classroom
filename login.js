@@ -121,7 +121,7 @@ function destroyOTP() {
   }
 function make_mailConfig(email) {
     return {
-        from: 'isaba190041223@gmail.com',
+        from: 'not.so.classroom@gmail.com',
         to: `${email}`,
 
         subject: 'Verify Email Address for Not So Classroom',
@@ -135,7 +135,7 @@ const transporter = nodemailer.createTransport({
     // secure: true,
     service: 'gmail',
     auth: {
-        user: 'isaba190041223@gmail.com',
-        pass: 'gepalrtinqthiwbd'
+        user: 'not.so.classroom@gmail.com',
+        pass: 'swgwrjysutrczavs'
     }
 });
