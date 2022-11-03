@@ -1,0 +1,446 @@
+html{
+    scroll-behavior: smooth;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+}
+
+header{
+    height: 220px;
+    width: 100%;
+    color:black;
+    background-color: #ACE2D3;
+}
+
+.wrapper{
+    height: 140px;
+    width: 140px;
+    position: relative;
+    top: 60px;
+    left: 160px;
+    border: 2px solid white;
+    border-radius: 50%;
+    background: url('profile_pic.png');
+    background-size: 100% 100%;
+    overflow: hidden;
+}
+
+.my_file{
+    position: absolute;
+    bottom: 0;
+    outline: none;
+    color: transparent;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 6px 20px;
+    cursor: pointer;
+    transition: 0.5s;
+    opacity: 0;
+}
+
+.my_file::-webkit-file-upload-button{
+    visibility: hidden;
+}
+
+.my_file:hover{
+    opacity: 1;
+}
+
+.c{
+    position: relative;
+    top: 90px;
+    left: 45px;
+}
+
+.p{
+    position: relative;
+    left: 42.5px;
+}
+
+.name{
+    position: relative;
+    left: 350px;
+    bottom: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.ib{
+    position: relative;
+    left: 350px;
+    bottom: 25px;
+}
+
+#section1{
+    height: 500px;
+    background: white;
+    display: inline-block;
+    width: 100%;
+}
+
+#section2{
+    height: 500px;
+    background: white;
+    display: inline-block;
+    width: 100%;
+}
+
+.sec2{
+    height: 250px;
+    width: 60%;
+    color: black;
+    background-color: #dadada;
+    position: relative;
+    left: 20%;
+    top: 90px;
+}
+
+.clc{
+    width: 200px;
+    height: 30px;
+    position: relative;
+    left: 150px;
+    bottom: 221px;
+}
+
+.click{
+    background-color: white;   
+}
+
+.click:hover{
+    background-color: #F8C8DC;
+}
+
+.click,.links{
+    padding: 12px;
+    font-size: 1em;
+    border: none;
+    outline: none;
+    width: 100px;
+    color: black;
+    transition: 0.3s;
+}
+
+.list{
+    position: absolute;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: 0.3s;
+}
+
+.newlist{
+    transform: scaleY(1);
+}
+
+.links{
+    background-color: #F7FFA3;
+}
+
+.links:hover{
+    background-color: #FFA3F7;
+    transform: scale(1.1);
+}
+
+.room{
+    width: 100px;
+    height: 48px;
+    position: relative;
+    background-color: white;
+    bottom: 15px;
+    left: 37.5%;
+}
+
+.r{
+    position: relative;
+    left: 35px;
+    top: 10px
+}
+
+.date{
+    width: 200px;
+    height: 48px;
+    position: relative;
+    background-color: white;
+    bottom: 62.5px;
+    left: 55%;
+}
+
+.d{
+    position: relative;
+    left: 35px;
+    top: 10px
+}
+
+.details{
+    width: 350px;
+    height: 110px;
+    position: relative;
+    background-color: white;
+    bottom: 30px;
+    left: 20%;
+}
+
+.dd{
+    position: relative;
+    left: 35px;
+    top: 10px
+}
+
+.enter{
+    position: relative;
+    left: 61.75%;
+    bottom: -5px;
+}
+
+.e{
+    position: relative;
+    width: 90px;
+    height: 48px;
+    background: #8BC6FC;    ;
+    color: black;
+    border: none;
+}
+
+#section3{
+    height: 500px;
+    background: white;
+    display: inline-block;
+    width: 100%;
+}
+
+.sec3{
+    height: 250px;
+    width: 60%;
+    color: black;
+    background-color: #dadada;
+    position: relative;
+    left: 20%;
+    top: 90px;
+}
+
+.clc1{
+    width: 200px;
+    height: 30px;
+    position: relative;
+    left: 150px;
+    bottom: 221px;
+}
+
+.click1{
+    background-color: white;   
+}
+
+.click1:hover{
+    background-color: #F8C8DC;
+}
+
+.click1,.links1{
+    padding: 12px;
+    font-size: 1em;
+    border: none;
+    outline: none;
+    width: 100px;
+    color: black;
+    transition: 0.3s;
+}
+
+.list1{
+    position: absolute;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: 0.3s;
+}
+
+.newlist1{
+    transform: scaleY(1);
+}
+
+.links1{
+    background-color: #F7FFA3;
+}
+
+.links1:hover{
+    background-color: #FFA3F7;
+    transform: scale(1.1);
+}
+
+.croom{
+    width: 100px;
+    height: 48px;
+    position: relative;
+    background-color: white;
+    bottom: 15px;
+    left: 37.5%;
+}
+
+.cr{
+    position: relative;
+    left: 35px;
+    top: 10px
+}
+
+.cdate{
+    width: 200px;
+    height: 48px;
+    position: relative;
+    background-color: white;
+    bottom: 62.5px;
+    left: 55%;
+}
+
+.cd{
+    position: relative;
+    left: 35px;
+    top: 10px
+}
+
+.cdetails{
+    width: 350px;
+    height: 110px;
+    position: relative;
+    background-color: white;
+    bottom: 30px;
+    left: 20%;
+}
+
+.cdd{
+    position: relative;
+    left: 35px;
+    top: 10px
+}
+
+.enter1{
+    position: relative;
+    left: 61.75%;
+    bottom: -5px;
+}
+
+.e1{
+    position: relative;
+    width: 90px;
+    height: 48px;
+    background: #8BC6FC;    ;
+    color: black;
+    border: none;
+}
+
+.container{
+    text-align: center;
+    margin-top: -20px;
+    font-size: 15px;
+}
+
+.role{
+    position: relative;
+    right: 350px;
+    top: 77px;
+    font-size: 15px;
+}
+
+.btn{
+    border: 1.3px solid black;
+    background: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin: 30px;
+}
+
+.btn1{
+    background: #DADADA;
+}
+
+.em{
+    position: relative;
+    left: 285px;
+}
+
+.email{
+    position: relative;
+    left: 245px;
+    font-size: 15px;
+}
+
+.pp{
+    position: relative;
+    left: 285px;
+}
+
+.p{
+    position: relative;
+    top: 20px;
+    right: 27px;
+}
+
+.password{
+    position: relative;
+    left: -40px;
+    font-size: 15px;
+    top: 20px;
+}
+
+.c_s{
+    position: relative;
+    left: 300px;
+    bottom: 90px;
+    font-size: 15px;
+    color: black;
+    margin: 20px;
+    top: 10px;
+}
+
+.change{
+    padding: 20px;
+}
+
+.all{
+    position: relative;
+    left: 265px;
+    font-size: 15px;
+    top: 55px;
+}
+
+input[type='checkbox'] {
+    height: 0;
+    width: 0;
+    visibility: hidden;
+}
+
+label{
+    cursor: pointer;
+    position: relative;
+    left: 220px;
+    bottom: 60px;
+    text-indent: -9999px;
+    width: 50px;
+    height: 25px;
+    background: #dadada;
+    display: block;
+    border-radius: 100px;
+    position: relative;
+    transition: all 0.5s;
+}
+
+.s{
+    position: absolute;
+    bottom: 62px;
+    left: 225px;
+    right: 82vw;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 90px;
+    transition: 0.5s;
+    transform-origin: 105% 50%;
+    pointer-events: none;
+}
+
+input:checked + label{
+    transform: rotate(180deg);
+}
+
+input:checked ~ .s{
+    transform: rotate(-180deg);
+    background: black;
+}
