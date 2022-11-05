@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import '../static/home.css';
-import logo from '../static/pencil.svg';
+import kids from '../static/homekids.svg';
 import bag from '../static/backpack.svg';
 import paint from '../static/palette.svg';
 import shop from '../static/shopping.svg';
+import snakepost from '../static/snake.png';
 import axios from 'axios';
 import jwt_decode from "jwt-decode";
 import { useHistory } from 'react-router-dom';
@@ -60,43 +61,53 @@ const Home = () => {
     }
 
     return (
-        <div className="container-fluid bg2">
-            <h3 className="mb-3 text-center" style={{ fontFamily: 'marker' }}> <img src={logo} width="30" height="30" alt="logo" />Not So Classroom</h3>
+        <div class="container-fluid wh">
+            <img src={kids} class="k"/>
             <h6>{username}</h6>
-            <div>
+            {/* <div>
                 <button onClick={Logout} >
                     <FontAwesomeIcon icon="fa-sharp fa-solid fa-right-from-bracket" /> Log Out
                 </button>
+            </div> */}
+            <div class="d-grid gap-2 col-6 ms-auto butpos">
+                <button class="btn btn-light btn-sm shop" type="button" style={{ fontFamily: 'marker' }}>
+                <img src={shop} width="30" height="30" alt="logo" />Shop</button>
+                <button class="btn btn-light btn-sm group" type="button" style={{ fontFamily: 'marker' }}>
+                <img src={bag} width="30" height="30" alt="logo" />Class Group</button>
+                <button class="btn btn-light btn-sm club" type="button" style={{ fontFamily: 'marker' }}>
+                <img src={paint} width="30" height="30" alt="logo" /> Clubs</button>
             </div>
 
-            <div className="row justify-content-around mb-3" style={{ width: '150px', display: 'block' }}>
-                <div className="col-lg-4" >
-                    <div className="card-deck" style={{ width: '150px' }}>
-                        <div className="card" >
-                            <div className="card-body text-center" style={{ backgroundColor: 'var(--caramel)' }}>
-                                <p className="card-text"><img src={bag} width="30" height="30" alt="logo" /><a href="#" className="card-link">Group</a></p>
-                            </div>
-                        </div>
+            <div class="container-fluid main-content">
+
+                {/* create post */}
+                <div class="create-post-container">
+                    <div class="col-auto">
+                            <textarea row="3" class="form-control" 
+                            id="create-post" placeholder="Whats on your mind?"></textarea>
+                    </div>
+                    <div class="add-post-links">
+                            <a href="#"><i className="fa-solid fa-image"></i>Add Photo</a> 
+                            <a style={{paddingLeft: 15}} href="#"><i className="fa-solid fa-paperclip"></i>Attach File</a>         
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-info"disabled>Post</button>
                     </div>
                 </div>
-                <div className="col-lg-4">
-                    <div className="card-deck" style={{ width: '150px' }}>
-                        <div className="card">
-                            <div className="card-body text-center" style={{ backgroundColor: 'var(--vista)' }}>
-                                <p className="card-text"><img src={paint} width="30" height="30" alt="logo" /><a href="#" className="card-link">Clubs</a></p>
-                            </div>
-                        </div>
+
+                {/* feed */}
+                <div class="card feed">
+                    <div class="card-body">
+                        <h4 class="card-title">@190041223</h4>
+                        <small>Gazipur, 6h</small>
+                        <p className="card-text">Snake in iut.</p>
+                        <img src={snakepost} className="card-img-bottom feed-img" alt="Card image" />
+                        <p>
+                            <a href="#"><i className="fa-regular fa-comment"></i>Add Comment</a>
+                        </p>
                     </div>
                 </div>
-                <div className="col-lg-4">
-                    <div className="card-deck" style={{ width: '150px' }}>
-                        <div className="card">
-                            <div className="card-body text-center" style={{ backgroundColor: 'var(--melon)' }}>
-                                <p className="card-text"><img src={shop} width="30" height="30" alt="logo" /><a href="#" className="card-link">Shop</a></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div >
     )
