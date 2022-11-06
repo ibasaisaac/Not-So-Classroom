@@ -13,20 +13,10 @@ const Header = () => {
     const [token, setToken] = useState('');
     const [expire, setExpire] = useState('');
     const history = useHistory();
-    const currentUser = { student_id: '', username: '', email: '', dp: '' }
 
     useEffect(() => {
         refreshToken();
     }, []);
-
-
-    useEffect(() => {
-        if (null === username) {
-            return;
-        }
-        console.log('faltu');
-        getUser();
-    }, [username]);
 
 
     const refreshToken = async () => {
@@ -62,25 +52,7 @@ const Header = () => {
         return Promise.reject(error);
     });
 
-    const getUser = async () => {
-        console.log('hi' + username);
-        if (username) {
-            console.log('i have this');
-            await axios.get('http://localhost:5000/getuser', {
-                username: 'sad'
-            }).then(res => {
-                currentUser.username = username;
-                currentUser.student_id = res.data.student_id;
-                currentUser.email = res.data.email;
-                currentUser.dp = res.data.dp;
-                console.log();
-            }
-            ).catch(error => {
-                console.log(error);
-            })
-        }
-    }
-
+    
     const Logout = async () => {
         try {
             await axios.delete('http://localhost:5000/logout');
