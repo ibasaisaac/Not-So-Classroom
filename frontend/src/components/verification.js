@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
 const Verification = props => {
+    const [isLoading, setIsLoading] = useState(false);
     const { setPopUp } = props;
     const [otp, setOTP] = useState('');
     const [msg, setMsg] = useState('');
@@ -33,12 +34,15 @@ const Verification = props => {
 
     const Resend = async (e) => {
         e.preventDefault();
-        try {
+        try {            
+            setIsLoading(true);
             let res = await axios.get('http://localhost:5000/registerr', {
             });
             console.log(res.data.msg);
+            setIsLoading(false);
         }
         catch (error) {
+            setIsLoading(false);
             window.alert(error.response.data.msg);
         };
     }
@@ -57,10 +61,13 @@ const Verification = props => {
                 <div className="form-group">
                     <label htmlFor="otp">Enter the verification code</label>
                     <input type="text" id="otp" name="otp" required className="form-control otp-box" value={otp} onChange={(e) => setOTP(e.target.value)} />
-                    <span className='left'><p style={{ fontFamily: 'actor', color: 'var(--vista)', fontSize: '13px' }}>{msg}</p></span>
-                    <span className='right'><a className="mt-0" style={{ fontFamily: 'actor' }} onClick={Resend}>Resend code</a></span>
+                    <span className='left' style={{height: '13px'}}><p style={{ fontFamily: 'actor', color: 'var(--vista)', fontSize: '13px' }}>{msg}</p></span>
+                    <span className='right text-end'>
+                    {isLoading && <i className='fa fa-spinner fa-spin'></i>}
+                        <a className="mt-0" style={{ fontFamily: 'actor' }} onClick={Resend}>  Resend code</a>
+                        </span>
                 </div>
-                <div className="text-center">
+                <div className="text-center mt-5">
                     <button type="submit" className="btn btn-light btn-lg bt_modal" >Enter</button>
                 </div>
             </form>

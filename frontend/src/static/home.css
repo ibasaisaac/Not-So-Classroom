@@ -10,62 +10,32 @@
     --stricky-top-right: 18rem;
 }
 
-.wh{
-    position: relative;
+.bg2 {
+    background: url('bgmask.svg') no-repeat;
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    height: 100vh;
+    margin: 0 auto;
 }
 
-.k{
-    left: 77.04%;
-    right: 3.94%;
-    top: 70%;
+.bgprop{
+    left: 73%;
+    top: 73%;
     width: 20%;
     height: auto;
-    margin: 0 auto;
+    margin: 0;
     position: fixed;
 }
 
-.butpos{
-    position: fixed;
-    right: 0.625rem;
-    top: 0;
+.cards{
+    width: 100%;
+    display:block;
+    font-size: x-large;
+    height: 80px;
+    line-height:65px;
 }
-
-.shop{
-    background: #FEB8B3;
-    margin-top: 3rem;
-    margin-right: 0;
-    width: 21rem;
-    height: 7rem;
-    margin-left: 55%;
-    font-size: xx-large;
-}
-.group{
-    background: #FED58A;
-    margin-right: 0;
-    width: 21rem;
-    height: 7rem;
-    margin-left: 55%;
-    font-size: xx-large;
-}
-.club{
-    background: #9AC8EB;
-    margin-right: 0;
-    width: 21rem;
-    height: 7rem;
-    margin-left: 55%;
-    font-size: xx-large;
-}
-
-.main-content{
-    background-color: #D9D9D9;
-    width: 65%;
-    height: auto;
-    margin-top: 3rem;
-    margin-left: 3rem;
-    z-index:2;
-    position: static;
-}
-
+  
 .create-post-container{
     background-color: white;
     z-index:3;
@@ -76,31 +46,3 @@
     border-radius: 10px;
 }
 
-.create-post-container button{
-    margin-left: 94%;
-}
-
-.create-post-container textarea{
-    resize: none;
-}
-
-.feed{
-    background-color: white;
-    top: 0.75rem;
-    border-radius: 10px;
-    overflow: scroll hidden;
-}
-
-.feed-img{
-    width: 22rem;
-    height: 19rem;
-}
-
-.feed a{
-    color: black;
-}
-
-.add-post-links a{
-    color: black;
-    text-decoration: none;
-}

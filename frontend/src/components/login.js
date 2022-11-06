@@ -4,7 +4,9 @@ import Forget from './forget';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
+
 const Login = () => {
+    const [isLoading, setIsLoading] = useState(false);
     const [email, setEmail] = useState(''); //currentState, function used to update state, initial state set to empty string
     const [password, setPassword] = useState('');
     const [remember, setRemember] = useState(false);
@@ -13,14 +15,16 @@ const Login = () => {
     const history = useHistory();
     const [popUp, setPopUp] = useState(false);
 
+
     const Auth = async (e) => {
         e.preventDefault();
+
         try {
             await axios.post('http://localhost:5000/login', {
                 email: email + '@iut-dhaka.edu',
                 password: password,
                 remember: remember
-            });
+            })
             history.push("./home");
         } catch (error) {
             if (error.response.status === 404) { setMsg1(error.response.data.msg); }
@@ -33,21 +37,24 @@ const Login = () => {
     }
 
     const Forget_pass = async (e) => {
+
         if (email) {
             e.preventDefault();
             try {
-                console.log("here");
-               let res=await axios.post('http://localhost:5000/forget', {
+                setIsLoading(true);
+                let res = await axios.post('http://localhost:5000/forget', {
                     email: email + '@iut-dhaka.edu'
-                });
+                })
                 console.log(res.data.msg);
                 if (res.status === 200) {
+                    setIsLoading(false);
                     setPopUp(true);
                 }
             }
             catch (error) {
                 if (error.response.status === 402) { setMsg1(error.response.data.msg); }
-            };
+                setIsLoading(false);
+            }
         }
         else {
             setMsg1("Email required*");
@@ -72,19 +79,22 @@ const Login = () => {
                             <p style={{ fontFamily: 'actor', color: 'var(--vista)', fontSize: '13px' }}>{msg1}</p>
                         </div>
 
-                        <div className="form-group mb-3">
+                        <div className="form-group mb-4">
                             <label htmlFor="password">Password</label>
                             <input type="password" id="password" name="password" required className="form-control" style={{ borderRadius: 0 }} value={password} onChange={(e) => setPassword(e.target.value)} />
 
-                            <span className='left'><p style={{ fontFamily: 'actor', color: 'var(--vista)', fontSize: '13px' }}>{msg2}</p></span>
-                            <span className='right'><a className="mt-0" style={{ fontFamily: 'actor' }} onClick={Forget_pass}>Forgot your password?</a></span>
+                            <span className='left' style={{ height: '13px' }}><p style={{ fontFamily: 'actor', color: 'var(--vista)', fontSize: '13px' }}>{msg2}</p></span>
+                            <span className='right text-end'>
+                                {isLoading && <i className='fa fa-spinner fa-spin'></i>}
+                                <a className="" style={{ fontFamily: 'actor' }} onClick={Forget_pass}> Forgot your password?</a>
+                            </span>
                         </div>
 
-                        <label htmlFor="remember" className="mb-2" style={{ fontSize: '13px', fontFamily: 'actor' }}>
+                        <label htmlFor="remember" style={{ fontSize: '13px', fontFamily: 'actor' }}>
                             <input type="checkbox" id="remember" name="remember" checked={remember} onChange={() => setRemember(!remember)} /> Keep me logged in
                         </label>
 
-                        <div className="text-center mb-3">
+                        <div className="text-center mt-3 mb-3">
                             <button type="submit" className="btn btn-light btn-lg bt">Login</button>
                         </div>
 

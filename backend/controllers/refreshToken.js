@@ -4,22 +4,24 @@ import jwt from "jsonwebtoken";
 export const refreshToken = async(req, res) => {
     try {
         const refreshToken = req.cookies.refreshToken;
-        if(!refreshToken) return res.sendStatus(401); //unuthorized
-        const user = await User.findAll({
+        if(!refreshToken) return res.sendStatus(401); //unuthorized, browser doesnt have stored cookies
+        const user = await User.findOne({
             where:{
                 refresh_token: refreshToken
             }
         });
-        if(!user[0]) return res.sendStatus(403); //forbidden
+        if(!user) return res.sendStatus(403); //forbidden, browser have cookies, but no user with the token
         jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
             if(err) return res.sendStatus(403);
-            const userId = user[0].id;
-            const name = user[0].name;
-            const email = user[0].email;
-            const accessToken = jwt.sign({userId, name, email}, process.env.ACCESS_TOKEN_SECRET,{
+                      
+            const userId = user.student_id;
+            const username = user.username;
+            const email = user.email;
+            const accessToken = jwt.sign({userId,  username, email}, process.env.ACCESS_TOKEN_SECRET,{
                 expiresIn: '15s'
             });
-            res.json({ accessToken });
+
+            res.json({ accessToken }); //if refresh token verified, give access token
         });
     } catch (error) {
         console.log(error);
