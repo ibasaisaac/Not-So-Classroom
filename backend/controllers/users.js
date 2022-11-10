@@ -4,20 +4,10 @@ import nodemailer from 'nodemailer';
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-// export const getUser = async (req, res) => {
-//     try {
-//         const user = await User.findOne({ //same as SELECT id, name, email FROM ...
-//             attributes: ['id', 'username', 'email'],
-//             where: {
-//                 email: req.body.email
-//             }
-//         });
-//         res.json(user); //send the users object as json object
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
+
 let id, email, username, password;
+
+
 export const Register = async (req, res) => {
 
     const student = await Student.findOne({
@@ -78,7 +68,7 @@ export const Login = async (req, res) => { //check pass, sign tokens and update 
     const match = await bcrypt.compare(req.body.password, user.password);
     if (!match) {
         return res.status(400).json({ msg: "Incorrect password" });
-    }//send message string as json object and RETURN
+    }
 
     const userId = user.student_id;
     const username = user.username;
@@ -102,38 +92,35 @@ export const Login = async (req, res) => { //check pass, sign tokens and update 
     });
 
     if (req.body.remember) {
-        res.cookie('refreshToken', refreshToken, { //send a cookie to the user
-            //this cookie is a identifier of the user sent by the server the first time the user logs in to the website.
-            // saved in browser and sent to the server everytime user revisits the website and 
-            //server will identify the user from this and user wont have to log in again
+        res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
-            maxAge: 24 * 60 * 60 * 1000
+            maxAge: 24 * 60 * 60 * 1000 //1 day
         });
     }
     else {
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
-            expiresIn: 0
         });
     }
+
     return res.json({ accessToken }); //send accessToken as json object
 }
 
 export const Logout = async (req, res) => {
     const refreshToken = req.cookies.refreshToken;
-    // if (!refreshToken) return res.sendStatus(204);
-    // const user = await User.findAll({ //SELECT * FROM ... WHERE refresh_token=refreshToken
-    //     where: {
-    //         refresh_token: refreshToken
-    //     }
-    // });
-    // if (!user[0]) return res.sendStatus(204); //no content
-    // const userId = user[0].id;
-    // await User.update({ refresh_token: null }, { //UPDATE ... set refresh_token=null where id=userId
-    //     where: {
-    //         id: userId
-    //     }
-    // });
+    if (!refreshToken) return res.sendStatus(204);
+    const user = await User.findAll({ //SELECT * FROM ... WHERE refresh_token=refreshToken
+        where: {
+            refresh_token: refreshToken
+        }
+    });
+    if (!user[0]) return res.sendStatus(204); //no content
+    const userId = user[0].student_id;
+    await User.update({ refresh_token: null }, { //UPDATE ... set refresh_token=null where id=userId
+        where: {
+            student_id: userId
+        }
+    });
     res.clearCookie('refreshToken'); //deleting cookie
     return res.sendStatus(200); //ok
 }
@@ -188,26 +175,24 @@ export const Resend = async (req, res) => {
 }
 const SendOTP = async () => {
     generateOTP();
-    setTimeout(destroyOTP, 60000);
     const mailConfigurations = make_mailConfig(email);
-    console.log(mailConfigurations);
-    return 200;
 
-    // return new Promise((resolve, reject) => {
-    //     transporter.sendMail(mailConfigurations, (error, info) => {
-    //         if (error) {
-    //             console.log(error)
-    //             reject(400);
-    //         }
-    //         console.log('Message sent: %s', info.messageId);
-    //         setTimeout(destroyOTP, 60000);
-    //         resolve(200);
-    //     });
-    // })
+    console.log("sending email");
+    console.log(mailConfigurations);
+    return new Promise((resolve, reject) => {
+        transporter.sendMail(mailConfigurations, (error, info) => {
+            if (error) {
+                console.log(error)
+                reject(400);
+            }
+            console.log('Message sent: %s', info.messageId);
+            setTimeout(destroyOTP, 60000);
+            resolve(200);
+        });
+    })
 }
 
 export const Forget = async (req, res) => {
-    console.log("here");
     const user = await User.findOne({
         attributes: ['username'],
         where: {
@@ -240,7 +225,7 @@ function make_mailConfig(email) {
         to: `${email}`,
 
         subject: 'Verify Email Address for Not So Classroom',
-        text: `Thanks for registering for an account on Not So Classroom! Before we get started, we just need to confirm that this is you. Here's your code: ${otp}. This code will expire in 1 minute.`
+        text: `Thanks for registering for an account on Not So Classroom! Before we get started, we just need to confirm that this is you. Here's your code: ${otp}. This code will expire in 5 minutes.`
     };
 }
 const transporter = nodemailer.createTransport({

@@ -9,7 +9,10 @@
 @font-face {
     font-family: marker;
     src: url("./PermanentMarker.ttf");
-    ;
+}
+
+.marker {
+    font-family: marker;
 }
 
 @font-face {
@@ -17,20 +20,38 @@
     src: url("./Comfortaa-Regular.ttf");
 }
 
+.comfortaa {
+    font-family: comfortaa;
+}
+
 @font-face {
     font-family: kokoro;
     src: url("./Kokoro-Regular.ttf");
-    ;
+}
+
+.kokoro {
+    font-family: kokoro;
 }
 
 @font-face {
     font-family: actor;
     src: url("./Actor-Regular.ttf");
-    ;
+}
+
+.actor {
+    font-family: actor;
 }
 
 @font-face {
     font-family: inter;
     src: url("./Inter-Regular.ttf");
-    ;
+}
+
+.inter {
+    font-family: inter;
+}
+
+
+a {
+    cursor: pointer;
 }

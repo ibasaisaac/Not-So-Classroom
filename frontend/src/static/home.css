@@ -10,63 +10,23 @@
     --sticky-top-right: 18rem;
 }
 
-
-.wh{
-    position: relative;
-}
-
-.k{
-    left: 77.04%;
-    right: 3.94%;
-    top: 70%;
+.bgprop{
+    left: 73%;
+    top: 73%;
     width: 20%;
     height: auto;
-    margin: 0 auto;
+    margin: 0;
     position: fixed;
 }
 
-.butpos{
-    position: fixed;
-    right: 0.625rem;
-    top: 10rem;
-}
-
-.shop{
-    background: #FEB8B3;
-    margin-top: 3rem;
-    margin-right: 0;
-    width: 15rem;
-    height: 5rem;
-    margin-left: 65%;
+.cards{
+    width: 100%;
+    display:block;
     font-size: x-large;
+    height: 80px;
+    line-height:65px;
 }
-.group{
-    background: #FED58A;
-    margin-right: 0;
-    width: 15rem;
-    height: 5rem;
-    margin-left: 65%;
-    font-size: x-large;
-}
-.club{
-    background: #9AC8EB;
-    margin-right: 0;
-    width: 15rem;
-    height: 5rem;
-    margin-left: 65%;
-    font-size: x-large;
-}
-
-.main-content{
-    background-color: #D9D9D9;
-    width: 65%;
-    height: auto;
-    /* margin-top: 3rem; */
-    margin-left: 3rem;
-    z-index:2;
-    position: static;
-}
-
+  
 .create-post-container{
     background-color: white;
     z-index:3;

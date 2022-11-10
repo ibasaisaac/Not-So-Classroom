@@ -4,7 +4,7 @@ body{
     background-color: white;
 }
 
-.container-fluid{
+.cont{
     margin-top: 10vh;
     text-align: center;
     max-width: max-content;
@@ -43,8 +43,7 @@ body{
 
 .btn3{
     background: #FFB0AD;
-    position: relative;
-    bottom: 12.5px;
+    
 }
 
 .btn4{
@@ -67,4 +66,4 @@ body{
     position:relative;
     right: 0px;
     top: 10px;
-}
+} 

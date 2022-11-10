@@ -6,7 +6,8 @@ import birdies from '../static/birdies.svg';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
-const Forget  = props => {
+const Forget = props => {
+    const [isLoading, setIsLoading] = useState(false);
     const { setPopUp } = props;
     const [otp, setOTP] = useState('');
     const [password, setPassword] = useState('');
@@ -34,15 +35,19 @@ const Forget  = props => {
     const Resend = async (e) => {
         e.preventDefault();
         try {
+            setIsLoading(true);
             let res = await axios.get('http://localhost:5000/registerr', {
             });
             console.log(res.data.msg);
+            setIsLoading(false);
         }
         catch (error) {
+            setIsLoading(false);
             window.alert(error.response.data.msg);
         };
     }
 
+    
     return (
         <div className="container-fluid PopUp">
             <button className="popup-x" onClick={() => setPopUp(false)} >X</button>
@@ -52,18 +57,20 @@ const Forget  = props => {
 
             <form className="form-container_modal" style={{ fontFamily: 'comfortaa' }} onSubmit={Verify} >
 
-                <h3 className="text-center mb-5" style={{ fontFamily: 'marker', color: 'black', fontSize: '25px' }}>Check your email!</h3>
+                <h3 className="text-center mb-4" style={{ fontFamily: 'marker', color: 'black', fontSize: '25px' }}>Check your email!</h3>
 
                 <div className="form-group">
                     <label htmlFor="otp">Enter the verification code</label>
                     <input type="text" id="otp" name="otp" required className="form-control otp-box" value={otp} onChange={(e) => setOTP(e.target.value)} />
-                    <span className='left'><p style={{ fontFamily: 'actor', color: 'var(--vista)', fontSize: '13px' }}>{msg}</p></span>
-                    <span className='right'><a className="mt-0" style={{ fontFamily: 'actor' }} onClick={Resend}>Resend code</a></span>
+                    <span className='left' style={{ height: '13px' }}><p style={{ fontFamily: 'actor', color: 'var(--vista)', fontSize: '13px' }}>{msg}</p></span>
+                    <span className='right text-end'>
+                        {isLoading && <i className='fa fa-spinner fa-spin'></i>}
+                        <a className="mt-0" style={{ fontFamily: 'actor' }} onClick={Resend}>  Resend code</a></span>
                 </div>
 
-                <div className="form-group mb-3">
+                <div className="form-group mt-4 mb-3">
                     <label htmlFor="password">Enter new password</label>
-                    <input type="password" id="password" name="password" required className="form-control otp-box" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                    <input type="password" id="password" name="password" minLength="8" maxLength="15" required className="form-control otp-box" value={password} onChange={(e) => setPassword(e.target.value)} />
                 </div>
 
                 <div className="text-center">
@@ -72,33 +79,6 @@ const Forget  = props => {
             </form>
             <ToastContainer position="top-right" progressClassName="toastProgress" />
         </div>
-        // <div class="container-fluid cont">
-        //     <image className="giraffe" src="./giraffe.svg" />
-        //     <image className="birdie" src="./birdies.svg" />
-        //     <form className="form-container" style="font-family: comfortaa;" action="/verify_forget_otp" method="post">
-        //         <h3 className="text-center mb-5" style="font-family: marker;">Check your email!</h3>
-
-        //         <div className="form-group">
-        //             <label htmlFor="otp">Enter the verification code</label>
-        //             <input type="text" id="otp" name="otp" required className="form-control otp-box" />
-        //         </div>
-
-        //         <div className="mb-2 text-end" style="font-size: 13px; font-family: actor;">
-        //             <button type="submit" formnovalidate className="btn" formaction="/resend_forget_otp">Resend code</button>
-        //         </div>
-
-        //         <div className="form-group mb-3">
-        //             <label htmlFor="password">Enter new password</label>
-        //             <input type="password" id="password" name="password" required className="form-control otp-box" />
-        //         </div>
-
-        //         <div className="text-center">
-        //             <button type="submit" id="pop_submit_button" className="btn btn-light btn-lg bt" data-toggle="modal"
-        //                 data-target="#otpmodal">Enter</button>
-        //         </div>
-
-        //     </form >
-        // </div >
     )
 }
 export default Forget;

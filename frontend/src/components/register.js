@@ -6,7 +6,7 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 
 const Register = () => {
-    
+    const [isLoading, setIsLoading] = useState(false);
     const [id, setID] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -16,10 +16,11 @@ const Register = () => {
     const [msg2, setMsg2] = useState('');
     const [msg3, setMsg3] = useState('');
     const [popUp, setPopUp] = useState(false);
- 
+
     const Register = async (e) => {
         e.preventDefault();
         try {
+            setIsLoading(true);
             let res = await axios.post('http://localhost:5000/register', {
                 id: id,
                 email: email + '@iut-dhaka.edu',
@@ -28,10 +29,12 @@ const Register = () => {
             });
             console.log(res.data.msg);
             if (res.status === 200) {
+                setIsLoading(false);
                 setPopUp(true);
             }
         }
         catch (error) {
+            setIsLoading(false);
             if (error.response.status === 404) { setMsg1(error.response.data.msg); }
             else if (error.response.status === 400) { setMsg1(error.response.data.msg); }
             else if (error.response.status === 402) { setMsg3(error.response.data.msg); }
@@ -43,7 +46,11 @@ const Register = () => {
 
     function SubmitButton() {
         if (id && email && username && password && check) {
-            return <button type="submit" id="submit-button" className="btn btn-light btn-md btn-block bt" >Continue</button>
+            if (isLoading)
+                return <button type="submit" id="submit-button" className="btn btn-light btn-md btn-block bt" ><i className='fa fa-spinner fa-spin'></i>  Continue</button>
+            else {
+                return <button type="submit" id="submit-button" className="btn btn-light btn-md btn-block bt" >  Continue</button>
+            }
         } else {
             return <button type="submit" disabled id="submit-button" className="btn btn-light btn-md btn-block bt">Continue</button>
 

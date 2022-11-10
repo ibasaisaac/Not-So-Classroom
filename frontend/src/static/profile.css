@@ -1,4 +1,5 @@
-html{
+@import "style.css";
+ html{
     scroll-behavior: smooth;
 }
 
@@ -11,7 +12,7 @@ header{
     height: 220px;
     width: 100%;
     color:black;
-    background-color: #ACE2D3;
+    background-color: var(--crystal);
 }
 
 .wrapper{
@@ -339,7 +340,7 @@ header{
     font-size: 15px;
 }
 
-.btn{
+.btnn{
     border: 1.3px solid black;
     background: none;
     padding: 5px 10px;
@@ -401,13 +402,13 @@ header{
     top: 55px;
 }
 
-input[type='checkbox'] {
+.chk {
     height: 0;
     width: 0;
     visibility: hidden;
-}
+} 
 
-label{
+ .labell{
     cursor: pointer;
     position: relative;
     left: 220px;
@@ -420,7 +421,7 @@ label{
     border-radius: 100px;
     position: relative;
     transition: all 0.5s;
-}
+} 
 
 .s{
     position: absolute;
@@ -443,4 +444,4 @@ input:checked + label{
 input:checked ~ .s{
     transform: rotate(-180deg);
     background: black;
-}
+} 
