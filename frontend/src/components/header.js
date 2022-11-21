@@ -104,7 +104,8 @@ const Header = () => {
 
                 <div className="offcanvas-header p-4" style={{ maxHeight: '45px'}}>
                     <h5 className="offcanvas-title">Ahoy there, {username}!</h5>
-                    <button type="button" className="btn-close" data-bs-dismiss="offcanvas"></button>
+                    <button type="button" className="btn-close" data-bs-dismiss="offcanvas">
+                    </button>
                 </div>
 
                 <div className="offcanvas-body" >

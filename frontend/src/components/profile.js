@@ -1,7 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../static/profile.css';
 
+
+import { useHistory } from 'react-router-dom';
+import axios from 'axios';
+import jwt_decode from "jwt-decode";
+import 'react-toastify/dist/ReactToastify.css'; 
+import { ToastContainer, toast } from 'react-toastify';
+
+
 const Profile = () => {
+
+    const [username, setUsername] = useState("");
+    const [name, setName] = useState("");
+    const [userId, setStudentID] = useState("");
+    const [email, setEmail] = useState("");
+    //const [token, setToken] = useState('');
+    //const [expire, setExpire] = useState('');
+    //const history = useHistory();
+    
+    useEffect(() => {
+        userprofile();
+    }, []);
+
+
+    const userprofile = async () => {
+         axios.get('http://localhost:5000/token')
+            .then((response) => {
+                //setToken(response.data.accessToken);
+                const decoded = jwt_decode(response.data.accessToken);
+                setUsername(decoded.username);
+                setStudentID(decoded.userId);
+                setEmail(decoded.email);
+                setName(decoded.name);
+                //setExpire(decoded.exp);
+                //toast.success("Welcome back, " + decoded.username + "!");
+            })
+    }
+
     return (
         <div>
             <header>
@@ -10,9 +46,10 @@ const Profile = () => {
                         <p className="c">Picture</p>
                         <p className="p">Change</p>
                 </div>
-
-                <p className="name">Isaba Ishrak</p>
-                <p className="ib">@ibasa</p>
+                <div>
+                    <p className="id" style={{ fontFamily: 'comfortaa' }}>{userId}</p>
+                    <p className="ib" style={{ fontFamily: 'comfortaa' }}>@{username}</p>
+                </div>
             </header>
 
             <div id="section1">
@@ -26,7 +63,7 @@ const Profile = () => {
 
                 <div className="emm">
                     <p className="email" style={{margin: '20px', display: 'inline'}}>Email: </p>
-                    <p className="em" style={{margin: '20px', display: 'inline'}}>ibasaisaac@iut-dhaka.edu</p>
+                    <p className="em" style={{margin: '20px', display: 'inline'}}>{email}</p>
                 </div>
 
                 <div className="pp">
