@@ -1,21 +1,33 @@
 import express from "express";
-import { Register, Login, Logout, Resend, Verification, Forget} from "../controllers/users.js";
-import { submitPost, showPost} from "../controllers/feed.js";
+import { getUser, Register, Login, Logout, Resend, Verification, Forget, joinGroup, createGroup} from "../controllers/users.js";
+import { submitPost, editPost, deletePost, showPost, editComment, submitComment, deleteComment, showEvent, search, showProduct, addProduct} from "../controllers/feed.js";
 import { verifyToken } from "../middleware/verifyToken.js";
 import { refreshToken } from "../controllers/refreshToken.js";
  
 const router = express.Router();
  
-
+router.use('/uploads', express.static('uploads'));
 router.post('/register', Register);
 router.post('/post', submitPost);
+router.post('/edit_post', editPost);
+router.post('/del_post', deletePost);
+router.post('/comment', submitComment);
+router.post('/edit_comment', editComment);
+router.post('/del_comment', deleteComment);
+router.post('/search', search);
 router.get('/registerr', Resend);
 
 router.post('/verify', Verification);
 router.post('/forget', Forget);
+router.post('/joingroup', joinGroup);
+router.post('/creategroup', createGroup);
 
 router.get('/register', verifyToken);
-router.get('/getpost', showPost);
+router.get('/getuser', getUser);
+router.post('/getpost', showPost);
+router.post('/getevent', showEvent);
+router.post('/getproduct', showProduct);
+router.post('/addproduct', addProduct);
 router.get('/token', refreshToken);
 
 router.post('/login', Login);
