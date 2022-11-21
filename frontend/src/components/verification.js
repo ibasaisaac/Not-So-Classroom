@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import '../static/verification_pop.css';
 import giraffe from '../static/giraffe.svg';
 import birdies from '../static/birdies.svg';
@@ -23,8 +23,8 @@ const Verification = props => {
                 if (res.status === 200) {
                     setMsg(res.data.msg);
                     toast.success("Registration Successful!");
-                    // setPopUp(false);
-                    // history.push('./login');
+                    setPopUp(false);
+                    history.push('./login');
                 }
             })
             .catch(error => {
@@ -34,7 +34,7 @@ const Verification = props => {
 
     const Resend = async (e) => {
         e.preventDefault();
-        try {            
+        try {
             setIsLoading(true);
             let res = await axios.get('http://localhost:5000/registerr', {
             });
@@ -51,8 +51,8 @@ const Verification = props => {
         <div className="container-fluid PopUp">
             <button className="popup-x" onClick={() => setPopUp(false)} >X</button>
 
-            <img className="giraffe" src={giraffe} />
-            <img className="birdie" src={birdies} />
+            <img alt=''  className="giraffe" src={giraffe} />
+            <img alt=''  className="birdie" src={birdies} />
 
             <form className="form-container_modal" style={{ fontFamily: 'comfortaa' }} onSubmit={Verify} >
 
@@ -61,17 +61,16 @@ const Verification = props => {
                 <div className="form-group">
                     <label htmlFor="otp">Enter the verification code</label>
                     <input type="text" id="otp" name="otp" required className="form-control otp-box" value={otp} onChange={(e) => setOTP(e.target.value)} />
-                    <span className='left' style={{height: '13px'}}><p style={{ fontFamily: 'actor', color: 'var(--vista)', fontSize: '13px' }}>{msg}</p></span>
+                    <span className='left' style={{ height: '13px' }}><p style={{ fontFamily: 'actor', color: 'var(--vista)', fontSize: '13px' }}>{msg}</p></span>
                     <span className='right text-end'>
-                    {isLoading && <i className='fa fa-spinner fa-spin'></i>}
-                        <a className="mt-0" style={{ fontFamily: 'actor' }} onClick={Resend}>  Resend code</a>
-                        </span>
+                        {isLoading && <i className='fa fa-spinner fa-spin'></i>}
+                        <a href='/#' className="mt-0" style={{ fontFamily: 'actor' }} onClick={Resend}>  Resend code</a>
+                    </span>
                 </div>
                 <div className="text-center mt-5">
                     <button type="submit" className="btn btn-light btn-lg bt_modal" >Enter</button>
                 </div>
             </form>
-            <ToastContainer position="top-right" progressClassName="toastProgress" />
         </div>
     )
 }

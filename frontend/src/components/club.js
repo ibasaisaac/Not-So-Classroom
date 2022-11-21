@@ -1,49 +1,48 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
-import '../static/home.css';
+import '../static/group.css';
 import Edit from './edit_body';
-import GroupCreate from './create_group';
-import GroupJoin from './join_group';
 import { toast } from 'react-toastify';
 
-import homekids from '../static/homekids.svg';
-import bag from '../static/backpack.svg';
-import paint from '../static/palette.svg';
-import shop from '../static/shopping.svg';
+import abckid from '../static/abckid.svg';
 
-const Home = () => {
+const Club = () => {
     const [user, setUser] = useState('')
+    const [club_id, setID] = useState('')
     const [posts, setPosts] = useState('')
+    const [propToEdit, setPropToEdit] = useState(['', {}]);
+    const [popUp, setPopUp] = useState(false);
+    const [sessions, setSessions] = useState('')
 
     const [text, setText] = useState('')
     const [image, setImage] = useState({ preview: '', data: '' })
     const [commentText, setCommentText] = useState({ post_id: '', comment_body: '' })
-    const [postEditPopUp, setPostEditPopUp] = useState(false);
-    const [propToEdit, setPropToEdit] = useState(['', {}]);
 
-    const [groupJoinPopUp, setGroupJoinPopUp] = useState(false);
-    const [groupCreatePopUp, setGroupCreatePopUp] = useState(false);
-
-    const history = useHistory();
 
     useEffect(() => {
-        prepareHomePage()
+        prepareClubPage();
     }, []);
 
-    const prepareHomePage = async () => {
+    const prepareClubPage = async () => {
+
         await axios.get('http://localhost:5000/getuser', {
         })
             .then(function (res1) {
-                // console.log(res1.data);
+                console.log(res1.data);
                 setUser(res1.data);
                 axios.post('http://localhost:5000/getpost', {
-                    category: 'home',
+                    category: 'club_id',
                     category_id: 0
                 })
                     .then(function (res2) {
                         console.log(res2.data)
                         setPosts(res2.data);
+                        axios.post('http://localhost:5000/getsession', {
+                            id: res1.data.club_id
+                        })
+                            .then(function (res3) {
+                                console.log(res3.data)
+                            })
                     })
             })
             .catch(error => {
@@ -55,7 +54,7 @@ const Home = () => {
         e.preventDefault();
         const data = new FormData();
         data.set('op_id', user.student_id);
-        data.set('category', 'home');
+        data.set('category', 'club');
         data.set('category_id', 0);
         data.set('post_body', text);
         data.append('file', image.data);
@@ -82,9 +81,7 @@ const Home = () => {
                 post_id: props
             });
             if (res.status === 200) {
-                toast.success(res.data.msg, {
-                    // onClose: () => window.location.reload(true)
-                });
+                toast.success(res.data.msg);
                 var newPosts = posts.filter((post) => props !== post.post_id);
                 setPosts(newPosts);
             }
@@ -138,6 +135,8 @@ const Home = () => {
         }
     }
 
+
+
     const handleFileChange = (e) => {
         const img = {
             preview: URL.createObjectURL(e.target.files[0]),
@@ -154,7 +153,7 @@ const Home = () => {
                         <i className="fa fa-solid fa-ellipsis fa-lg"></i>
                     </button>
                     <ul className="dropdown-menu">
-                        <li><a href='/#' className="dropdown-item" onClick={() => { setPostEditPopUp(true); setPropToEdit(['p', props.flag[1].post]); }}>Edit</a></li>
+                        <li><a href='/#' className="dropdown-item" onClick={() => { setPopUp(true); setPropToEdit(['p', props.flag[1].post]); }}>Edit</a></li>
                         <li><a href='/#' className="dropdown-item" onClick={(e) => postDelete(e, props.flag[1].post.post_id)}>Delete</a></li>
                     </ul>
                 </div>
@@ -163,43 +162,28 @@ const Home = () => {
         else if (props.flag[0] === 'c' && user.student_id === props.flag[1].comment.comment_op.student_id) {
             return (
                 <div className='text-end me-3'>
-                    <a href='/#' className='anc' onClick={() => { setPostEditPopUp(true); setPropToEdit(['c', props.flag[1].comment]); }}>edit</a> &ensp;
+                    <a href='/#' className='anc' onClick={() => { setPopUp(true); setPropToEdit(['c', props.flag[1].comment]); }}>edit</a> &ensp;
                     <a href='/#' className='anc' onClick={(e) => commentDelete(e, props.flag[1].comment.comment_id)} >delete</a>
                 </div>
             )
         }
     };
 
-    const groupButton = async (e) => {
-        e.preventDefault()
-        if (user.role === 'cr' && !user.class_group) {
-            setGroupCreatePopUp(true);
-        }
-        else if (!user.class_group) {
-            setGroupJoinPopUp(true);
-        }
-        else {
-            history.push('./group');
-        }
+    const color = useMemo(() => random_color(), []);
+    const color2 = useMemo(() => random_color(), []);
+    function random_color() {
+        var colors = ['var(--melon)', 'var(--caramel)', 'var(--crystal)', 'var(--vista)'];
+        return colors[Math.floor(Math.random() * colors.length)];
     }
-    const clubButton = async (e) => {
-        e.preventDefault()
-        history.push('./clubmenu');
-    }
-    const shopButton = async (e) => {
-        e.preventDefault()
-        history.push('./shop');
-    }
-
 
     if (!user || !posts)
         return <div style={{ textAlign: 'center', lineHeight: '600px' }}><i className="fa-regular fa-circle fa-beat fa-3x"></i><i className="fa-solid fa-circle fa-beat fa-3x"></i><i className="fa-regular fa-circle fa-beat fa-3x"></i></div>
     return (
-        <div className="container-fluid bg2">
+        <div className="container-fluid">
 
             <div className="row mx-5 my-4">
 
-                <div className="col-sm-8 p-3" style={{ backgroundColor: '#d9d9d9' }}>
+                <div className="col-sm-7 p-3 inter" style={{ backgroundColor: '#d9d9d9' }}>
 
                     {/* createpost */}
                     <div className='mb-3 p-3' style={{ backgroundColor: 'white' }}>
@@ -210,7 +194,7 @@ const Home = () => {
                             </div>
 
                             <div>
-                                {image.preview && <img alt='' className='img-thumbnail mx-5 my-1' src={image.preview} width='100' height='100' />}
+                                {image.preview && <img className='img-thumbnail mx-5 my-1' src={image.preview} width='100' height='100' alt='' />}
                                 <div className='text-end py-1'>
                                     <label htmlFor="photo1"><i className="fa fa-solid fa-image"></i>
                                         <input className="form-control" type="file" id="photo1" onChange={handleFileChange} style={{ display: 'none' }} />Photo</label>
@@ -233,7 +217,7 @@ const Home = () => {
 
                             <div>
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <img alt='' src={`${post.post_op.dp}`} className='img-thumbnail' width='50' height='50' style={{ border: 'none', borderRadius: '50px' }} />
+                                    <img src={`${post.post_op.dp}`} className='img-thumbnail' width='50' height='50' style={{ border: 'none', borderRadius: '50px' }} alt='' />
                                     <h5 >@{post.post_op.username}
                                         <p style={{ fontSize: '10px', color: 'grey', margin: '0' }}>{post.dop}</p>
                                     </h5>
@@ -243,7 +227,7 @@ const Home = () => {
 
                                 <p className='m-0'>{post.post_body}</p>
                                 <a href={`${post.image_path}`} target="_blank" rel="noreferrer">
-                                    <img alt='' src={`${post.image_path}`} width='250' />
+                                    <img src={`${post.image_path}`} width='250' alt='' />
                                 </a>
                             </div>
 
@@ -253,7 +237,7 @@ const Home = () => {
                                 <div className='mb-3'>
                                     <form onSubmit={commentSubmit} style={{ display: 'flex', alignItems: 'center' }}>
                                         <i className="fa fa-regular fa-comment fa-lg ms-1"></i>
-                                        <textarea rows="1" className="form-control ms-4 me-2" style={{ resize: 'none', borderRadius: '25px' }} value={commentText.comment_body} onChange={(e) => setCommentText({ post_id: post.post_id, comment_body: e.target.value })} ></textarea>
+                                        <textarea rows="1" className="form-control ms-4 me-2" style={{ resize: 'none', borderRadius: '25px' }} onChange={(e) => setCommentText({ post_id: post.post_id, comment_body: e.target.value })} ></textarea>
                                         <button type="submit" style={{ border: 'none', backgroundColor: 'transparent' }} ><i className="fa fa-regular fa-paper-plane fa-lg me-1"></i></button>
                                     </form>
                                 </div>
@@ -284,35 +268,26 @@ const Home = () => {
 
                 <div className="col-sm-1"></div>
                 <div className="col-sm-3">
-                    <div className='row p-0 marker' style={{ position: 'fixed', marginRight: '50px' }}>
-                        <div className="card p-0">
-                            <div className="card-body p-0">
-                                <a href='/#' className="btn cards m-0" onClick={groupButton} style={{ backgroundColor: 'var(--caramel)', }}><img src={bag} width="40" height="40" alt="logo" />  Group</a>
-                            </div>
-                        </div>
-                        <div className="card mt-1 mb-1 p-0">
-                            <div className="card-body p-0">
-                                <a href='/#' className="btn cards m-0" onClick={clubButton} style={{ backgroundColor: 'var(--vista)' }}><img src={paint} width="40" height="40" alt="logo" />  Clubs</a>
-                            </div>
-                        </div>
-                        <div className="card p-0">
-                            <div className="card-body p-0">
-                                <a href='/#' className="btn cards m-0" onClick={shopButton} style={{ backgroundColor: 'var(--melon)' }}><img src={shop} width="40" height="40" alt="logo" />  Shop</a>
-                            </div>
-                        </div>
-                    </div>
-
                     <div className='row'>
-                        <img className="bgprop" src={homekids} alt="kids" />
+                        <img className="bgprop" src={abckid} alt="kid" />
+                    </div>
+                    <div className='row p-3 m-1 marker' style={{ backgroundColor: '#d9d9d9cc', width: '27%', position: 'fixed', marginRight: '50px' }}>
+                        <h5>Upcoming sessions</h5>
+                        {/* {sessions.map((event) => (
+                            <div className="card p-0 mb-1" key={`${event.event_id}`} onClick={() => { }}>
+                                <div className="card-body p-1 inter" style={{ backgroundColor: color2, cursor: 'pointer' }}>
+                                    <h6>{event.title}</h6>
+                                    <small>{event.date}</small> &ensp; <small>{event.place}</small>
+                                </div>
+                            </div>
+                        ))} */}
                     </div>
                 </div>
 
             </div>
-            {postEditPopUp && <Edit setPostEditPopUp={setPostEditPopUp} setPropToEdit={propToEdit} />}
-            {groupJoinPopUp && <GroupJoin setGroupJoinPopUp={setGroupJoinPopUp}  setUser={user} />}
-            {groupCreatePopUp && <GroupCreate setGroupCreatePopUp={setGroupCreatePopUp}  setUser={user} />}
+            {popUp && <Edit setPopUp={setPopUp} setPropToEdit={propToEdit} />}
         </div >
     )
 }
 
-export default Home
+export default Club

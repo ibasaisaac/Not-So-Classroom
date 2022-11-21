@@ -43,7 +43,8 @@ body{
 
 .btn3{
     background: #FFB0AD;
-    
+    position: relative;
+    bottom: 12.5px;
 }
 
 .btn4{

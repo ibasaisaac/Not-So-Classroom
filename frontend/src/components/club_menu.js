@@ -1,23 +1,48 @@
-import React, { useState } from 'react';
-import '../static/clubmenu.css';
-import us from '../static/us.png';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import '../static/clubmenu.css';
+import { useHistory } from 'react-router-dom';
+import ClubJoin from './join_club';
+import us from '../static/us.png';
+
 
 const Clubmenu = () => {
+    const [user, setUser] = useState('')
+    const [clubJoinPopUp, setClubJoinPopUp] = useState(false);
+    const history = useHistory();
+
+    useEffect(() => {
+        getUser()
+    }, []);
+
+    const getUser= async () => {
+    await axios.get('http://localhost:5000/getuser', {
+    })
+        .then(function (res1) {
+            console.log(res1.data);
+            setUser(res1.data);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+}
+
+    const clubButton = async (e) => {
+        e.preventDefault()
+        console.log('click')
+        history.push('./club');
+    }
+
     return (
         <div className="container-fluid cont">
-        <img className="us" src={us} />
+            <img alt='' className="us" src={us} />
 
-        <div className="container-fluid" style={{fontFamily: 'marker'}}>
-            <button className="button btn1">IUT COMPUTER SOCIETY (IUTCS)</button>
-            <button className="button btn2">IUT MARS ROVER</button>
-            <button className="button btn3">IUT AL-FARAZI INTERSTELLAR SOCIETY (IUTFIS)</button>
-            <button className="button btn4">IUT CAREER + BUSINESS SOCIETY (IUTCBS)</button>
-            <button className="button btn5">IUT PHOTOGRAPHIC SOCIETY (IUTPS)</button>
-            <button className="button btn6">IUT DEBATING SOCIETY (IUTDS)</button>
-            <button className="button btn7">+</button>
+            <div className="container-fluid" style={{ fontFamily: 'marker' }}>
+                <button className="button btn1" onClick={(e) => clubButton(e)}>IUT COMPUTER SOCIETY (IUTCS)</button>
+                <button className="button btn7" onClick={() => setClubJoinPopUp(true)}>+</button>
+            </div>
+            {clubJoinPopUp && <ClubJoin setClubJoinPopUp={setClubJoinPopUp}  setUser={user}/>}
         </div>
-    </div>
     )
 }
 

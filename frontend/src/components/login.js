@@ -27,8 +27,8 @@ const Login = () => {
             })
             history.push("./home");
         } catch (error) {
-            if (error.response.status === 404) { setMsg1(error.response.data.msg); }
-            else if (error.response.status === 400) { setMsg2(error.response.data.msg); }
+            if (error.response.status === 404) { setMsg1(error.response.data.msg); setEmail('')}
+            else if (error.response.status === 400) { setMsg2(error.response.data.msg); setPassword('') }
             // if (error.response) 
             else {
                 window.alert(error.response.data.msg);
@@ -52,7 +52,7 @@ const Login = () => {
                 }
             }
             catch (error) {
-                if (error.response.status === 402) { setMsg1(error.response.data.msg); }
+                if (error.response.status === 402) { setMsg1(error.response.data.msg); setEmail('')}
                 setIsLoading(false);
             }
         }
@@ -71,7 +71,7 @@ const Login = () => {
                         <div className="form-group mb-3">
                             <label htmlFor="email">Email</label>
                             <div className="input-group">
-                                <input type="text" id="email" name="email" required className="form-control" style={{ borderRadius: 0 }} value={email} onChange={(e) => setEmail(e.target.value)} />
+                                <input type="text" id="email" name="email" required className="form-control" style={{ borderRadius: 0 }} value={email} onChange={(e) => {setEmail(e.target.value); setMsg1('')}} />
                                 <div className="input-group-append">
                                     <span className="input-group-text" style={{ borderRadius: 0 }}>@iut-dhaka.edu</span>
                                 </div>
@@ -81,12 +81,12 @@ const Login = () => {
 
                         <div className="form-group mb-4">
                             <label htmlFor="password">Password</label>
-                            <input type="password" id="password" name="password" required className="form-control" style={{ borderRadius: 0 }} value={password} onChange={(e) => setPassword(e.target.value)} />
+                            <input type="password" id="password" name="password" required className="form-control" style={{ borderRadius: 0 }} value={password} onChange={(e) => {setPassword(e.target.value); setMsg2('')} }/>
 
                             <span className='left' style={{ height: '13px' }}><p style={{ fontFamily: 'actor', color: 'var(--vista)', fontSize: '13px' }}>{msg2}</p></span>
                             <span className='right text-end'>
                                 {isLoading && <i className='fa fa-spinner fa-spin'></i>}
-                                <a className="" style={{ fontFamily: 'actor' }} onClick={Forget_pass}> Forgot your password?</a>
+                                <a href='/#' className="" style={{ fontFamily: 'actor' }} onClick={Forget_pass}> Forgot your password?</a>
                             </span>
                         </div>
 

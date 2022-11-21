@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../static/profile.css';
 
 const Profile = () => {
@@ -19,9 +19,9 @@ const Profile = () => {
                 <div className="container">
                     <p className="role">Role:</p>
                     <button className="btnn btn1">Student</button>
-                    <a href="#section2" className="btnn btn2">CR</a>
-                    <a href="#section3" className="btnn btn3">Club Moderator</a>
-                    <a href="#" style={{color: 'black', position: 'relative', left: '20px'}}>Ask role access</a>
+                    <a href="/#section2" className="btnn btn2">CR</a>
+                    <a href="/#section3" className="btnn btn3">Club Moderator</a>
+                    <a href="/#" style={{color: 'black', position: 'relative', left: '20px'}}>Ask role access</a>
                 </div>
 
                 <div className="emm">
@@ -35,8 +35,8 @@ const Profile = () => {
                 </div>
 
                 <div className="c_s">
-                    <a className="change" href="#" style={{color:'black'}}>Change</a>
-                    <a href="#" style={{color:'grey'}}>Save</a>
+                    <a className="change" href="/#" style={{color:'black'}}>Change</a>
+                    <a href="/#" style={{color:'grey'}}>Save</a>
                 </div>
 
                 <div className="all">

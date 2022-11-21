@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Home from "./components/home";
 import Profile from "./components/profile";
+import Group from "./components/group";
+import Shop from './components/shop';
 import Clubmenu from "./components/club_menu";
+import Club from "./components/club";
 import Verification from "./components/verification";
 import Login from "./components/login";
 import Header from "./components/header";
@@ -15,8 +18,8 @@ function App() {
       <Switch>
 
         <Route exact path="/">
-          <Header/>
-          <Home /> 
+          <Header />
+          <Home />
         </Route>
 
         <Route path="/register">
@@ -41,10 +44,25 @@ function App() {
           <Profile />
         </Route>
 
-        <Route path="/club">
+        <Route path="/group">
+          <Header />
+          <Group />
+        </Route>
+
+        <Route path="/clubmenu">
           <Header />
           <Clubmenu />
-        </Route> 
+        </Route>
+
+        <Route path="/club">
+          <Header />
+          <Club />
+        </Route>
+
+        <Route path="/shop">
+          <Header />
+          <Shop />
+        </Route>
 
       </Switch >
     </BrowserRouter >

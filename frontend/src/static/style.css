@@ -55,3 +55,17 @@
 a {
     cursor: pointer;
 }
+
+.Toastify__toast--success {
+    border: 1px solid black;
+    background: #Ffffff;
+}
+
+.Toastify__toast-body {
+    font-family: comfortaa;
+    color: black;
+}
+
+.toastProgress {
+    background: var(--crystal);
+}
