@@ -70,10 +70,12 @@ const Home = () => {
                                 {image.preview && <img src={image.preview} width='100' height='100' />}
                                 <div className='text-end py-2'>
                                     <label htmlFor="photo1"><i className="fa fa-solid fa-image"></i>
-                                        <input className="form-control" type="file" id="photo1" name='photo1' onChange={handleFileChange} style={{ display: 'none' }} />Photo</label>
+                                        <input className="form-control" type="file" id="photo1" name='photo1' 
+                                        onChange={handleFileChange} style={{ display: 'none' }} />Photo</label>
                                     <label style={{ width: '15px' }}></label>
                                     <label htmlFor="attach1"><i className="fa fa-solid fa-paperclip"></i>
-                                        <input className="form-control" type="file" id="attach1" name='attach1' style={{ display: 'none' }} multiple />Attach File</label>
+                                        <input className="form-control" type="file" id="attach1" name='attach1' 
+                                        style={{ display: 'none' }} multiple />Attach File</label>
                                 </div>
                             </div>
 
