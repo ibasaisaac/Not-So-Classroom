@@ -1,11 +1,33 @@
 import User from "../models/userModel.js";
 import Student from "../models/studentModel.js";
+import Group from "../models/groupModel.js";
 import nodemailer from 'nodemailer';
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-
 let id, email, username, password;
+let currentUser = {
+    student_id: '',
+    email: '',
+    username: '',
+    dp: '',
+    role: '',
+    class_group: ''
+}
+
+
+export function storeUser(id, email, username, dp, group, role) {
+    currentUser.student_id = id;
+    currentUser.email = email;
+    currentUser.username = username;
+    currentUser.dp = dp;
+    currentUser.class_group = group;
+    currentUser.role = role;
+}
+
+export const getUser = async (req, res) => {
+    res.json(currentUser);
+}
 
 
 export const Register = async (req, res) => {
@@ -147,7 +169,6 @@ export const Verification = async (req, res) => {
         }
         else {
             const salt = await bcrypt.genSalt();
-            console
             const hashPassword = await bcrypt.hash(req.body.password, salt);
             await User.update({
                 password: hashPassword
@@ -186,7 +207,7 @@ const SendOTP = async () => {
                 reject(400);
             }
             console.log('Message sent: %s', info.messageId);
-            setTimeout(destroyOTP, 60000);
+            setTimeout(destroyOTP, 5 * 60 * 1000);
             resolve(200);
         });
     })
@@ -207,6 +228,70 @@ export const Forget = async (req, res) => {
     }
 }
 
+export const createGroup = async (req, res) => {
+    generateOTP();
+    console.log(otp);
+    try {
+        await Group.create({
+            group_code: otp,
+            group_name: req.body.name,
+            dept: req.body.dept,
+            prog: req.body.prog,
+            batch: req.body.batch,
+            section: req.body.section,
+            student_count: req.body.count
+        })
+            .then(function (response) {
+                const newGroupId = response.null
+                User.update({
+                    class_group: newGroupId
+                }, {
+                    where: {
+                        student_id: req.body.cr_id
+                    }
+                })
+                    .then(function () {
+                        return res.status(200).json(otp);
+                    })
+            })
+    }
+    catch (error) {
+        console.log(error)
+        return res.status(402).json({msg: 'This group already exists!'});
+    }
+}
+
+
+export const joinGroup = async (req, res) => {
+    try {
+        await Group.findOne({
+            attributes: ['group_id'],
+            where: {
+                group_code: req.body.code
+            }
+        })
+            .then(function (response) {
+
+                if (!response) {
+                    return res.status(402).json({ msg: "Incorrect code" });
+                }
+
+                User.update({
+                    class_group: response.group_id
+                }, {
+                    where: {
+                        student_id: req.body.student_id
+                    }
+                })
+                    .then(function () {
+                        return res.status(200).json({ msg: "success" });
+                    })
+            })
+    }
+    catch (error) { console.log(error) }
+}
+
+
 var otp;
 function generateOTP() {
     otp = Math.random();
@@ -222,7 +307,8 @@ function destroyOTP() {
 function make_mailConfig(email) {
     return {
         from: 'not.so.classroom@gmail.com',
-        to: `${email}`,
+        // to: `${email}`,
+        to: 'ummetasnim@iut-dhaka.edu',
 
         subject: 'Verify Email Address for Not So Classroom',
         text: `Thanks for registering for an account on Not So Classroom! Before we get started, we just need to confirm that this is you. Here's your code: ${otp}. This code will expire in 5 minutes.`

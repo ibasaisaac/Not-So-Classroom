@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import '../static/verification_pop.css';
 import giraffe from '../static/giraffe.svg';
 import birdies from '../static/birdies.svg';
@@ -9,6 +9,7 @@ import { useHistory } from 'react-router-dom';
 const Forget = props => {
     const [isLoading, setIsLoading] = useState(false);
     const { setPopUp } = props;
+    const history = useHistory();
     const [otp, setOTP] = useState('');
     const [password, setPassword] = useState('');
     const [msg, setMsg] = useState('');
@@ -23,8 +24,8 @@ const Forget = props => {
                 if (res.status === 200) {
                     setMsg(res.data.msg);
                     toast.success("Password updated!");
-                    // setPopUp(false);
-                    // history.push('./login');
+                    setPopUp(false);
+                    history.push('./login');
                 }
             })
             .catch(error => {
@@ -52,8 +53,8 @@ const Forget = props => {
         <div className="container-fluid PopUp">
             <button className="popup-x" onClick={() => setPopUp(false)} >X</button>
 
-            <img className="giraffe" src={giraffe} />
-            <img className="birdie" src={birdies} />
+            <img alt=''  className="giraffe" src={giraffe} />
+            <img alt=''  className="birdie" src={birdies} />
 
             <form className="form-container_modal" style={{ fontFamily: 'comfortaa' }} onSubmit={Verify} >
 
@@ -65,7 +66,7 @@ const Forget = props => {
                     <span className='left' style={{ height: '13px' }}><p style={{ fontFamily: 'actor', color: 'var(--vista)', fontSize: '13px' }}>{msg}</p></span>
                     <span className='right text-end'>
                         {isLoading && <i className='fa fa-spinner fa-spin'></i>}
-                        <a className="mt-0" style={{ fontFamily: 'actor' }} onClick={Resend}>  Resend code</a></span>
+                        <a href='/#' className="mt-0" style={{ fontFamily: 'actor' }} onClick={Resend}>  Resend code</a></span>
                 </div>
 
                 <div className="form-group mt-4 mb-3">
@@ -77,7 +78,6 @@ const Forget = props => {
                     <button type="submit" className="btn btn-light btn-lg bt_modal" >Enter</button>
                 </div>
             </form>
-            <ToastContainer position="top-right" progressClassName="toastProgress" />
         </div>
     )
 }

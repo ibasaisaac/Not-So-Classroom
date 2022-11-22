@@ -26,13 +26,20 @@
     position: fixed;
 }
 
-.cards {
-    width: 100%;
-    display: block;
-    font-size: x-large;
-    height: 80px;
-    line-height: 65px;
+.bgshopprop {
+    left: 1%;
+    bottom: 0%;
+    width: auto;
+    height: 35%;
+    position: fixed;
 }
+
+/* .classcards {
+    width: 100%;
+    display: block; 
+    height: 80px;
+    line-height: 65px; }*/
+
 
 .anc {
     font-size: 10px;
@@ -42,14 +49,15 @@
     color: var(--vista) !important;
 }
 
-.PopEdit {
+
+.Pop{
     position: fixed;
 
-    left: 30%;
-    top: 35%;
+    left:17%;
+    top: 10%;
 
-    width: 40%;
-    height: 30%;
+    width: 65%;
+    height: 85%;
 
     border: 1px solid black;
     box-shadow: 1px 1px 10px black;
@@ -80,6 +88,11 @@
     background-color: white;
 }
 
+.form-contain_create {
+    width: 59%;
+    background-color: white;
+}
+
 .box {
     background-color: #d9d9d9;
     border-radius: 25px;
@@ -94,32 +107,3 @@
     color: black;
 }
 
-.create-post-container button{
-    margin-top: 2rem;
-    margin-left: 94%;
-}
-
-.create-post-container textarea{
-    resize: none;
-}
-
-.feed{
-    background-color: white;
-    top: 0.75rem;
-    border-radius: 10px;
-    overflow: scroll hidden;
-}
-
-.feed-img{
-    width: 22rem;
-    height: 19rem;
-}
-
-.feed a{
-    color: black;
-}
-
-.add-post-links a{
-    color: black;
-    text-decoration: none;
-}

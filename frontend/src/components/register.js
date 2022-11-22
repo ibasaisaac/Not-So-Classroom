@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import 'react-toastify/dist/ReactToastify.css';
 import '../static/register.css';
 import Verification from './verification';
 import axios from "axios";
-import { useHistory } from "react-router-dom";
 
 const Register = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -35,10 +33,10 @@ const Register = () => {
         }
         catch (error) {
             setIsLoading(false);
-            if (error.response.status === 404) { setMsg1(error.response.data.msg); }
-            else if (error.response.status === 400) { setMsg1(error.response.data.msg); }
-            else if (error.response.status === 402) { setMsg3(error.response.data.msg); }
-            else if (error.response.status === 401) { setMsg2(error.response.data.msg); }
+            if (error.response.status === 404) { setMsg1(error.response.data.msg); setID('') }
+            else if (error.response.status === 400) { setMsg1(error.response.data.msg); setID('')  }
+            else if (error.response.status === 402) { setMsg3(error.response.data.msg);  setEmail('')}
+            else if (error.response.status === 401) { setMsg2(error.response.data.msg); setUsername('')}
             else
                 window.alert(error.response.data.msg);
         };
@@ -66,14 +64,14 @@ const Register = () => {
 
                         <div className="form-group mb-3">
                             <label htmlFor="id">Student ID</label>
-                            <input type="text" id="id" name="id" pattern="[0-9]{9}" required className="form-control" style={{ borderRadius: 0 }} value={id} onChange={(e) => setID(e.target.value)} />
+                            <input type="text" id="id" name="id" pattern="[0-9]{9}" required className="form-control" style={{ borderRadius: 0 }} value={id} onChange={(e) => {setID(e.target.value); setMsg1('')}} />
                             <p style={{ fontFamily: 'actor', color: 'var(--vista)', fontSize: '13px' }}>{msg1}</p>
                         </div>
 
                         <div className="form-group mb-3">
                             <label htmlFor="email">Email</label>
                             <div className="input-group">
-                                <input type="text" id="email" name="email" required className="form-control" style={{ borderRadius: 0 }} value={email} onChange={(e) => setEmail(e.target.value)} />
+                                <input type="text" id="email" name="email" required className="form-control" style={{ borderRadius: 0 }} value={email} onChange={(e) => {setEmail(e.target.value);  setMsg3('')}} />
                                 <div className="input-group-append">
                                     <span className="input-group-text" style={{ borderRadius: 0 }}>@iut-dhaka.edu</span>
                                 </div>
@@ -83,7 +81,7 @@ const Register = () => {
 
                         <div className="form-group mb-3">
                             <label htmlFor="username">Username</label>
-                            <input type="text" id="username" name="username" minLength="3" required className="form-control" style={{ borderRadius: 0 }} value={username} onChange={(e) => setUsername(e.target.value)} />
+                            <input type="text" id="username" name="username" minLength="3" required className="form-control" style={{ borderRadius: 0 }} value={username} onChange={(e) => {setUsername(e.target.value);  setMsg2('')}} />
                             <p style={{ fontFamily: 'actor', color: 'var(--vista)', fontSize: '13px' }}>{msg2}</p>
                         </div>
 

@@ -10,6 +10,7 @@ import logo from '../static/pencil.svg';
 
 const Header = () => {
     const [username, setUsername] = useState(null);
+    const [user, setUser] = useState('')
     const [token, setToken] = useState('');
     const [expire, setExpire] = useState('');
     const history = useHistory();
@@ -26,7 +27,12 @@ const Header = () => {
                 const decoded = jwt_decode(response.data.accessToken);
                 setUsername(decoded.username);
                 setExpire(decoded.exp);
-                toast.success("Welcome back, " + decoded.username + "!");
+                axios.get('http://localhost:5000/getuser', {
+                })
+                    .then(function (res1) {
+                        console.log('header', res1.data);
+                        setUser(res1.data);
+                    })
             })
             .catch(error => {
                 if (error.response) {
@@ -63,25 +69,33 @@ const Header = () => {
     }
 
 
-    const homeButton = async () => {
+    const homeButton = async (e) => {
+        e.preventDefault()
         history.push("./home");
     }
-    const profileButton = async () => {
+    const profileButton = async (e) => {
+        e.preventDefault()
         history.push("./profile");
     }
-    const groupButton = async () => {
-        history.push("./group");
+    const groupButton = async (e) => {
+        e.preventDefault()
+        if (user.class_group) {
+            history.push('./group');
+        }
     }
-    const clubButton = async () => {
-        history.push('./club');
+    const clubButton = async (e) => {
+        e.preventDefault()
+        history.push('./clubmenu');
     }
-    const shopButton = async () => {
+    const shopButton = async (e) => {
+        e.preventDefault()
         history.push("./shop");
     }
     const supportButton = async () => {
         history.push("./support");
     }
 
+    if(user){
     return (
         <div className='sticky-top marker' style={{ backgroundColor: 'var(--crystal)' }}>
             <nav className="navbar">
@@ -90,7 +104,7 @@ const Header = () => {
                         <i className="fa fa-solid fa-bars fa-xl" ></i>
                     </button>
 
-                    <a className="navbar-brand" onClick={homeButton}><img src={logo} alt="Logo" width="30" height="24" className="d-inline-block align-text-top" />Not So Classroom</a>
+                    <a href='/#' className="navbar-brand" onClick={homeButton}><img src={logo} alt="Logo" width="30" height="24" className="d-inline-block align-text-top" />Not So Classroom</a>
                     <div>
                         <label> {username}, &ensp; </label>
                         <button onClick={Logout} style={{ backgroundColor: 'transparent', border: 'none' }}>
@@ -102,7 +116,7 @@ const Header = () => {
 
             <div className="offcanvas offcanvas-start" style={{ maxWidth: '25%', backgroundColor: 'var(--crystal)' }} data-bs-scroll="true" tabIndex="-1" id="offcanvasSidenav">
 
-                <div className="offcanvas-header p-4" style={{ maxHeight: '45px'}}>
+                <div className="offcanvas-header p-4" style={{ maxHeight: '45px' }}>
                     <h5 className="offcanvas-title">Ahoy there, {username}!</h5>
                     <button type="button" className="btn-close" data-bs-dismiss="offcanvas">
                     </button>
@@ -113,32 +127,32 @@ const Header = () => {
                         <ul className="navbar-nav gap-2">
                             <li>
                                 <button type="button" className="btn btn-light btn-block text-center" data-bs-dismiss="offcanvas" onClick={homeButton}>
-                                    <a>Home</a>
+                                    <a href='/#'>Home</a>
                                 </button>
                             </li>
                             <li >
                                 <button type="button" className="btn btn-light btn-block text-center" data-bs-dismiss="offcanvas" onClick={profileButton}>
-                                    <a>Profile</a>
+                                    <a href='/#'>Profile</a>
                                 </button>
                             </li>
                             <li>
                                 <button type="button" className="btn btn-light btn-block text-center" data-bs-dismiss="offcanvas" onClick={groupButton}>
-                                    <a>Group</a>
+                                    <a href='/#'>Group</a>
                                 </button>
                             </li>
                             <li>
                                 <button type="button" className="btn btn-light btn-block text-center" data-bs-dismiss="offcanvas" onClick={clubButton}>
-                                    <a>Clubs</a>
+                                    <a href='/#'>Clubs</a>
                                 </button>
                             </li>
                             <li >
                                 <button type="button" className="btn btn-light btn-block text-center" data-bs-dismiss="offcanvas" onClick={shopButton}>
-                                    <a>Shop</a>
+                                    <a href='/#'>Shop</a>
                                 </button>
                             </li>
                             <li>
                                 <button type="button" className="btn btn-light btn-block text-center" data-bs-dismiss="offcanvas" onClick={supportButton}>
-                                    <a >Support</a>
+                                    <a href='/#'>Support</a>
                                 </button>
                             </li>
 
@@ -172,7 +186,7 @@ const Header = () => {
                 </div>
             </div>
         </div>
-    )
+    )}
 }
 
 export default Header
