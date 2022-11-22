@@ -34,6 +34,7 @@ router.post('/addproduct', addProduct);
 router.get('/token', refreshToken);
 
 router.get('/profile', userprofile);
+// router.get('/crverify', CR_verification);
 
 router.post('/login', Login);
 router.delete('/logout', Logout);

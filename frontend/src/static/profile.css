@@ -72,6 +72,18 @@ header{
     position: relative;
     left: 350px;
     bottom: 25px;
+    font-weight: bold;
+    font-style: normal;
+    letter-spacing: 2px;
+}
+
+.id{
+    position: relative;
+    left: 350px;
+    bottom: 25px;
+    font-weight: bold;
+    font-style: normal;
+    letter-spacing: 2px;
 }
 
 #section1{

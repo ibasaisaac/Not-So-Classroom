@@ -1,41 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import '../static/profile.css';
 
-
-import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-import jwt_decode from "jwt-decode";
+
 import 'react-toastify/dist/ReactToastify.css'; 
-import { ToastContainer, toast } from 'react-toastify';
+
+import CR_verification from './cr_verification';
+
+//import { ToastContainer, toast } from 'react-toastify';
 
 
 const Profile = () => {
 
-    const [username, setUsername] = useState("");
-    const [name, setName] = useState("");
-    const [userId, setStudentID] = useState("");
-    const [email, setEmail] = useState("");
-    //const [token, setToken] = useState('');
-    //const [expire, setExpire] = useState('');
-    //const history = useHistory();
-    
+    //const [isLoading, setIsLoading] = useState(false);
+    const [username, setUsername] = useState('');
+    const [name, setName] = useState('');
+    const [student_id, setStudentID] = useState('');
+    const [email, setEmail] = useState('');
+    const [user, setUser] = useState('');
+
+    // const [msg1, setMsg1] = useState('');
+    // const [msg2, setMsg2] = useState('');
+    // const [msg3, setMsg3] = useState('');
+     const [popUp, setPopUp] = useState(false);
+
     useEffect(() => {
-        userprofile();
+        userprofile()
     }, []);
 
 
     const userprofile = async () => {
-         axios.get('http://localhost:5000/token')
-            .then((response) => {
-                //setToken(response.data.accessToken);
-                const decoded = jwt_decode(response.data.accessToken);
-                setUsername(decoded.username);
-                setStudentID(decoded.userId);
-                setEmail(decoded.email);
-                setName(decoded.name);
-                //setExpire(decoded.exp);
-                //toast.success("Welcome back, " + decoded.username + "!");
+         axios.get('http://localhost:5000/getUser', {
+        })
+            .then((resp) => {
+                setUser(resp.data);
+                //setStudentID(resp.data.student_id);
+                //console.log(resp.data);
             })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+    const handlePopup = async () => {
+        setPopUp(true);
     }
 
     return (
@@ -47,8 +54,8 @@ const Profile = () => {
                         <p className="p">Change</p>
                 </div>
                 <div>
-                    <p className="id" style={{ fontFamily: 'comfortaa' }}>{userId}</p>
-                    <p className="ib" style={{ fontFamily: 'comfortaa' }}>@{username}</p>
+                    <p className="id" style={{ fontFamily: 'comfortaa' }}>{user.student_id}</p>
+                    <p className="ib" style={{ fontFamily: 'actor' }}>@{user.username}</p>
                 </div>
             </header>
 
@@ -56,14 +63,18 @@ const Profile = () => {
                 <div className="container">
                     <p className="role">Role:</p>
                     <button className="btnn btn1">Student</button>
-                    <a href="/#section2" className="btnn btn2">CR</a>
-                    <a href="/#section3" className="btnn btn3">Club Moderator</a>
-                    <a href="/#" style={{color: 'black', position: 'relative', left: '20px'}}>Ask role access</a>
+                    <a href="#section2" className="btnn btn2">CR</a>
+                    <a href="#section3" className="btnn btn3">Club Moderator</a>
+                    <a href="#" style={{color: 'black', position: 'relative', left: '20px'}}
+                         onClick={handlePopup}
+                        >Ask role access</a>
+                        
+                    
                 </div>
 
                 <div className="emm">
                     <p className="email" style={{margin: '20px', display: 'inline'}}>Email: </p>
-                    <p className="em" style={{margin: '20px', display: 'inline'}}>{email}</p>
+                    <p className="em" style={{margin: '20px', display: 'inline'}}>{user.email}</p>
                 </div>
 
                 <div className="pp">
@@ -84,6 +95,7 @@ const Profile = () => {
                     <div className="background"></div>
                 </div>
             </div>
+            {popUp && <CR_verification setPopUp={setPopUp} />}
 
             <div id="section2">
                 <h5 style={{position: 'relative', left: '22%', top: '82.5px'}}>My Groups</h5>

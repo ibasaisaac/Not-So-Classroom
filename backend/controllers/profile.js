@@ -1,5 +1,9 @@
 import { QueryTypes } from 'sequelize';
-import db from '../config/database.js'
+import db from '../config/database.js';
+import User from "../models/userModel.js";
+import Student from "../models/studentModel.js";
+import cr from "../models/cr_verifyModel.js";
+
 
 export const userprofile = async (req, res) => {
     try {
@@ -8,36 +12,51 @@ export const userprofile = async (req, res) => {
           );
             res.json(results);
 
-
-
-        //const id = req.params.student_id;
-        // const basicInfo = await User.findByPk(id, {
-        //     attributes: {exclude: ['password']}}
-        // );
-        // db.query('select * from users where student_id=?',
-        // [student_id],
-        // (erre,results,fields)=>{
-        //     if(error){
-        //         console.log("error while getting user details"+error);
-        //         res.send({
-        //             "code": 400,
-        //             "failed": "error occurred"
-        //         });
-        //     }
-        //     else{
-        //         if (results.length > 0) {
-        //             const profile = results[0]
-                   
-        //             console.log(profile.id)
-        //             res.render("profilepage",{user:profile});
-        //             } else {
-        //              console.log('unable to retrieve a profile')
-        //             }
-        //     }
-        // })
-        // res.json(basicInfo);
-
     } catch (error) {
         console.log(error);
+    }
+}
+
+export const roleVerification = async (req, res) => {
+    if (req.body.otp == otp) {
+        destroyOTP();
+
+        const user = await User.findOne({
+            attributes: ['username'],
+            where: {
+                email: email
+            }
+        });
+        if (!user) {
+            const salt = await bcrypt.genSalt();
+            const hashPassword = await bcrypt.hash(password, salt);
+            await User.create({
+                student_id: id,
+                email: email,
+                username: username,
+                password: hashPassword
+            });
+        }
+        else {
+            const salt = await bcrypt.genSalt();
+            const hashPassword = await bcrypt.hash(req.body.password, salt);
+            await User.update({
+                password: hashPassword
+            }, {
+                where: {
+                    email: email
+                }
+            });
+        }
+
+        console.log("success");
+        res.status(200).json({ msg: "OTP verified" });
+        // res.status(200).json({ msg: "Registration Successful" }); 
+    }
+    else if (otp == null) {
+        res.status(402).json({ msg: "OTP expired" });
+    }
+    else {
+        res.status(402).json({ msg: "Wrong OTP" });
     }
 }
