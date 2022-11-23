@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../static/profile.css';
+import Calendar from 'react-calendar'
 
 import axios from 'axios';
 
@@ -13,16 +14,12 @@ import CR_verification from './cr_verification';
 const Profile = () => {
 
     //const [isLoading, setIsLoading] = useState(false);
-    const [username, setUsername] = useState('');
-    const [name, setName] = useState('');
-    const [student_id, setStudentID] = useState('');
-    const [email, setEmail] = useState('');
     const [user, setUser] = useState('');
+    const [date , setdate] = useState('');
+    const [time , settime] = useState('');
+    const [text, setText] = useState('');
 
-    // const [msg1, setMsg1] = useState('');
-    // const [msg2, setMsg2] = useState('');
-    // const [msg3, setMsg3] = useState('');
-     const [popUp, setPopUp] = useState(false);
+    const [popUp, setPopUp] = useState(false);
 
     useEffect(() => {
         userprofile()
@@ -68,8 +65,6 @@ const Profile = () => {
                     <a href="#" style={{color: 'black', position: 'relative', left: '20px'}}
                          onClick={handlePopup}
                         >Ask role access</a>
-                        
-                    
                 </div>
 
                 <div className="emm">
@@ -101,30 +96,48 @@ const Profile = () => {
                 <h5 style={{position: 'relative', left: '22%', top: '82.5px'}}>My Groups</h5>
                 <div className="sec2">
                     <p style={{position: 'relative', left: '5%', top: '35px'}}>Add Event:</p>
-
-                    <div className="room">
-                        <p className="r">302</p>
+                    <div id="block">
+                        <div id="roomblock" className="room">
+                            <select className="form-control custom-select" 
+                            style={{ backgroundColor: 'white', border: 'none' }}
+                            //onChange={this.handleInputChange}
+                            >
+                                <option selected>Select Room</option>
+                                <option value="301">301</option>
+                                <option value="302">302</option>
+                                <option value="105">105</option>
+                                <option value="106">106</option>
+                            </select>
+                        </div>
+                        <div id="placeblock" className="clc">
+                            <select className="form-control custom-select" 
+                            style={{ backgroundColor: 'white', border: 'none' }}
+                            //onChange={this.handleInputChange}
+                            >
+                                <option selected>Select Place</option>
+                                <option value="AB2">AB2</option>
+                                <option value="AB3">AB3</option>
+                            </select>
+                        </div>
+                        <div id="timeblock" className="dt">
+                            <input type="date" style={{ backgroundColor: 'white', border: 'none' }}
+                            onChange={(e)=>{setdate(e.target.value);alert(date)} }  />  
+                        </div>
+                        <div id="timeblock" className="dt">
+                            <input type="time" style={{ backgroundColor: 'white', border: 'none' }}
+                                className="start-time"
+                                onChange={(e)=>{settime(e.target.value);alert(time)} } 
+                                /> 
+                        </div>
                     </div>
-
-                    <div className="date">
-                        <p className="d">8.00 pm -- 13.09.22</p>
-                    </div>
-
-                    <div className="details">
-                        <p className="dd">CSE 4511 - Chapter 5</p>
-                    </div>
-
-                    <div className="clc">
-                        <button className="click">Place</button>
-                        <div className="list">
-                            <button className="links">AB1</button>
-                            <button className="links">AB2</button>
-                            <button className="links">AB3</button></div>
+                    <div  style={{ display: 'flex', alignItems: 'center' }}>
+                         <textarea rows="2" className="form-control details" style={{ resize: 'none' }} placeholder="Add Details" 
+                         value={text} onChange={(e) => setText(e.target.value)} ></textarea>
                     </div>
                 </div>
-
                 <div className="enter">
-                    <button className="e">Enter</button>
+                    <button type="submit" className="btn btn-primary" 
+                    style={{ backgroundColor: 'var(--vista)' }}>Enter</button>
                 </div>
 
             </div>
@@ -134,30 +147,49 @@ const Profile = () => {
                 <div className="sec3">
                     <p style={{position: 'relative', left: '5%', top: '15px'}}>Add Event:</p>
 
-                    <div className="croom">
-                        <p className="cr">302</p>
-                    </div>
-
-                    <div className="cdate">
-                        <p className="cd">8.00 pm -- 13.09.22</p>
-                    </div>
-
-                    <div className="cdetails">
-                        <p className="cdd">App Development</p>
-                    </div>
-
-                    <div className="clc1">
-                        <button className="click1">Place</button>
-                        <div className="list1">
-                            {/* <button className="links1">AB1</button>
-                            <button className="links1">AB2</button>
-                            <button className="links1">AB3</button>  */}
+                    
+                    <div id="block">
+                        <div id="roomblock" className="room">
+                            <select className="form-control custom-select" 
+                            style={{ backgroundColor: 'white', border: 'none' }}
+                            //onChange={this.handleInputChange}
+                            >
+                                <option selected>Select Room</option>
+                                <option value="301">301</option>
+                                <option value="302">302</option>
+                                <option value="105">105</option>
+                                <option value="106">106</option>
+                            </select>
+                        </div>
+                        <div id="placeblock" className="clc">
+                            <select className="form-control custom-select" 
+                            style={{ backgroundColor: 'white', border: 'none' }}
+                            //onChange={this.handleInputChange}
+                            >
+                                <option selected>Select Place</option>
+                                <option value="AB2">AB2</option>
+                                <option value="AB3">AB3</option>
+                            </select>
+                        </div>
+                        <div id="timeblock" className="dt">
+                            <input type="date" style={{ backgroundColor: 'white', border: 'none' }}
+                            onChange={(e)=>{setdate(e.target.value);alert(date)} }  />  
+                        </div>
+                        <div id="timeblock" className="dt">
+                            <input type="time" style={{ backgroundColor: 'white', border: 'none' }}
+                                className="start-time"
+                                onChange={(e)=>{settime(e.target.value);alert(time)} } 
+                            /> 
                         </div>
                     </div>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                         <textarea rows="2" className="form-control details" style={{ resize: 'none' }} placeholder="Add Details" 
+                         value={text} onChange={(e) => setText(e.target.value)} ></textarea>
+                    </div>
                 </div>
-
-                <div className="enter1">
-                    <button className="e1">Enter</button>
+                <div className="enter">
+                    <button type="submit" className="btn btn-primary" 
+                    style={{ backgroundColor: 'var(--vista)' }}>Enter</button>
                 </div>
             </div>
         </div >
