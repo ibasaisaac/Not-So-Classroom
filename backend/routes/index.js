@@ -4,8 +4,7 @@ import { submitPost, editPost, deletePost, showPost, editComment, submitComment,
 import { verifyToken } from "../middleware/verifyToken.js";
 import { refreshToken } from "../controllers/refreshToken.js";
 
-import { userprofile } from "../controllers/profile.js";
-
+import { userprofile, CR_verification, createEvent, changedp} from "../controllers/profile.js";
 
 const router = express.Router();
  
@@ -34,7 +33,9 @@ router.post('/addproduct', addProduct);
 router.get('/token', refreshToken);
 
 router.get('/profile', userprofile);
-// router.get('/crverify', CR_verification);
+router.post('/cr_verify', CR_verification);
+router.post('/postevent',createEvent);
+router.post('/dp',changedp);
 
 router.post('/login', Login);
 router.delete('/logout', Logout);
