@@ -17,40 +17,64 @@ const imgconfig = multer.diskStorage({
       callBack(null, 'uploads/')
     },
     filename: (req, file, callBack) => {
-      callBack(null, Date.now() + '-' + 'profile-' + file.originalname)
+    //   callBack(null, Date.now() + '-' + file.originalname)
+    callBack(null, Date.now() + '-' + 'profile-' + file.originalname)
     }
   })
 
-const upload = multer({ 
-  storage: imgconfig 
-}).single("photo");
+const upload = multer({ storage: imgconfig }).single('photo')
+
 
 export const changedp = async (req, res) => {
+  let filename;
+
   upload(req, res, (err) => {
-     console.log(req.file)
-     console.log("back")
-     const {filename} = req.file;
-    // //student_id = req.body.student_id;
-    // //let filename;
-    // filename = 'http://localhost:5000/uploads/' + req.file.filename;
-
-    try {
-      User.update({
-        dp: filename
-    }, {
-        where: {
-            student_id: req.body.id
-        }
-    })
-        .then(function () {
-            return res.status(200).json({ msg: "success" });
-        })
-    } catch (error) {
-      res.status(422).json({status: 422, error})
+    if (err) {
+      console.log(err)
     }
+    else {
 
+      if (req.file == undefined) {
+        filename = '';
+        console.log('here')
+      }
+      else {
+        filename = 'http://localhost:5000/uploads/' + req.file.filename;
+      }
+
+      try {
+        console.log(filename)
+            User.update({
+              dp: filename
+          }, {
+              where: {
+                  student_id: req.body.op_id
+              }
+          })
+              .then(function () {
+                  return res.status(200).json({ msg: "success" });
+              })
+          } catch (error) {
+            res.status(422).json({status: 422, error})
+          }
+    }
   })
 }
+
+export const showdp  = async (req, res) => {
+  try {
+    const results = await User.findOne({
+      attributes: ['dp'],
+      where: {
+        student_id: req.body.id
+      }
+    });
+    res.json(results);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 
 export const createEvent = async (req, res) => {
     var newEventID
