@@ -3,21 +3,22 @@ import db from "../config/database.js";
 
 const { DataTypes } = Sequelize;
 
-const cr = db.define('cr_verify', {
-    cr_cnt: {
+const Role = db.define('role_verify', {
+    role_id: {
         type: DataTypes.INTEGER,
-        primaryKey: true
+        primaryKey: true,
+        autoIncrement: true
     },
     student_id: {
         type: DataTypes.INTEGER
     },
-    dept: {
+    role: {
         type: DataTypes.STRING
     },
-    batch: {
+    class_group: {
         type: DataTypes.INTEGER
     },
-    section: {
+    club_id: {
         type: DataTypes.INTEGER
     }
 }, {
@@ -29,4 +30,4 @@ const cr = db.define('cr_verify', {
     await db.sync();
 })();
 
-export default cr;
+export default Role;
