@@ -23,7 +23,7 @@ header{
     left: 160px;
     border: 2px solid white;
     border-radius: 50%;
-    background: url('profile_pic.png');
+    /* background: url('profile_pic.png'); */
     background-size: 100% 100%;
     overflow: hidden;
 }
@@ -87,35 +87,88 @@ header{
 }
 
 #section1{
-    height: 500px;
+    height: 31.25rem;
     background: white;
     display: inline-block;
     width: 100%;
 }
 
 #section2{
-    height: 500px;
-    background: white;
-    display: inline-block;
-    width: 100%;
+    margin-top: 25%;
+    align-content: center;
 }
 
 .sec2{
-    height: 250px;
-    width: 60%;
+    height: 100%;
+    width: 65%;
     color: black;
     background-color: #dadada;
     position: relative;
     left: 20%;
-    top: 90px;
+}
+
+#roomblock,#placeblock,#timeblock{
+    display:inline-block;
+}
+
+#detailsblock, #entergblock{
+    display: inline-block;
 }
 
 .clc{
-    width: 200px;
-    height: 30px;
+    width: 15%;
+    height: 10%;
     position: relative;
-    left: 150px;
-    bottom: 221px;
+    left: 10%;
+    bottom: 20%;
+}
+.room{
+    width: 15%;
+    height: 10%;
+    position: relative;
+    bottom: 15%;
+    left: 45%;
+}
+.d{
+    width: 15%;
+    height: 10%;;
+    position: relative;
+    bottom: 15%;
+    left: 35%;
+    border-radius: 10%;
+}
+.t{
+    width: 15%;
+    height: 10%;;
+    position: relative;
+    bottom: 15%;
+    left: 40%;
+    border-radius: 10%;
+}
+
+.details{
+    width: 40%;
+    height: 100%;
+    position: relative;
+    background-color: white;
+    bottom: 0%;
+    left: 25%;
+    margin-top: 5%;
+}
+.cdetails{
+    width: 21rem;
+    height: 6.8rem;
+    position: relative;
+    background-color: white;
+    bottom: 0;
+    left: 20%;
+}
+
+
+.dd{
+    position: relative;
+    left: 35px;
+    top: 10px
 }
 
 .click{
@@ -156,55 +209,20 @@ header{
     transform: scale(1.1);
 }
 
-.room{
-    width: 100px;
-    height: 48px;
-    position: relative;
-    background-color: white;
-    bottom: 15px;
-    left: 37.5%;
-}
-
 .r{
     position: relative;
     left: 35px;
     top: 10px
 }
 
-.date{
-    width: 200px;
-    height: 48px;
+.enterg{
     position: relative;
-    background-color: white;
-    bottom: 62.5px;
-    left: 55%;
+    left: 70%;
 }
 
-.d{
+.enterc{
     position: relative;
-    left: 35px;
-    top: 10px
-}
-
-.details{
-    width: 350px;
-    height: 110px;
-    position: relative;
-    background-color: white;
-    bottom: 30px;
-    left: 20%;
-}
-
-.dd{
-    position: relative;
-    left: 35px;
-    top: 10px
-}
-
-.enter{
-    position: relative;
-    left: 61.75%;
-    bottom: -5px;
+    left: 70%;
 }
 
 .e{
@@ -217,20 +235,17 @@ header{
 }
 
 #section3{
-    height: 500px;
-    background: white;
-    display: inline-block;
-    width: 100%;
+    margin-top: 15%;
+    align-content: center;
 }
 
 .sec3{
-    height: 250px;
-    width: 60%;
+    height: 100%;
+    width: 65%;
     color: black;
     background-color: #dadada;
     position: relative;
     left: 20%;
-    top: 90px;
 }
 
 .clc1{
@@ -308,16 +323,6 @@ header{
     left: 35px;
     top: 10px
 }
-
-.cdetails{
-    width: 350px;
-    height: 110px;
-    position: relative;
-    background-color: white;
-    bottom: 30px;
-    left: 20%;
-}
-
 .cdd{
     position: relative;
     left: 35px;

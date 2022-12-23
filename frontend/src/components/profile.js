@@ -65,7 +65,7 @@ const Profile = () => {
 
     const createEvent = async (e) => {
         e.preventDefault();
-        axios.get('http://localhost:5000/postevent', {
+        axios.post('http://localhost:5000/postevent', {
             place: event.place,
             room: event.room,
             date: event.date,
@@ -181,9 +181,10 @@ const Profile = () => {
 
             <div id="section2">
                 <form onSubmit={createEvent}>
-                    <h5 style={{ position: 'relative', left: '22%', top: '82.5px' }}>My Groups</h5>
+                    <h5 style={{ position: 'relative', left: '22%', height: '100%', width: '100%',
+                        background: 'white'}}>My Groups</h5>
                     <div className="sec2">
-                        <p style={{ position: 'relative', left: '5%', top: '35px' }}>Add Event:</p>
+                        <p style={{ position: 'relative', left: '5%' }}>Add Event:</p>
                         <div id="block">
                             <div id="roomblock" className="room">
                                 <select defaultValue={0} className="form-control custom-select" id="room"
@@ -208,81 +209,88 @@ const Profile = () => {
                                 </select>
                             </div>
 
-                            <div id="timeblock" className="dt">
+                            <div id="timeblock" className="d">
                                 <input type="date" style={{ backgroundColor: 'white', border: 'none' }}
                                     onChange={(e) => setEvent({ ...event, date: e.target.value })} />
                             </div>
-                            <div id="timeblock" className="dt">
+                            <div id="timeblock" className="t">
                                 <input type="time" style={{ backgroundColor: 'white', border: 'none' }}
                                     className="start-time"
                                     onChange={(e) => setEvent({ ...event, time: e.target.value })} />
                             </div>
                         </div>
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <textarea rows="2" className="form-control details" style={{ resize: 'none' }} placeholder="Add Details"
-                                value={text} onChange={(e) => setText(e.target.value)} ></textarea>
+                        <div id="block">
+                            <div id="detailsblock" style={{ display: 'flex'}}>
+                                <textarea rows="3" className="form-control details" 
+                                style={{ resize: 'none' }} placeholder="Add Details"
+                                    value={text} onChange={(e) => setText(e.target.value)} ></textarea>
+                            </div>
+                            <div id="entergblock" className="enterg">
+                                <button type="submit" className="btn btn-primary"
+                                style={{ backgroundColor: 'var(--vista)' }}>Enter</button>
+                            </div>
                         </div>
                     </div>
-                    <div className="cat">
-                        {/* onChange={(e) => setEvent({ ...event, category: 'Quiz' })} */}
-                    </div>
-                    <div className="enter">
-                        <button type="submit" className="btn btn-primary"
-                            style={{ backgroundColor: 'var(--vista)' }}>Enter</button>
-                    </div>
+                    
                 </form>
 
             </div>
 
             <div id="section3">
-                <h5 style={{ position: 'relative', left: '22%', top: '82.5px' }}>My Clubs</h5>
-                <div className="sec3">
-                    <p style={{ position: 'relative', left: '5%', top: '15px' }}>Add Event:</p>
+                <form onSubmit={createEvent}>
+                    <h5 style={{ position: 'relative', left: '22%', height: '100%', width: '100%',
+                        background: 'white'}}>My Clubs</h5>
+                    <div className="sec3">
+                        <p style={{ position: 'relative', left: '5%' }}>Add Event:</p>
+                        <div id="block">
+                            <div id="roomblock" className="room">
+                                <select defaultValue={0} className="form-control custom-select" id="room"
+                                    style={{ backgroundColor: 'white', border: 'none' }}
+                                    //onChange={this.handleInputChange}
+                                    onChange={(e) => setEvent({ ...event, room: e.target.value })}>
+                                    <option value={0}>Select Room</option>
+                                    {progs.map((p) => (
+                                        <option value={p}>{p}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div id="placeblock" className="clc">
 
+                                <select defaultValue={0} className="form-control custom-select" id="place"
+                                    style={{ backgroundColor: 'white', border: 'none' }}
+                                    //onChange={this.handleInputChange}
+                                    onChange={(e) => handleProg(e.target.value)}>
+                                    <option value={0}>Select Place</option>
+                                    <option value="AB2">AB2</option>
+                                    <option value="AB3">AB3</option>
+                                </select>
+                            </div>
 
-                    <div id="block">
-                        <div id="roomblock" className="room">
-                            <select defaultValue={0} className="form-control custom-select" id="room"
-                                style={{ backgroundColor: 'white', border: 'none' }}
-                            //onChange={this.handleInputChange}
-                            >
-                                <option selected>Select Room</option>
-                                <option value="301">301</option>
-                                <option value="302">302</option>
-                                <option value="105">105</option>
-                                <option value="106">106</option>
-                            </select>
+                            <div id="timeblock" className="d">
+                                <input type="date" style={{ backgroundColor: 'white', border: 'none' }}
+                                    onChange={(e) => setEvent({ ...event, date: e.target.value })} />
+                            </div>
+                            <div id="timeblock" className="t">
+                                <input type="time" style={{ backgroundColor: 'white', border: 'none' }}
+                                    className="start-time"
+                                    onChange={(e) => setEvent({ ...event, time: e.target.value })} />
+                            </div>
                         </div>
-                        <div id="placeblock" className="clc">
-                            <select className="form-control custom-select"
-                                style={{ backgroundColor: 'white', border: 'none' }}
-                            //onChange={this.handleInputChange}
-                            >
-                                <option selected>Select Place</option>
-                                <option value="AB2">AB2</option>
-                                <option value="AB3">AB3</option>
-                            </select>
-                        </div>
-                        <div id="timeblock" className="dt">
-                            <input type="date" style={{ backgroundColor: 'white', border: 'none' }}
-                                onChange={(e) => { setdate(e.target.value); alert(date) }} />
-                        </div>
-                        <div id="timeblock" className="dt">
-                            <input type="time" style={{ backgroundColor: 'white', border: 'none' }}
-                                className="start-time"
-                                onChange={(e) => { settime(e.target.value); alert(time) }}
-                            />
+                        <div id="block">
+                            <div id="detailsblock" style={{ display: 'flex'}}>
+                                <textarea rows="3" className="form-control details" 
+                                style={{ resize: 'none' }} placeholder="Add Details"
+                                    value={text} onChange={(e) => setText(e.target.value)} ></textarea>
+                            </div>
+                            <div id="entergblock" className="enterg">
+                                <button type="submit" className="btn btn-primary"
+                                style={{ backgroundColor: 'var(--vista)' }}>Enter</button>
+                            </div>
                         </div>
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <textarea rows="2" className="form-control details" style={{ resize: 'none' }} placeholder="Add Details"
-                            value={text} onChange={(e) => setText(e.target.value)} ></textarea>
-                    </div>
-                </div>
-                <div className="enter">
-                    <button type="submit" className="btn btn-primary"
-                        style={{ backgroundColor: 'var(--vista)' }}>Enter</button>
-                </div>
+                    
+                </form>
+
             </div>
             {popUp && <CR_verification setPopUp={setPopUp} setUser={user} />}
         </div >
