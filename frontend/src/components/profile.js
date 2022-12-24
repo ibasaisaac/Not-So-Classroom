@@ -70,11 +70,14 @@ const Profile = () => {
             room: event.room,
             date: event.date,
             time: event.time,
-            details: event.details
+            details: event.details,
+            category: 'quiz',
+            student_id: user.student_id
         })
             .then(res => {
                 if (res.status === 200) {
                     toast.success('Event created')
+                    setEvent({room:'',date:'',time:'',details:''})
                     var newEvent = [res.data, ...event]
                     setEvent(newEvent);
                 }
@@ -223,7 +226,7 @@ const Profile = () => {
                             <div id="detailsblock" style={{ display: 'flex'}}>
                                 <textarea rows="3" className="form-control details" 
                                 style={{ resize: 'none' }} placeholder="Add Details"
-                                    value={text} onChange={(e) => setText(e.target.value)} ></textarea>
+                                    value={event.details} onChange={(e) => setEvent({ ...event, details: e.target.value })} ></textarea>
                             </div>
                             <div id="entergblock" className="enterg">
                                 <button type="submit" className="btn btn-primary"

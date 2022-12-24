@@ -84,10 +84,11 @@ export const createEvent = async (req, res) => {
             time: req.body.time,
             place: req.body.place,
             room: req.body.room,
-            //category: 'Quiz',
+            category: req.body.category,
             //group_id: ,
             //club_id: ,
-            details: req.body.details
+            details: req.body.details,
+            student_id: req.body.student_id
         })
         .then(function (response) {
             newEventID = response.null
@@ -143,6 +144,5 @@ export const CR_verification = async (req, res) =>{
     }
     catch (error) { console.log(error) }
 }
-
 
 
