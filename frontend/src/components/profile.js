@@ -63,7 +63,7 @@ const Profile = () => {
             })
     }
 
-    const createEvent = async (e) => {
+    const createGroupEvent = async (e) => {
         e.preventDefault();
         axios.post('http://localhost:5000/postevent', {
             place: event.place,
@@ -86,6 +86,31 @@ const Profile = () => {
                 console.log(error);
             })
     }
+
+    const createClubEvent = async (e) => {
+        e.preventDefault();
+        axios.post('http://localhost:5000/postevent', {
+            place: event.place,
+            room: event.room,
+            date: event.date,
+            time: event.time,
+            details: event.details,
+            category: 'club',
+            student_id: user.student_id
+        })
+            .then(res => {
+                if (res.status === 200) {
+                    toast.success('Event created')
+                    setEvent({place:'',room:'',date:'',time:'',details:''})
+                    var newEvent = [res.data, ...event]
+                    setEvent(newEvent);
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+
     const handlePopup = async () => {
         setPopUp(true);
     }
@@ -192,9 +217,9 @@ const Profile = () => {
             </div>
 
             <div id="section2">
-                <form onSubmit={createEvent}>
+                <form onSubmit={createGroupEvent}>
                     <h5 style={{ position: 'relative', left: '22%', height: '100%', width: '100%',
-                        background: 'white'}}>My Groups</h5>
+                        background: 'white'}}>My Group</h5>
                     <div className="sec2">
                         <p style={{ position: 'relative', left: '5%' }}>Add Event:</p>
                         <div id="block">
@@ -248,10 +273,10 @@ const Profile = () => {
             </div>
 
             <div id="section3">
-                <form onSubmit={createEvent}>
+            <form onSubmit={createClubEvent}>
                     <h5 style={{ position: 'relative', left: '22%', height: '100%', width: '100%',
-                        background: 'white'}}>My Clubs</h5>
-                    <div className="sec3">
+                        background: 'white'}}>My Club</h5>
+                    <div className="sec2">
                         <p style={{ position: 'relative', left: '5%' }}>Add Event:</p>
                         <div id="block">
                             <div id="roomblock" className="room">
@@ -291,11 +316,10 @@ const Profile = () => {
                             <div id="detailsblock" style={{ display: 'flex'}}>
                                 <textarea rows="3" className="form-control details" 
                                 style={{ resize: 'none' }} placeholder="Add Details"
-                                    value={text} onChange={(e) => setText(e.target.value)} ></textarea>
+                                    value={event.details} onChange={(e) => setEvent({ ...event, details: e.target.value })} ></textarea>
                             </div>
                             <div id="entergblock" className="enterg">
-                                <button type="submit" className="btn btn-primary"
-                                style={{ backgroundColor: 'var(--vista)' }}>Enter</button>
+                                <SubmitButton />                         
                             </div>
                         </div>
                     </div>

@@ -14,8 +14,14 @@ const Event = db.define('events', {
             return this.getDataValue('date').toLocaleString('en-GB');
         }
     },
+    time: {
+        type: DataTypes.TIME
+    },
     place: {
         type: DataTypes.STRING
+    },
+    room: {
+        type: DataTypes.INTEGER
     },
     category: {
         type: DataTypes.STRING
@@ -31,7 +37,7 @@ const Event = db.define('events', {
     title: {
         type: DataTypes.STRING
     },
-    info: {
+    details: {
         type: DataTypes.TEXT
     }
 

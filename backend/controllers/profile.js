@@ -136,7 +136,12 @@ export const CR_verification = async (req, res) =>{
                     }
                 })
                     .then(function () {
-                        return res.status(200).json({ msg: "success" });
+                      if(response.role === "cr"){
+                        return res.status(200).json({ msg: "CR verified!" });
+                      }
+                      else{
+                        return res.status(200).json({ msg: "Club Moderator verified!" });
+                      }
                     })
             })
             

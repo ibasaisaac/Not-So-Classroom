@@ -25,7 +25,7 @@ const CR_verification = props => {
                 if (res.status === 200) {
                     if (res.status === 200) {
                         setMsg(res.data.msg);
-                        toast.success("CR verified!");
+                        toast.success(res.data.msg);
                         console.log(89);
                         setPopUp(false);
                         history.push('./profile');
