@@ -79,28 +79,27 @@ export const showdp  = async (req, res) => {
 export const createEvent = async (req, res) => {
     var newEventID
     try {
+      const role = await Role.findOne({
+        attributes: ['class_group','club_id'],
+        where: {
+          student_id: req.body.student_id
+        }
+      });
         await Event.create({
             date: req.body.date,
             time: req.body.time,
             place: req.body.place,
             room: req.body.room,
             category: req.body.category,
-            //group_id: ,
-            //club_id: ,
+            group_id: role.class_group,
+            club_id: role.club_id,
             details: req.body.details,
-            student_id: req.body.student_id
         })
         .then(function (response) {
             newEventID = response.null
           })
           const newEvent = Event.findOne({
             attributes: ['date', 'time', 'place', 'room', 'details'],
-            include: [
-              {
-                model: User,
-                attributes: ['group_id','role']
-              }
-            ],
             where: {
               event_id: newEventID
             }

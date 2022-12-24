@@ -20,7 +20,7 @@ const Profile = () => {
     const [time, settime] = useState('');
     const [text, setText] = useState('');
     const [crRole, setCRbutton] = useState(false);
-    const [event, setEvent] = useState({ place: '', room: '', date: '', time: '', category: '', details: '' });
+    const [event, setEvent] = useState({ place: '', room: '', date: '', time:'' , details: '' });
     const [popUp, setPopUp] = useState(false);
     const [progs, setProgs] = useState([]);
     const [data, setdata] = useState(''); 
@@ -77,7 +77,7 @@ const Profile = () => {
             .then(res => {
                 if (res.status === 200) {
                     toast.success('Event created')
-                    setEvent({room:'',date:'',time:'',details:''})
+                    setEvent({place:'',room:'',date:'',time:'',details:''})
                     var newEvent = [res.data, ...event]
                     setEvent(newEvent);
                 }
@@ -128,8 +128,17 @@ const Profile = () => {
                 console.log(error);
             });
     }
+    function SubmitButton() {
+        if (event.date && event.details && event.place && event.room && event.time) {
+            return <button type="submit" className="btn btn-primary"
+            style={{ backgroundColor: 'var(--vista)' }}>Enter</button>   
+                    
+        } else {
+            return <button type="submit" disabled id="submit-button" className="btn btn-primary"
+            style={{ backgroundColor: 'var(--vista)' }}>Enter</button> 
 
-
+        };
+    };
 
     return (
         <div>
@@ -229,8 +238,7 @@ const Profile = () => {
                                     value={event.details} onChange={(e) => setEvent({ ...event, details: e.target.value })} ></textarea>
                             </div>
                             <div id="entergblock" className="enterg">
-                                <button type="submit" className="btn btn-primary"
-                                style={{ backgroundColor: 'var(--vista)' }}>Enter</button>
+                                <SubmitButton />                         
                             </div>
                         </div>
                     </div>
