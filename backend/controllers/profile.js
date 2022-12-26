@@ -6,6 +6,8 @@ import Role from "../models/role_verifyModel.js";
 import Event from "../models/eventModel.js";
 import { response } from 'express';
 import multer from 'multer';
+import bcrypt from "bcrypt";
+
 
 
 export const userprofile = async (req, res) => {
@@ -149,4 +151,35 @@ export const CR_verification = async (req, res) =>{
     catch (error) { console.log(error) }
 }
 
+export const ChangePassword = async (req, res) => {
+
+  try {
+    const user = await User.findOne({
+      where: {
+          email: req.body.email
+      }
+  });
+  //  console.log(user.password);
+  //  console.log(req.body.old_pass);
+    const match = await bcrypt.compare(req.body.old_pass, user.password);
+    // console.log('lol0');
+      if (!match) {
+        // console.log('not match')
+          return res.status(400).json({ msg: "Incorrect password" });
+      }
+    
+      const salt = await bcrypt.genSalt();
+      const hashPassword = await bcrypt.hash(req.body.new_pass, salt);
+      await User.update({
+        password: hashPassword
+    }, {
+        where: {
+            email: req.body.email
+        }
+    });
+    res.status(200).json({ msg: "Password changed" });
+  } catch (error) {
+    console.log(error) 
+  }
+}
 

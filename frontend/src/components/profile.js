@@ -3,6 +3,7 @@ import '../static/profile.css';
 import Calendar from 'react-calendar'
 
 import axios from 'axios';
+import ChangePass from './change_pass';
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -22,10 +23,12 @@ const Profile = () => {
     const [crRole, setCRbutton] = useState(false);
     const [event, setEvent] = useState({ place: '', room: '', date: '', time:'' , details: '' });
     const [popUp, setPopUp] = useState(false);
+    const [popUpPass, setPopUpPass] = useState(false);
     const [progs, setProgs] = useState([]);
     const [data, setdata] = useState(''); 
     const [imgSrc, setImgSrc] = useState("Invalid Image Source");
-
+    const [msg1, setMsg1] = useState('');
+    const [email, setEmail] = useState('');
 
     useEffect(() => {
         userprofile()
@@ -111,10 +114,6 @@ const Profile = () => {
             })
     }
 
-    const handlePopup = async () => {
-        setPopUp(true);
-    }
-
     const CRbutton = async (e) => {
         e.preventDefault()
         if (user.role === 'cr') {
@@ -165,6 +164,16 @@ const Profile = () => {
         };
     };
 
+    const handlePopupPass = async (e) => {
+         e.preventDefault();
+        setPopUpPass(true);
+    }
+
+    const handlePopup = async (e) => {
+        e.preventDefault();
+        setPopUp(true);
+    }
+
     return (
         <div>
             <header>
@@ -203,7 +212,9 @@ const Profile = () => {
                 </div>
 
                 <div className="c_s">
-                    <a className="change" href="/#" style={{ color: 'black' }}>Change</a>
+                    <a className="change" href="#" style={{ color: 'black' }} 
+                    onClick={handlePopupPass}
+                    >Change</a>
                     <a href="/#" style={{ color: 'grey' }}>Save</a>
                 </div>
 
@@ -328,6 +339,7 @@ const Profile = () => {
 
             </div>
             {popUp && <CR_verification setPopUp={setPopUp} setUser={user} />}
+            {popUpPass && <ChangePass setPopUpPass={setPopUpPass} setUser={user} />}
         </div >
     )
 }
