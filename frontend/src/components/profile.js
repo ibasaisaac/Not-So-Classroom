@@ -1,42 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import '../static/profile.css';
-import Calendar from 'react-calendar'
-
 import axios from 'axios';
 import ChangePass from './change_pass';
-
-import 'react-toastify/dist/ReactToastify.css';
-
 import CR_verification from './cr_verification';
 import { toast } from 'react-toastify';
 
-//import { ToastContainer, toast } from 'react-toastify';
-
 
 const Profile = () => {
-
-    //const [isLoading, setIsLoading] = useState(false);
     const [user, setUser] = useState('');
-    const [date, setdate] = useState('');
-    const [time, settime] = useState('');
-    const [text, setText] = useState('');
-    const [crRole, setCRbutton] = useState(false);
     const [event, setEvent] = useState({ place: '', room: '', date: '', time: '', details: '' });
     const [popUp, setPopUp] = useState(false);
     const [popUpPass, setPopUpPass] = useState(false);
     const [progs, setProgs] = useState([]);
-    const [data, setdata] = useState('');
-    const [imgSrc, setImgSrc] = useState("Invalid Image Source");
-    const [msg1, setMsg1] = useState('');
-    const [email, setEmail] = useState('');
     const [orders, setOrders] = useState('')
+
     useEffect(() => {
-        userprofile()
+        prepareProfile()
     }, []);
 
-
-
-    const userprofile = async () => {
+    const prepareProfile = async () => {
         axios.get('http://localhost:5000/getUser', {
         })
             .then((resp) => {
@@ -63,15 +45,13 @@ const Profile = () => {
             date: event.date,
             time: event.time,
             details: event.details,
-            category: 'quiz',
+            category: 'Quiz',
             student_id: user.student_id
         })
             .then(res => {
                 if (res.status === 200) {
-                    toast.success('Event created')
-                    setEvent({ place: '', room: '', date: '', time: '', details: '' })
-                    var newEvent = [res.data, ...event]
-                    setEvent(newEvent);
+                    toast.success(res.data.msg)
+                    setEvent({ place: '', room: '', date: '', time: '', details: '' });
                 }
             })
             .catch(error => {
@@ -94,8 +74,6 @@ const Profile = () => {
                 if (res.status === 200) {
                     toast.success('Event created')
                     setEvent({ place: '', room: '', date: '', time: '', details: '' })
-                    var newEvent = [res.data, ...event]
-                    setEvent(newEvent);
                 }
             })
             .catch(error => {
@@ -112,28 +90,6 @@ const Profile = () => {
         }
     }
 
-    // const setimg = (e) => {
-    //     setFile(e.target.files[0])
-    //     console.log('kk')
-    // }
-
-
-    const postDp = async (e) => {
-        e.preventDefault();
-        var formdata = new FormData();
-        formdata.set('op_id', user.student_id);
-        formdata.append("photo", e.target.files[0]);
-
-        await axios.post('http://localhost:5000/dp', formdata)
-            .then(res => {
-                if (res.status === 200) {
-                    // setDP(e.target.files[0])
-                }
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    }
     function SubmitButton() {
         if (event.date && event.details && event.place && event.room && event.time) {
             return <button type="submit" className="btn btn-primary"
@@ -146,27 +102,34 @@ const Profile = () => {
         };
     };
 
-    // const CRButton = async () => {
-    //     // e.preventDefault()
-    //     if (user.role === 'cr') {
-    //         return<a href="#section2" className="btnn" 
-    //         style={{background: '#7cb9e8'}}>CR</a>
-    //     }
-    //     else if(user.role === null){
-    //         return<a href="#section2" className="btnn" 
-    //         style={{background: 'none'}}>CR</a>
-    //     }
-    // }
+
+    const postDp = async (e) => {
+        e.preventDefault();
+        var formdata = new FormData();
+        formdata.set('op_id', user.student_id);
+        formdata.append("photo", e.target.files[0]);
+
+        await axios.post('http://localhost:5000/dp', formdata)
+            .then(res => {
+                if (res.status === 200) {
+                    user.dp = e.target.files[0]
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
 
     const handlePopupPass = async (e) => {
         e.preventDefault();
         setPopUpPass(true);
     }
-
     const handlePopup = async (e) => {
         e.preventDefault();
         setPopUp(true);
     }
+
 
     if (!user || !orders)
         return <div style={{ textAlign: 'center', lineHeight: '600px' }}><i className="fa-regular fa-circle fa-beat fa-3x"></i><i className="fa-solid fa-circle fa-beat fa-3x"></i><i className="fa-regular fa-circle fa-beat fa-3x"></i></div>
@@ -191,24 +154,18 @@ const Profile = () => {
                 <div className="container">
                     <p className="role">Role:</p>
                     <button className="btnn btn1">Student</button>
-                    {/* <div> */}
                     {
                         (() => {
                             if (user.role === 'cr') {
                                 return <a href="#section2" className="btnn"
                                     style={{ background: '#7cb9e8' }}>CR</a>
                             }
-                            // else if (user.role !== 'cr' && user.role !== 'null') {
-                            //     return <a href="#section3" className="btnn" 
-                            //     style={{background: '#FFB0AD'}}>Club Moderator</a>
-                            // } 
                             else {
                                 return <a href="#section2" className="btnn"
                                     style={{ background: 'none' }}>CR</a>
                             }
                         })()
                     }
-                    {/* </div> */}
                     {
                         (() => {
                             if (user.role !== 'cr' && user.role !== null) {
@@ -239,7 +196,6 @@ const Profile = () => {
                     <a className="change" href="#" style={{ color: 'black' }}
                         onClick={handlePopupPass}
                     >Change</a>
-                    {/* <a href="/#" style={{ color: 'grey' }}>Save</a> */}
                 </div>
 
                 <div className="all">
@@ -264,7 +220,6 @@ const Profile = () => {
                                 <div id="roomblock" className="room">
                                     <select defaultValue={0} className="form-control custom-select" id="room"
                                         style={{ backgroundColor: 'white', border: 'none' }}
-                                        //onChange={this.handleInputChange}
                                         onChange={(e) => setEvent({ ...event, room: e.target.value })}>
                                         <option value={0}>Select Room</option>
                                         {progs.map((p) => (
@@ -276,7 +231,6 @@ const Profile = () => {
 
                                     <select defaultValue={0} className="form-control custom-select" id="place"
                                         style={{ backgroundColor: 'white', border: 'none' }}
-                                        //onChange={this.handleInputChange}
                                         onChange={(e) => handleProg(e.target.value)}>
                                         <option value={0}>Select Place</option>
                                         <option value="AB2">AB2</option>
@@ -324,7 +278,6 @@ const Profile = () => {
                                 <div id="roomblock" className="room">
                                     <select defaultValue={0} className="form-control custom-select" id="room"
                                         style={{ backgroundColor: 'white', border: 'none' }}
-                                        //onChange={this.handleInputChange}
                                         onChange={(e) => setEvent({ ...event, room: e.target.value })}>
                                         <option value={0}>Select Room</option>
                                         {progs.map((p) => (
@@ -336,7 +289,6 @@ const Profile = () => {
 
                                     <select defaultValue={0} className="form-control custom-select" id="place"
                                         style={{ backgroundColor: 'white', border: 'none' }}
-                                        //onChange={this.handleInputChange}
                                         onChange={(e) => handleProg(e.target.value)}>
                                         <option value={0}>Select Place</option>
                                         <option value="AB2">AB2</option>
@@ -393,12 +345,12 @@ const Profile = () => {
                                         <table className="table mb-0">
                                             <tbody>
                                                 <tr>
-                                                <td>{order.items[0].details.product_name}</td>
-                                                <td><img src={order.items[0].details.pic1_path} className='img-thumbnail' width='35' height='35' style={{ border: 'none'}} alt='' /></td>
-                                            </tr>
+                                                    <td>{order.items[0].details.product_name}</td>
+                                                    <td><img src={order.items[0].details.pic1_path} className='img-thumbnail' width='35' height='35' style={{ border: 'none' }} alt='' /></td>
+                                                </tr>
                                                 <tr>
-                                                <td>x{order.items[0].quantity}</td>
-                                                <td>{order.items[0].size}</td></tr>
+                                                    <td>x{order.items[0].quantity}</td>
+                                                    <td>{order.items[0].size}</td></tr>
                                             </tbody>
                                         </table>
                                     </td>

@@ -14,7 +14,6 @@ const Product = props => {
     const [phone, setPhone] = useState('');
     const [isOpen, setIsOpen] = useState(false);
     const [setMsg] = useState('');
-    console.log(quantity)
 
     const Buy = async (e) => {
         e.preventDefault();
