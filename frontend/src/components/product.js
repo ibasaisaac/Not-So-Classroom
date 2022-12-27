@@ -5,16 +5,16 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const Product = props => {
-    console.log(props)
     const { setPopUp } = props;
     const [item] = useState(props.setItem)
     const [user] = useState(props.setUser);
     const [size, setSize] = useState('S_stock');
     const [quantity, setQuantity] = useState(0);
-    const [address, setAddress] = useState();
-    const [phone, setPhone] = useState();
+    const [address, setAddress] = useState('');
+    const [phone, setPhone] = useState('');
     const [isOpen, setIsOpen] = useState(false);
     const [setMsg] = useState('');
+    console.log(quantity)
 
     const Buy = async (e) => {
         e.preventDefault();
@@ -28,7 +28,6 @@ const Product = props => {
             quantity: quantity
         })
             .then(res => {
-                console.log(res.data)
                 if (res.status === 200) {
                     setPopUp(false);
                     window.location.reload(true)
@@ -148,7 +147,7 @@ const Product = props => {
                         <h6>{item.price}</h6>
 
                         <p>{item.product_info}</p>
-                        {item.S_stock &&
+                        {item.stock &&
                             <div className="form-group">
                                 <select required className="form-control" style={{ overflow: 'none' }} onChange={(e) => setSize(e.target.value)}>
                                     {item.S_stock === 0 && <option disabled>S - Out of stock</option>}

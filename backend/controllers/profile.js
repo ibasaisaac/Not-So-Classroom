@@ -178,28 +178,28 @@ export const ChangePassword = async (req, res) => {
 
 export const showOrders  = async (req, res) => {
   try {
-    console.log('hi', req.body)
-    // const results = await Order.findAll({
-    //   attributes: ['order_id', 'DOO',	'amount', 'status'],
-    //   include: [
-    //     {
-    //       model: OrderedItems, as: "items",
-    //       attributes: ['product_id', 'size', 'quantity'],
-    //       include: [
-    //         {
-    //           model: Product, as: "item"
-    //         }
-    //       ],
-    //     }
-    //   ],
-    //   where: {
-    //     buyer_id: req.body.buyer_id
-    //   },
-    //   order: [
-    //     ['DOO', 'DESC']
-    //   ],
-    // });
-    // res.status(201).json(results);
+    const results = await Order.findAll({
+      attributes: ['order_id', 'DOO',	'amount', 'status'],
+      include: [
+        {
+          model: OrderedItems, as: "items",
+          attributes: ['product_id', 'size', 'quantity'],
+          include: [
+            {
+              model: Product, as: "details"
+            }
+          ],
+        }
+      ],
+      where: {
+        buyer_id: req.body.buyer_id
+      },
+      order: [
+        ['DOO', 'DESC']
+      ],
+    });
+    
+    res.status(201).json(results);
   } catch (error) {
     console.log(error);
   }

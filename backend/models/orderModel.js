@@ -50,7 +50,7 @@ export const OrderedItems = db.define('ordered_items', {
     size: {
         type: DataTypes.STRING
     },
-    quanity: {
+    quantity: {
         type: DataTypes.INTEGER
     },
 },
@@ -65,5 +65,4 @@ export const OrderedItems = db.define('ordered_items', {
 })();
 
 Order.hasMany(OrderedItems, { as: "items", foreignKey: "order_id" });
-// OrderedItems.belongsTo(Order, { as: "order", foreignKey: "op_id" });
-OrderedItems.belongsTo(Product, { as: "item", foreignKey: "product_id" });
+OrderedItems.belongsTo(Product, { as: "details", foreignKey: "product_id" });

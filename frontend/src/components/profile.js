@@ -41,14 +41,12 @@ const Profile = () => {
         })
             .then((resp) => {
                 setUser(resp.data);
-                console.log('oh', resp.data.student_id)
-                axios.post('http://localhost:5000/getorders', { 
-                    buyer_id: 4
+                axios.post('http://localhost:5000/getorders', {
+                    buyer_id: resp.data.student_id
                 })
                     .then(function (res2) {
-                        if (res2.data.status === 201) {
-                            console.log(res2.data)
-                            setOrders(res2.data);
+                        if (res2.status === 201) {
+                            setOrders(res2.data)
                         }
                     })
             })
@@ -170,15 +168,17 @@ const Profile = () => {
         setPopUp(true);
     }
 
+    if (!user || !orders)
+        return <div style={{ textAlign: 'center', lineHeight: '600px' }}><i className="fa-regular fa-circle fa-beat fa-3x"></i><i className="fa-solid fa-circle fa-beat fa-3x"></i><i className="fa-regular fa-circle fa-beat fa-3x"></i></div>
     return (
         <div>
             <header>
                 <div className="wrapper">
                     <img className="my_dp" alt='' src={`${user.dp}`} />
-                    <div class="middle">
-                        <div class="text">
-                        <input className="my_file" type="file" id="photo" name="file" accept='image/*' 
-                        onChange={postDp} />Change</div>
+                    <div className="middle">
+                        <div className="text">
+                            <input className="my_file" type="file" id="photo" name="file" accept='image/*'
+                                onChange={postDp} />Change</div>
                     </div>
                 </div>
                 <div>
@@ -193,32 +193,32 @@ const Profile = () => {
                     <button className="btnn btn1">Student</button>
                     {/* <div> */}
                     {
-                    (()=>{
-                        if (user.role === 'cr') {
-                        return <a href="#section2" className="btnn" 
-                        style={{background: '#7cb9e8'}}>CR</a>
-                        } 
-                        // else if (user.role !== 'cr' && user.role !== 'null') {
-                        //     return <a href="#section3" className="btnn" 
-                        //     style={{background: '#FFB0AD'}}>Club Moderator</a>
-                        // } 
-                        else {
-                        return <a href="#section2" className="btnn" 
-                        style={{background: 'none'}}>CR</a>
-                        }
-                    })()
+                        (() => {
+                            if (user.role === 'cr') {
+                                return <a href="#section2" className="btnn"
+                                    style={{ background: '#7cb9e8' }}>CR</a>
+                            }
+                            // else if (user.role !== 'cr' && user.role !== 'null') {
+                            //     return <a href="#section3" className="btnn" 
+                            //     style={{background: '#FFB0AD'}}>Club Moderator</a>
+                            // } 
+                            else {
+                                return <a href="#section2" className="btnn"
+                                    style={{ background: 'none' }}>CR</a>
+                            }
+                        })()
                     }
                     {/* </div> */}
                     {
-                    (()=>{
-                        if (user.role !== 'cr' && user.role !== null) {
-                        return <a href="#section3" className="btnn" 
-                        style={{background: '#FFB0AD'}}>Club Moderator</a>
-                        } else {
-                        return <a href="#section3" className="btnn" 
-                        style={{background: 'none'}}>Club Moderator</a>
-                        }
-                    })()
+                        (() => {
+                            if (user.role !== 'cr' && user.role !== null) {
+                                return <a href="#section3" className="btnn"
+                                    style={{ background: '#FFB0AD' }}>Club Moderator</a>
+                            } else {
+                                return <a href="#section3" className="btnn"
+                                    style={{ background: 'none' }}>Club Moderator</a>
+                            }
+                        })()
                     }
                     <a href="#" style={{ color: 'black', position: 'relative', left: '20px' }}
                         onClick={handlePopup}
@@ -250,130 +250,131 @@ const Profile = () => {
                     <div className="background"></div>
                 </div>
             </div>
-        {user.role === 'cr' &&
-            <div id="section2">
-                <form onSubmit={createGroupEvent}>
-                    <h5 style={{
-                        position: 'relative', left: '22%', height: '100%', width: '100%',
-                        background: 'white'
-                    }}>My Group</h5>
-                    <div className="sec2">
-                        <p style={{ position: 'relative', left: '5%' }}>Add Event:</p>
-                        <div id="block">
-                            <div id="roomblock" className="room">
-                                <select defaultValue={0} className="form-control custom-select" id="room"
-                                    style={{ backgroundColor: 'white', border: 'none' }}
-                                    //onChange={this.handleInputChange}
-                                    onChange={(e) => setEvent({ ...event, room: e.target.value })}>
-                                    <option value={0}>Select Room</option>
-                                    {progs.map((p) => (
-                                        <option value={p}>{p}</option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div id="placeblock" className="clc">
 
-                                <select defaultValue={0} className="form-control custom-select" id="place"
-                                    style={{ backgroundColor: 'white', border: 'none' }}
-                                    //onChange={this.handleInputChange}
-                                    onChange={(e) => handleProg(e.target.value)}>
-                                    <option value={0}>Select Place</option>
-                                    <option value="AB2">AB2</option>
-                                    <option value="AB3">AB3</option>
-                                </select>
-                            </div>
+            {user.role === 'cr' &&
+                <div id="section2">
+                    <form onSubmit={createGroupEvent}>
+                        <h5 style={{
+                            position: 'relative', left: '22%', height: '100%', width: '100%',
+                            background: 'white'
+                        }}>My Group</h5>
+                        <div className="sec2">
+                            <p style={{ position: 'relative', left: '5%' }}>Add Event:</p>
+                            <div id="block">
+                                <div id="roomblock" className="room">
+                                    <select defaultValue={0} className="form-control custom-select" id="room"
+                                        style={{ backgroundColor: 'white', border: 'none' }}
+                                        //onChange={this.handleInputChange}
+                                        onChange={(e) => setEvent({ ...event, room: e.target.value })}>
+                                        <option value={0}>Select Room</option>
+                                        {progs.map((p) => (
+                                            <option value={p}>{p}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div id="placeblock" className="clc">
 
-                            <div id="timeblock" className="d">
-                                <input type="date" style={{ backgroundColor: 'white', border: 'none' }}
-                                    onChange={(e) => setEvent({ ...event, date: e.target.value })} />
+                                    <select defaultValue={0} className="form-control custom-select" id="place"
+                                        style={{ backgroundColor: 'white', border: 'none' }}
+                                        //onChange={this.handleInputChange}
+                                        onChange={(e) => handleProg(e.target.value)}>
+                                        <option value={0}>Select Place</option>
+                                        <option value="AB2">AB2</option>
+                                        <option value="AB3">AB3</option>
+                                    </select>
+                                </div>
+
+                                <div id="timeblock" className="d">
+                                    <input type="date" style={{ backgroundColor: 'white', border: 'none' }}
+                                        onChange={(e) => setEvent({ ...event, date: e.target.value })} />
+                                </div>
+                                <div id="timeblock" className="t">
+                                    <input type="time" style={{ backgroundColor: 'white', border: 'none' }}
+                                        className="start-time"
+                                        onChange={(e) => setEvent({ ...event, time: e.target.value })} />
+                                </div>
                             </div>
-                            <div id="timeblock" className="t">
-                                <input type="time" style={{ backgroundColor: 'white', border: 'none' }}
-                                    className="start-time"
-                                    onChange={(e) => setEvent({ ...event, time: e.target.value })} />
+                            <div id="block">
+                                <div id="detailsblock" style={{ display: 'flex' }}>
+                                    <textarea rows="3" className="form-control details"
+                                        style={{ resize: 'none' }} placeholder="Add Details"
+                                        value={event.details} onChange={(e) => setEvent({ ...event, details: e.target.value })} ></textarea>
+                                </div>
+                                <div id="entergblock" className="enterg">
+                                    <SubmitButton />
+                                </div>
                             </div>
                         </div>
-                        <div id="block">
-                            <div id="detailsblock" style={{ display: 'flex' }}>
-                                <textarea rows="3" className="form-control details"
-                                    style={{ resize: 'none' }} placeholder="Add Details"
-                                    value={event.details} onChange={(e) => setEvent({ ...event, details: e.target.value })} ></textarea>
-                            </div>
-                            <div id="entergblock" className="enterg">
-                                <SubmitButton />
-                            </div>
-                        </div>
-                    </div>
 
-                </form>
+                    </form>
 
-            </div>
+                </div>
             }
 
-        {user.role !== 'cr' && user.role !== null &&
-            <div id="section3">
-                <form onSubmit={createClubEvent}>
-                    <h5 style={{
-                        position: 'relative', left: '22%', height: '100%', width: '100%',
-                        background: 'white'
-                    }}>My Club</h5>
-                    <div className="sec2">
-                        <p style={{ position: 'relative', left: '5%' }}>Add Event:</p>
-                        <div id="block">
-                            <div id="roomblock" className="room">
-                                <select defaultValue={0} className="form-control custom-select" id="room"
-                                    style={{ backgroundColor: 'white', border: 'none' }}
-                                    //onChange={this.handleInputChange}
-                                    onChange={(e) => setEvent({ ...event, room: e.target.value })}>
-                                    <option value={0}>Select Room</option>
-                                    {progs.map((p) => (
-                                        <option value={p}>{p}</option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div id="placeblock" className="clc">
+            {user.role !== 'cr' && user.role !== null &&
+                <div id="section3">
+                    <form onSubmit={createClubEvent}>
+                        <h5 style={{
+                            position: 'relative', left: '22%', height: '100%', width: '100%',
+                            background: 'white'
+                        }}>My Club</h5>
+                        <div className="sec2">
+                            <p style={{ position: 'relative', left: '5%' }}>Add Event:</p>
+                            <div id="block">
+                                <div id="roomblock" className="room">
+                                    <select defaultValue={0} className="form-control custom-select" id="room"
+                                        style={{ backgroundColor: 'white', border: 'none' }}
+                                        //onChange={this.handleInputChange}
+                                        onChange={(e) => setEvent({ ...event, room: e.target.value })}>
+                                        <option value={0}>Select Room</option>
+                                        {progs.map((p) => (
+                                            <option value={p}>{p}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div id="placeblock" className="clc">
 
-                                <select defaultValue={0} className="form-control custom-select" id="place"
-                                    style={{ backgroundColor: 'white', border: 'none' }}
-                                    //onChange={this.handleInputChange}
-                                    onChange={(e) => handleProg(e.target.value)}>
-                                    <option value={0}>Select Place</option>
-                                    <option value="AB2">AB2</option>
-                                    <option value="AB3">AB3</option>
-                                </select>
-                            </div>
+                                    <select defaultValue={0} className="form-control custom-select" id="place"
+                                        style={{ backgroundColor: 'white', border: 'none' }}
+                                        //onChange={this.handleInputChange}
+                                        onChange={(e) => handleProg(e.target.value)}>
+                                        <option value={0}>Select Place</option>
+                                        <option value="AB2">AB2</option>
+                                        <option value="AB3">AB3</option>
+                                    </select>
+                                </div>
 
-                            <div id="timeblock" className="d">
-                                <input type="date" style={{ backgroundColor: 'white', border: 'none' }}
-                                    onChange={(e) => setEvent({ ...event, date: e.target.value })} />
+                                <div id="timeblock" className="d">
+                                    <input type="date" style={{ backgroundColor: 'white', border: 'none' }}
+                                        onChange={(e) => setEvent({ ...event, date: e.target.value })} />
+                                </div>
+                                <div id="timeblock" className="t">
+                                    <input type="time" style={{ backgroundColor: 'white', border: 'none' }}
+                                        className="start-time"
+                                        onChange={(e) => setEvent({ ...event, time: e.target.value })} />
+                                </div>
                             </div>
-                            <div id="timeblock" className="t">
-                                <input type="time" style={{ backgroundColor: 'white', border: 'none' }}
-                                    className="start-time"
-                                    onChange={(e) => setEvent({ ...event, time: e.target.value })} />
+                            <div id="block">
+                                <div id="detailsblock" style={{ display: 'flex' }}>
+                                    <textarea rows="3" className="form-control details"
+                                        style={{ resize: 'none' }} placeholder="Add Details"
+                                        value={event.details} onChange={(e) => setEvent({ ...event, details: e.target.value })} ></textarea>
+                                </div>
+                                <div id="entergblock" className="enterg">
+                                    <SubmitButton />
+                                </div>
                             </div>
                         </div>
-                        <div id="block">
-                            <div id="detailsblock" style={{ display: 'flex' }}>
-                                <textarea rows="3" className="form-control details"
-                                    style={{ resize: 'none' }} placeholder="Add Details"
-                                    value={event.details} onChange={(e) => setEvent({ ...event, details: e.target.value })} ></textarea>
-                            </div>
-                            <div id="entergblock" className="enterg">
-                                <SubmitButton />
-                            </div>
-                        </div>
-                    </div>
 
-                </form>
+                    </form>
 
-            </div>
+                </div>
             }
 
-            {/* <div id="section4">
+            <div id="section4">
                 <h5 style={{ position: 'relative', left: '22%', top: '82.5px' }}>My Orders</h5>
                 <div className="sec2">
-                    <table class="table table-hover">
+                    <table className="table table-hover">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -387,22 +388,28 @@ const Profile = () => {
                             {orders.map((order) => (
                                 <tr>
                                     <th scope="row">{order.order_id}</th>
-                                    <td>1/12/22</td>
-                                    <td colspan="1">
-                                        <table class="table mb-0">
-                                            <td>tshirt</td>
-                                            <td>5</td>
-                                            <td>m</td>
+                                    <td>{order.DOO}</td>
+                                    <td colSpan="1">
+                                        <table className="table mb-0">
+                                            <tbody>
+                                                <tr>
+                                                <td>{order.items[0].details.product_name}</td>
+                                                <td><img src={order.items[0].details.pic1_path} className='img-thumbnail' width='35' height='35' style={{ border: 'none'}} alt='' /></td>
+                                            </tr>
+                                                <tr>
+                                                <td>x{order.items[0].quantity}</td>
+                                                <td>{order.items[0].size}</td></tr>
+                                            </tbody>
                                         </table>
                                     </td>
-                                    <td>500</td>
-                                    <td>pending</td>
+                                    <td>{order.amount}</td>
+                                    <td>{order.status}</td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
                 </div>
-            </div> */}
+            </div>
 
             {popUp && <CR_verification setPopUp={setPopUp} setUser={user} />}
             {popUpPass && <ChangePass setPopUpPass={setPopUpPass} setUser={user} />}
