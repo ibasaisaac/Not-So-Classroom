@@ -100,13 +100,14 @@ const Club = () => {
                 comment_body: commentText.comment_body
             });
             if (res.status === 200) {
-                setCommentText({ post_id: '', comment_body: '' })
+                setCommentText({ comment_body: '' })
                 toast.success('Comment created!')
-
                 var newPosts = posts.map((post) => {
-                    post.comments = [res.data, ...post.comments]
+                    if (post.post_id === commentText.post_id)
+                        post.comments = [res.data, ...post.comments]
                     return post;
                 })
+                setCommentText({ post_id: '' })
                 setPosts(newPosts);
             }
         }

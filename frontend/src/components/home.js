@@ -64,7 +64,7 @@ const Home = () => {
         // data.append('file', file.data);
         // else
         data.set('file', image.data);
-    
+
 
         await axios.post('http://localhost:5000/post', data)
             .then(res => {
@@ -109,14 +109,17 @@ const Home = () => {
                 comment_body: commentText.comment_body
             });
             if (res.status === 200) {
-                setCommentText({ post_id: '', comment_body: '' })
-                toast.success('Comment created!')
-
-                var newPosts = posts.map((post) => {
-                    post.comments = [res.data, ...post.comments]
-                    return post;
-                })
-                setPosts(newPosts);
+                if (res.status === 200) {
+                    setCommentText({ comment_body: '' })
+                    toast.success('Comment created!')
+                    var newPosts = posts.map((post) => {
+                        if (post.post_id === commentText.post_id)
+                            post.comments = [res.data, ...post.comments]
+                        return post;
+                    })
+                    setCommentText({ post_id: '' })
+                    setPosts(newPosts);
+                }
             }
         }
         catch (error) {
@@ -257,7 +260,7 @@ const Home = () => {
                                 </div>
 
                                 <p className='m-0'>{post.post_body}</p>
-                                 <embed src={`${post.image_path}`}/>
+                                <embed src={`${post.image_path}`} />
                                 {/* <iframe rel="preload" src={`${post.image_path}`} style="width:600px; height:500px;" frameborder="0" as="fetch" type="application/pdf" crossorigin ></iframe> */}
                                 <a href={`${post.image_path}`} target="_blank" rel="noreferrer">
                                     <img alt='' src={`${post.image_path}`} width='250' />
@@ -270,7 +273,7 @@ const Home = () => {
                                 <div className='mb-3'>
                                     <form onSubmit={commentSubmit} style={{ display: 'flex', alignItems: 'center' }}>
                                         <i className="fa fa-regular fa-comment fa-lg ms-1"></i>
-                                        <textarea rows="1" className="form-control ms-4 me-2" style={{ resize: 'none', borderRadius: '25px' }} value={commentText.comment_body} onChange={(e) => {commentText.post_id==post.post_id && setCommentText({ post_id: post.post_id, comment_body: e.target.value })}} ></textarea>
+                                        <textarea rows="1" className="form-control ms-4 me-2" style={{ resize: 'none', borderRadius: '25px' }} onChange={(e) => setCommentText({ post_id: post.post_id, comment_body: e.target.value })} ></textarea>
                                         <button type="submit" style={{ border: 'none', backgroundColor: 'transparent' }} ><i className="fa fa-regular fa-paper-plane fa-lg me-1"></i></button>
                                     </form>
                                 </div>
@@ -326,8 +329,8 @@ const Home = () => {
 
             </div>
             {postEditPopUp && <Edit setPostEditPopUp={setPostEditPopUp} setPropToEdit={propToEdit} />}
-            {groupJoinPopUp && <GroupJoin setGroupJoinPopUp={setGroupJoinPopUp}  setUser={user} />}
-            {groupCreatePopUp && <GroupCreate setGroupCreatePopUp={setGroupCreatePopUp}  setUser={user} />}
+            {groupJoinPopUp && <GroupJoin setGroupJoinPopUp={setGroupJoinPopUp} setUser={user} />}
+            {groupCreatePopUp && <GroupCreate setGroupCreatePopUp={setGroupCreatePopUp} setUser={user} />}
         </div >
     )
 }

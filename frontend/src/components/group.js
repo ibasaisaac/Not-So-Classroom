@@ -73,7 +73,7 @@ const Group = () => {
         e.preventDefault();
         const data = new FormData();
         data.set('op_id', user.student_id);
-        data.set('category', 'group');
+        data.set('category', 'group_id');
         data.set('category_id', group_id);
         data.set('post_body', text);
         data.append('file', image.data);
@@ -119,13 +119,14 @@ const Group = () => {
                 comment_body: commentText.comment_body
             });
             if (res.status === 200) {
-                setCommentText({ post_id: '', comment_body: '' })
+                setCommentText({ comment_body: '' })
                 toast.success('Comment created!')
-
                 var newPosts = posts.map((post) => {
-                    post.comments = [res.data, ...post.comments]
+                    if (post.post_id === commentText.post_id)
+                        post.comments = [res.data, ...post.comments]
                     return post;
                 })
+                setCommentText({ post_id: '' })
                 setPosts(newPosts);
             }
         }
@@ -397,8 +398,8 @@ const Group = () => {
                 <div className='modal-backdrop' onClick={() => setRoutinePop(false)}></div>
                 <div className="card PopEvent" key={`${cardDetails.event_id}`} style={{ zIndex: '1050', position: 'absolute', left: '20%', top: '5%' }}>
                     <div className="card-body p-2 inter" style={{ backgroundColor: color, width: '820px' }}>
-                        <h4  className='text-center'>Class routine</h4>
-                        <img src={'http://localhost:5000/uploads/routine'+group_id+'.jpg'} width='800px' alt='' />
+                        <h4 className='text-center'>Class routine</h4>
+                        <img src={'http://localhost:5000/uploads/routine' + group_id + '.jpg'} width='800px' alt='' />
                     </div>
                 </div>
             </div>}
@@ -407,12 +408,12 @@ const Group = () => {
                 <div className='modal-backdrop' onClick={() => setSearchPop(false)}></div>
                 <div className="card PopEvent" key={`${cardDetails.event_id}`} style={{ zIndex: '1050' }}>
                     <div className="card-body p-2 inter" style={{ backgroundColor: color, width: '100%' }}>
-                        <h4  className='text-center'>{param.building} {param.room} on {param.day}day</h4>
+                        <h4 className='text-center'>{param.building} {param.room} on {param.day}day</h4>
                         {/* <small>{cardDetails.date}</small>  &ensp; <small>{cardDetails.place}</small>  */}
                         <p></p>
                         {slot.map((s) => (
                             <div>
-                               {s.slot && <p>{s.slot} {'->'}  {s.course} {s.group && <label>{s.group.prog}{s.group.section}</label>} {s.info}</p>}
+                                {s.slot && <p>{s.slot} {'->'}  {s.course} {s.group && <label>{s.group.prog}{s.group.section}</label>} {s.info}</p>}
                             </div>
                         ))}
                     </div>
