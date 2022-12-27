@@ -16,12 +16,18 @@ let currentUser = {
 }
 
 
-export function storeUser(id, email, username, dp, group, role) {
+export async function storeUser (id, email, username, dp, group, role) {
     currentUser.student_id = id;
     currentUser.email = email;
     currentUser.username = username;
     currentUser.dp = dp;
-    currentUser.class_group = group;
+    const t = await Group.findOne({
+        attributes: ['group_id', 'group_name'],
+        where: {
+            group_id: group
+        }
+    });
+    currentUser.class_group = {id: t.group_id, name: t.group_name};
     currentUser.role = role;
 }
 

@@ -8,7 +8,7 @@ import abckid from '../static/abckid.svg';
 
 const Group = () => {
     const [user, setUser] = useState('')
-    const [group_id, setID] = useState('')
+    const [group, setGroup] = useState({id: '', name: ''})
     const [posts, setPosts] = useState('')
     const [events, setEvents] = useState('')
     const [quizzes, setQuizzes] = useState('')
@@ -37,7 +37,7 @@ const Group = () => {
             .then(function (res1) {
                 console.log(res1.data);
                 setUser(res1.data);
-                setID(res1.data.class_group);
+                setGroup(res1.data.class_group);
                 axios.post('http://localhost:5000/getpost', {
                     category: 'group_id',
                     category_id: res1.data.class_group
@@ -46,7 +46,7 @@ const Group = () => {
                         console.log(res2.data)
                         setPosts(res2.data);
                         axios.post('http://localhost:5000/getevent', {
-                            id: res1.data.class_group
+                            id: res1.data.class_group.id
                         })
                             .then(function (res3) {
                                 console.log(res3.data)
@@ -74,7 +74,7 @@ const Group = () => {
         const data = new FormData();
         data.set('op_id', user.student_id);
         data.set('category', 'group_id');
-        data.set('category_id', group_id);
+        data.set('category_id', group.id);
         data.set('post_body', text);
         data.append('file', image.data);
 
@@ -318,6 +318,7 @@ const Group = () => {
                         <img className="bgprop" src={abckid} alt="kid" />
                     </div>
                     <div className='row p-3 m-1 marker' style={{ backgroundColor: '#d9d9d9cc', width: '27%', position: 'fixed', marginRight: '50px' }}>
+                        <h2 className='text-center'>{group.name}</h2>
                         <h5>Upcoming</h5>
                         <h6 className='mt-2'>Quizzes</h6>
                         {quizzes.map((quiz) => (
@@ -399,7 +400,7 @@ const Group = () => {
                 <div className="card PopEvent" key={`${cardDetails.event_id}`} style={{ zIndex: '1050', position: 'absolute', left: '20%', top: '5%' }}>
                     <div className="card-body p-2 inter" style={{ backgroundColor: color, width: '820px' }}>
                         <h4 className='text-center'>Class routine</h4>
-                        <img src={'http://localhost:5000/uploads/routine' + group_id + '.jpg'} width='800px' alt='' />
+                        <img src={'http://localhost:5000/uploads/routine' + group.id + '.jpg'} width='800px' alt='' />
                     </div>
                 </div>
             </div>}
