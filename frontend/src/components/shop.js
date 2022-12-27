@@ -70,7 +70,6 @@ const Shop = () => {
             </div>
 
             {popUp && <Product setPopUp={setPopUp} setItem={item}  setUser={user} />}
-            {/* {popUp && <Product setPopUp={setPopUp} setItem={item}/>} */}
             {productCreatePopUp && <ProductCreate setProductCreatePopUp={setProductCreatePopUp}  setUser={user}/>}
        
         </div >

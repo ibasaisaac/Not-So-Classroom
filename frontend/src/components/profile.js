@@ -3,6 +3,7 @@ import '../static/profile.css';
 import axios from 'axios';
 import ChangePass from './change_pass';
 import CR_verification from './cr_verification';
+import Product from './product';
 import { toast } from 'react-toastify';
 
 
@@ -13,6 +14,8 @@ const Profile = () => {
     const [popUpPass, setPopUpPass] = useState(false);
     const [progs, setProgs] = useState([]);
     const [orders, setOrders] = useState('')
+    const [item, setItem] = useState('')
+    const [popUpProduct, setPopUpProduct] = useState(false);
 
     useEffect(() => {
         prepareProfile()
@@ -338,7 +341,7 @@ const Profile = () => {
                         </thead>
                         <tbody>
                             {orders.map((order) => (
-                                <tr>
+                                <tr onClick={() => {setPopUpProduct(true); setItem(order.items[0].details);}}>
                                     <th scope="row">{order.order_id}</th>
                                     <td>{order.DOO}</td>
                                     <td colSpan="1">
@@ -364,6 +367,7 @@ const Profile = () => {
             </div>
 
             {popUp && <CR_verification setPopUp={setPopUp} setUser={user} />}
+            {popUpProduct && <Product setPopUp={setPopUpProduct} setItem={item}  setUser={user} />}
             {popUpPass && <ChangePass setPopUpPass={setPopUpPass} setUser={user} />}
         </div >
     )

@@ -487,7 +487,7 @@ export const buyProduct = async (req, res) => {
     })
       .then(function (response) {
         newOrderId = response.order_id
-        console.log(newOrderId, req.body.quantity)
+        
         OrderedItems.create({
           order_id: newOrderId,
           product_id: req.body.product_id,
