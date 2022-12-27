@@ -6,6 +6,7 @@ import User from "../models/userModel.js";
 import Group from "../models/groupModel.js"
 import Product from "../models/productModel.js"
 import { ScheduleMon, ScheduleTue, ScheduleWed, ScheduleThu, ScheduleFri } from "../models/scheduleModel.js";
+import { Order, OrderedItems } from "../models/orderModel.js";
 import multer from 'multer';
 
 
@@ -72,7 +73,6 @@ export const submitPost = async (req, res) => {
               }
             })
               .then(function (newPost) {
-                console.log(newPost)
                 res.status(200).json(newPost)
               })
               .catch(err => {
@@ -473,4 +473,39 @@ export const addProduct = async (req, res) => {
       }
     }
   })
+}
+
+export const buyProduct = async (req, res) => {
+  var newOrderId
+  try {
+    Order.create({
+      buyer_id: req.body.buyer_id,
+      amount: req.body.amount,
+      shipping: req.body.shipping,
+      contact: req.body.contact,
+      status: 'pending'
+    })
+      .then(function (response) {
+        newOrderId = response.order_id
+        console.log(newOrderId)
+        OrderedItems.create({
+          order_id: newOrderId,
+          product_id: req.body.product_id,
+          size: req.body.size,
+          quantity: req.body.quantity
+        })
+        Product.increment({
+          [req.body.size + '_stock']: -req.body.quantity
+        },
+          { where: { product_id: req.body.product_id } })
+          .then(function () {
+            res.status(200).json({ msg: "Order placed" });
+          })
+          .catch(err => {
+            console.log(err);
+          })
+      })
+  } catch (error) {
+    console.log(error);
+  }
 }

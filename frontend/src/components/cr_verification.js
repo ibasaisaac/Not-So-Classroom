@@ -4,7 +4,7 @@ import '../static/verification_pop.css';
 import giraffe from '../static/giraffe.svg';
 import birdies from '../static/birdies.svg';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 
 const CR_verification = props => {
     const { setPopUp } = props;
@@ -13,7 +13,7 @@ const CR_verification = props => {
     const [role,setRole]= useState('')
     const [user] = useState(props.setUser)
     const [msg, setMsg] = useState('')
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const cr_verify = async (e) => {
         e.preventDefault();
@@ -28,7 +28,7 @@ const CR_verification = props => {
                         toast.success(res.data.msg);
                         console.log(89);
                         setPopUp(false);
-                        history.push('./profile');
+                        navigate('/profile');
                     }
                 }
             })

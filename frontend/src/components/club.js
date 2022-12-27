@@ -54,7 +54,7 @@ const Club = () => {
         e.preventDefault();
         const data = new FormData();
         data.set('op_id', user.student_id);
-        data.set('category', 'club');
+        data.set('category', 'club_id');
         data.set('category_id', 0);
         data.set('post_body', text);
         data.append('file', image.data);

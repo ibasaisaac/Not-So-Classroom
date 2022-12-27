@@ -15,7 +15,7 @@ const Role = db.define('role_verify', {
     role: {
         type: DataTypes.STRING
     },
-    class_group: {
+    group_id: {
         type: DataTypes.INTEGER
     },
     club_id: {

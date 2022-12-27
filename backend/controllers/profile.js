@@ -1,10 +1,10 @@
 import { QueryTypes } from 'sequelize';
 import db from '../config/database.js';
 import User from "../models/userModel.js";
-import Student from "../models/studentModel.js";
+import {Order, OrderedItems} from "../models/orderModel.js";
+import Product from '../models/productModel.js';
 import Role from "../models/role_verifyModel.js";
 import Event from "../models/eventModel.js";
-import { response } from 'express';
 import multer from 'multer';
 import bcrypt from "bcrypt";
 
@@ -63,21 +63,6 @@ export const changedp = async (req, res) => {
   })
 }
 
-export const showdp  = async (req, res) => {
-  try {
-    const results = await User.findOne({
-      attributes: ['dp'],
-      where: {
-        student_id: req.body.id
-      }
-    });
-    res.json(results);
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-
 export const createEvent = async (req, res) => {
     var newEventID
     try {
@@ -117,10 +102,17 @@ export const createEvent = async (req, res) => {
 
 export const CR_verification = async (req, res) =>{
     try {
+      let stid = req.body.cur_id;
+      let input_id = req.body.id;
+      console.log(stid);
+      console.log(input_id)
+      if(input_id != stid){
+        return res.status(402).json({ msg: "Please provide your ID" });
+      }
         await Role.findOne({
             attributes: ['role'],
             where: {
-                student_id: req.body.id
+                student_id: stid
             }
         })
             .then(function (response) {
@@ -183,3 +175,32 @@ export const ChangePassword = async (req, res) => {
   }
 }
 
+
+export const showOrders  = async (req, res) => {
+  try {
+    console.log('hi', req.body)
+    // const results = await Order.findAll({
+    //   attributes: ['order_id', 'DOO',	'amount', 'status'],
+    //   include: [
+    //     {
+    //       model: OrderedItems, as: "items",
+    //       attributes: ['product_id', 'size', 'quantity'],
+    //       include: [
+    //         {
+    //           model: Product, as: "item"
+    //         }
+    //       ],
+    //     }
+    //   ],
+    //   where: {
+    //     buyer_id: req.body.buyer_id
+    //   },
+    //   order: [
+    //     ['DOO', 'DESC']
+    //   ],
+    // });
+    // res.status(201).json(results);
+  } catch (error) {
+    console.log(error);
+  }
+}

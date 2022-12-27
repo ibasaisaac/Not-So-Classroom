@@ -21,15 +21,15 @@ const Profile = () => {
     const [time, settime] = useState('');
     const [text, setText] = useState('');
     const [crRole, setCRbutton] = useState(false);
-    const [event, setEvent] = useState({ place: '', room: '', date: '', time:'' , details: '' });
+    const [event, setEvent] = useState({ place: '', room: '', date: '', time: '', details: '' });
     const [popUp, setPopUp] = useState(false);
     const [popUpPass, setPopUpPass] = useState(false);
     const [progs, setProgs] = useState([]);
-    const [data, setdata] = useState(''); 
+    const [data, setdata] = useState('');
     const [imgSrc, setImgSrc] = useState("Invalid Image Source");
     const [msg1, setMsg1] = useState('');
     const [email, setEmail] = useState('');
-
+    const [orders, setOrders] = useState('')
     useEffect(() => {
         userprofile()
     }, []);
@@ -38,28 +38,19 @@ const Profile = () => {
 
     const userprofile = async () => {
         axios.get('http://localhost:5000/getUser', {
-
         })
             .then((resp) => {
                 setUser(resp.data);
-                axios.get('http://localhost:5000/getdp'
-                // ,{
-                // headers:{
-                //     "Content-Type":"application/json"
-                // }
-                // }
-                )
-                .then(function (res2) {
-                    // console.log(res2.data)
-                    // setPosts(res2.data);
-                    if(res2.data.status===201){
-                        console.log("dp ok");
-                        setdata(res2.data.data);
-                    }
-                    else{
-                        console.log("e");
-                    }
+                console.log('oh', resp.data.student_id)
+                axios.post('http://localhost:5000/getorders', { 
+                    buyer_id: 4
                 })
+                    .then(function (res2) {
+                        if (res2.data.status === 201) {
+                            console.log(res2.data)
+                            setOrders(res2.data);
+                        }
+                    })
             })
             .catch(error => {
                 console.log(error);
@@ -80,7 +71,7 @@ const Profile = () => {
             .then(res => {
                 if (res.status === 200) {
                     toast.success('Event created')
-                    setEvent({place:'',room:'',date:'',time:'',details:''})
+                    setEvent({ place: '', room: '', date: '', time: '', details: '' })
                     var newEvent = [res.data, ...event]
                     setEvent(newEvent);
                 }
@@ -104,7 +95,7 @@ const Profile = () => {
             .then(res => {
                 if (res.status === 200) {
                     toast.success('Event created')
-                    setEvent({place:'',room:'',date:'',time:'',details:''})
+                    setEvent({ place: '', room: '', date: '', time: '', details: '' })
                     var newEvent = [res.data, ...event]
                     setEvent(newEvent);
                 }
@@ -112,13 +103,6 @@ const Profile = () => {
             .catch(error => {
                 console.log(error);
             })
-    }
-
-    const CRbutton = async (e) => {
-        e.preventDefault()
-        if (user.role === 'cr') {
-            setCRbutton(true);
-        }
     }
 
     const handleProg = (e) => {
@@ -155,17 +139,29 @@ const Profile = () => {
     function SubmitButton() {
         if (event.date && event.details && event.place && event.room && event.time) {
             return <button type="submit" className="btn btn-primary"
-            style={{ backgroundColor: 'var(--vista)' }}>Enter</button>   
-                    
+                style={{ backgroundColor: 'var(--vista)' }}>Enter</button>
+
         } else {
             return <button type="submit" disabled id="submit-button" className="btn btn-primary"
-            style={{ backgroundColor: 'var(--vista)' }}>Enter</button> 
+                style={{ backgroundColor: 'var(--vista)' }}>Enter</button>
 
         };
     };
 
+    // const CRButton = async () => {
+    //     // e.preventDefault()
+    //     if (user.role === 'cr') {
+    //         return<a href="#section2" className="btnn" 
+    //         style={{background: '#7cb9e8'}}>CR</a>
+    //     }
+    //     else if(user.role === null){
+    //         return<a href="#section2" className="btnn" 
+    //         style={{background: 'none'}}>CR</a>
+    //     }
+    // }
+
     const handlePopupPass = async (e) => {
-         e.preventDefault();
+        e.preventDefault();
         setPopUpPass(true);
     }
 
@@ -178,11 +174,12 @@ const Profile = () => {
         <div>
             <header>
                 <div className="wrapper">
-                    <a href={`${user.dp}`} target="_blank" rel="noreferrer">
-                        <img alt='' src={`${user.dp}`} width='250' />
-                    <p className="c">Change</p>
-                    <input className="my_file" type="file" id="photo" name="file" accept='image/*' onChange={postDp} />
-                    </a>
+                    <img className="my_dp" alt='' src={`${user.dp}`} />
+                    <div class="middle">
+                        <div class="text">
+                        <input className="my_file" type="file" id="photo" name="file" accept='image/*' 
+                        onChange={postDp} />Change</div>
+                    </div>
                 </div>
                 <div>
                     <p className="id" style={{ fontFamily: 'comfortaa' }}>{user.student_id}</p>
@@ -194,8 +191,35 @@ const Profile = () => {
                 <div className="container">
                     <p className="role">Role:</p>
                     <button className="btnn btn1">Student</button>
-                    <a href="#section2" className="btnn btn2" >CR</a>
-                    <a href="#section3" className="btnn btn3" >Club Moderator</a>
+                    {/* <div> */}
+                    {
+                    (()=>{
+                        if (user.role === 'cr') {
+                        return <a href="#section2" className="btnn" 
+                        style={{background: '#7cb9e8'}}>CR</a>
+                        } 
+                        // else if (user.role !== 'cr' && user.role !== 'null') {
+                        //     return <a href="#section3" className="btnn" 
+                        //     style={{background: '#FFB0AD'}}>Club Moderator</a>
+                        // } 
+                        else {
+                        return <a href="#section2" className="btnn" 
+                        style={{background: 'none'}}>CR</a>
+                        }
+                    })()
+                    }
+                    {/* </div> */}
+                    {
+                    (()=>{
+                        if (user.role !== 'cr' && user.role !== null) {
+                        return <a href="#section3" className="btnn" 
+                        style={{background: '#FFB0AD'}}>Club Moderator</a>
+                        } else {
+                        return <a href="#section3" className="btnn" 
+                        style={{background: 'none'}}>Club Moderator</a>
+                        }
+                    })()
+                    }
                     <a href="#" style={{ color: 'black', position: 'relative', left: '20px' }}
                         onClick={handlePopup}
                     >Ask role access</a>
@@ -208,14 +232,14 @@ const Profile = () => {
 
                 <div className="pp">
                     <p className="password" style={{ margin: '20px', display: 'inline' }}>Password:</p>
-                    <p className="p" style={{ margin: '20px', display: 'inline' }}>*****</p>
+                    <p className="p" style={{ margin: '20px', display: 'inline' }}>********</p>
                 </div>
 
                 <div className="c_s">
-                    <a className="change" href="#" style={{ color: 'black' }} 
-                    onClick={handlePopupPass}
+                    <a className="change" href="#" style={{ color: 'black' }}
+                        onClick={handlePopupPass}
                     >Change</a>
-                    <a href="/#" style={{ color: 'grey' }}>Save</a>
+                    {/* <a href="/#" style={{ color: 'grey' }}>Save</a> */}
                 </div>
 
                 <div className="all">
@@ -226,11 +250,13 @@ const Profile = () => {
                     <div className="background"></div>
                 </div>
             </div>
-
+        {user.role === 'cr' &&
             <div id="section2">
                 <form onSubmit={createGroupEvent}>
-                    <h5 style={{ position: 'relative', left: '22%', height: '100%', width: '100%',
-                        background: 'white'}}>My Group</h5>
+                    <h5 style={{
+                        position: 'relative', left: '22%', height: '100%', width: '100%',
+                        background: 'white'
+                    }}>My Group</h5>
                     <div className="sec2">
                         <p style={{ position: 'relative', left: '5%' }}>Add Event:</p>
                         <div id="block">
@@ -268,25 +294,29 @@ const Profile = () => {
                             </div>
                         </div>
                         <div id="block">
-                            <div id="detailsblock" style={{ display: 'flex'}}>
-                                <textarea rows="3" className="form-control details" 
-                                style={{ resize: 'none' }} placeholder="Add Details"
+                            <div id="detailsblock" style={{ display: 'flex' }}>
+                                <textarea rows="3" className="form-control details"
+                                    style={{ resize: 'none' }} placeholder="Add Details"
                                     value={event.details} onChange={(e) => setEvent({ ...event, details: e.target.value })} ></textarea>
                             </div>
                             <div id="entergblock" className="enterg">
-                                <SubmitButton />                         
+                                <SubmitButton />
                             </div>
                         </div>
                     </div>
-                    
+
                 </form>
 
             </div>
+            }
 
+        {user.role !== 'cr' && user.role !== null &&
             <div id="section3">
-            <form onSubmit={createClubEvent}>
-                    <h5 style={{ position: 'relative', left: '22%', height: '100%', width: '100%',
-                        background: 'white'}}>My Club</h5>
+                <form onSubmit={createClubEvent}>
+                    <h5 style={{
+                        position: 'relative', left: '22%', height: '100%', width: '100%',
+                        background: 'white'
+                    }}>My Club</h5>
                     <div className="sec2">
                         <p style={{ position: 'relative', left: '5%' }}>Add Event:</p>
                         <div id="block">
@@ -324,20 +354,56 @@ const Profile = () => {
                             </div>
                         </div>
                         <div id="block">
-                            <div id="detailsblock" style={{ display: 'flex'}}>
-                                <textarea rows="3" className="form-control details" 
-                                style={{ resize: 'none' }} placeholder="Add Details"
+                            <div id="detailsblock" style={{ display: 'flex' }}>
+                                <textarea rows="3" className="form-control details"
+                                    style={{ resize: 'none' }} placeholder="Add Details"
                                     value={event.details} onChange={(e) => setEvent({ ...event, details: e.target.value })} ></textarea>
                             </div>
                             <div id="entergblock" className="enterg">
-                                <SubmitButton />                         
+                                <SubmitButton />
                             </div>
                         </div>
                     </div>
-                    
+
                 </form>
 
             </div>
+            }
+
+            {/* <div id="section4">
+                <h5 style={{ position: 'relative', left: '22%', top: '82.5px' }}>My Orders</h5>
+                <div className="sec2">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Placed on</th>
+                                <th scope="col">Product details</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {orders.map((order) => (
+                                <tr>
+                                    <th scope="row">{order.order_id}</th>
+                                    <td>1/12/22</td>
+                                    <td colspan="1">
+                                        <table class="table mb-0">
+                                            <td>tshirt</td>
+                                            <td>5</td>
+                                            <td>m</td>
+                                        </table>
+                                    </td>
+                                    <td>500</td>
+                                    <td>pending</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div> */}
+
             {popUp && <CR_verification setPopUp={setPopUp} setUser={user} />}
             {popUpPass && <ChangePass setPopUpPass={setPopUpPass} setUser={user} />}
         </div >

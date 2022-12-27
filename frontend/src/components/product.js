@@ -2,30 +2,41 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import '../static/product.css';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Product = props => {
     console.log(props)
     const { setPopUp } = props;
     const [item] = useState(props.setItem)
+    const [user] = useState(props.setUser);
     const [size, setSize] = useState('S_stock');
     const [quantity, setQuantity] = useState(0);
+    const [address, setAddress] = useState();
+    const [phone, setPhone] = useState();
     const [isOpen, setIsOpen] = useState(false);
     const [setMsg] = useState('');
 
     const Buy = async (e) => {
         e.preventDefault();
         await axios.post('http://localhost:5000/buy', {
+            buyer_id: user.student_id,
+            amount: quantity * item.price,
+            shipping: address,
+            contact: phone,
+            product_id: item.product_id,
+            size: size[0],
+            quantity: quantity
         })
             .then(res => {
+                console.log(res.data)
                 if (res.status === 200) {
-                    setMsg(res.data.msg);
-                    toast.success("Order placed!");
                     setPopUp(false);
+                    window.location.reload(true)
+                    toast.success("Order placed!");
                 }
             })
             .catch(error => {
-                if (error.response.status === 402) { setMsg(error.response.data.msg); }
+                console.log(error);
             });
     }
 
@@ -70,21 +81,22 @@ const Product = props => {
                             <div className="col">Total</div>
                             <div className="col text-right">BDT {quantity * item.price}</div>
                         </div>
-                        <form>
+                        <form onSubmit={Buy}>
                             <label>Room No.
-                                <input id="room" placeholder="NH-102" /></label>
+                                <input id="room" placeholder="NH-102" value={address} onChange={(e) => setAddress( e.target.value)}/></label>
                             <label>Contact no.
-                                <input id="code" placeholder="+880" /></label>
+                                <input id="code" placeholder="+880" value={phone} onChange={(e) => setPhone(e.target.value)}/></label>
                             <label className="mt-3">Payment method
                                 <p>
-                                    <input className="form-check-input" name='payment' type="radio" />Cash on Delivery
+                                    <input className="form-check-input" name='payment' type="radio" selected/>Cash on Delivery
                                     &ensp;
-                                    <input className="form-check-input" name='payment' type="radio" />bKash
+                                    {/* <input className="form-check-input" name='payment' type="radio" />bKash */}
                                 </p>
                             </label>
-                        </form>
-                        <div className='text-center m-3'>
+                            <div className='text-center m-3'>
                             <button className="btn btn-lg btn-primary">Checkout</button></div>
+                        </form>
+                        
                     </div>
 
                 </div>
@@ -98,11 +110,11 @@ const Product = props => {
                 <div className='row m-0' style={{ position: 'absolute', top: '15%' }}>
                     <div className='col-sm-5'>
                         <div id="carouselExampleDark" className="carousel carousel-dark slide m-0 p-0" data-bs-ride="carousel" style={{ border: '1px solid black', height: '200px', width: '200px' }}>
-                            {/* <div className="carousel-indicators">
+                            <div className="carousel-indicators">
                             <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" className="active"></button>
                             <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
                             <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                        </div> */}
+                        </div> 
                             <div className="carousel-inner">
                                 <div className="carousel-item active" data-bs-interval="3000">
                                     <img alt='' src={item.pic1_path} className="d-block w-100" />

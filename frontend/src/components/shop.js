@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
 import '../static/shop.css';
 import Product from './product';
 import ProductCreate from './create_product';
-// import {  toast } from 'react-toastify';
 
 import touristkid from '../static/touristkid.svg';
 
@@ -14,7 +12,6 @@ const Shop = () => {
     const [item, setItem] = useState('')
     const [popUp, setPopUp] = useState(false);
     const [productCreatePopUp, setProductCreatePopUp] = useState(false);
-    const history = useHistory();
 
     useEffect(() => {
         prepareShopPage();
@@ -72,7 +69,8 @@ const Shop = () => {
                 ))} 
             </div>
 
-            {popUp && <Product setPopUp={setPopUp} setItem={item}/>}
+            {popUp && <Product setPopUp={setPopUp} setItem={item}  setUser={user} />}
+            {/* {popUp && <Product setPopUp={setPopUp} setItem={item}/>} */}
             {productCreatePopUp && <ProductCreate setProductCreatePopUp={setProductCreatePopUp}  setUser={user}/>}
        
         </div >

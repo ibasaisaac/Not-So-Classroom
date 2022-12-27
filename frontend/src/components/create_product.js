@@ -4,14 +4,14 @@ import '../static/verification_pop.css';
 import giraffe from '../static/giraffe.svg';
 import birdies from '../static/birdies.svg';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const ProductCreate = props => {
     const { setProductCreatePopUp } = props
     const [user] = useState(props.setUser);
     const [msg, setMsg] = useState('');
-    const [product, setProduct] = useState({ name: '', info: '', category: '', s_stock: '0', m_stock: '0', l_stock: '0', total: '0', price: '', pic: [] });
-    const history = useHistory();
+    const [product, setProduct] = useState({ name: '', info: '', category: '', s_stock: '', m_stock: '', l_stock: '', total: '', price: '', pic: [] });
+    const navigate = useNavigate();
     const [images, setImages] = useState([])
 
     const create = async (e) => {
@@ -20,6 +20,7 @@ const ProductCreate = props => {
         data.set('club_id', 0);
         data.set('seller_id', user.student_id);
         data.set('product_name', product.name);
+        console.log(product.total)
         data.set('stock', parseInt(product.total) + parseInt(product.s_stock) + parseInt(product.m_stock) + parseInt(product.l_stock));
         data.set('s_stock', product.s_stock);
         data.set('m_stock', product.m_stock);

@@ -3,14 +3,14 @@ import '../static/verification_pop.css';
 import giraffe from '../static/giraffe.svg';
 import birdies from '../static/birdies.svg';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const GroupJoin = props => {
     const { setGroupJoinPopUp } = props
     const [user] = useState(props.setUser)
     const [code, setCode] = useState('');
     const [msg, setMsg] = useState('');
-    const history = useHistory();
+    const navigate = useNavigate();
 
 
     const Verify = async (e) => {
@@ -22,7 +22,7 @@ const GroupJoin = props => {
             .then(res => {
                 if (res.status === 200) {
                     setGroupJoinPopUp(false);
-                    history.push('./group');
+                    navigate('/group');
                 }
             })
             .catch(error => {

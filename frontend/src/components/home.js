@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../static/home.css';
 import Edit from './edit_body';
 import GroupCreate from './create_group';
@@ -18,6 +18,7 @@ const Home = () => {
 
     const [text, setText] = useState('')
     const [image, setImage] = useState({ preview: '', data: '' })
+    const [file, setFile] = useState({ preview: '', data: '' })
     const [commentText, setCommentText] = useState({ post_id: '', comment_body: '' })
     const [postEditPopUp, setPostEditPopUp] = useState(false);
     const [propToEdit, setPropToEdit] = useState(['', {}]);
@@ -25,7 +26,7 @@ const Home = () => {
     const [groupJoinPopUp, setGroupJoinPopUp] = useState(false);
     const [groupCreatePopUp, setGroupCreatePopUp] = useState(false);
 
-    const history = useHistory();
+    const navigate = useNavigate();
 
     useEffect(() => {
         prepareHomePage()
@@ -52,13 +53,18 @@ const Home = () => {
     }
 
     const postSubmit = async (e) => {
+        console.log('hi', image.data)
         e.preventDefault();
         const data = new FormData();
         data.set('op_id', user.student_id);
         data.set('category', 'home');
         data.set('category_id', 0);
         data.set('post_body', text);
-        data.append('file', image.data);
+        // if(file)
+        // data.append('file', file.data);
+        // else
+        data.set('file', image.data);
+    
 
         await axios.post('http://localhost:5000/post', data)
             .then(res => {
@@ -138,12 +144,20 @@ const Home = () => {
         }
     }
 
-    const handleFileChange = (e) => {
+    const handleImageChange = (e) => {
         const img = {
             preview: URL.createObjectURL(e.target.files[0]),
             data: e.target.files[0],
         }
         setImage(img)
+    }
+    const handleFileChange = (e) => {
+        const img = {
+            preview: URL.createObjectURL(e.target.files[0]),
+            data: e.target.files[0],
+        }
+        console.log(img)
+        setFile(img)
     }
 
     function Modify1(props) {
@@ -179,16 +193,16 @@ const Home = () => {
             setGroupJoinPopUp(true);
         }
         else {
-            history.push('./group');
+            navigate('/group');
         }
     }
     const clubButton = async (e) => {
         e.preventDefault()
-        history.push('./clubmenu');
+        navigate('/clubmenu');
     }
     const shopButton = async (e) => {
         e.preventDefault()
-        history.push('./shop');
+        navigate('/shop');
     }
 
 
@@ -211,12 +225,13 @@ const Home = () => {
 
                             <div>
                                 {image.preview && <img alt='' className='img-thumbnail mx-5 my-1' src={image.preview} width='100' height='100' />}
+                                {file.preview && <p>{file.data.name}</p>}
                                 <div className='text-end py-1'>
                                     <label htmlFor="photo1"><i className="fa fa-solid fa-image"></i>
-                                        <input className="form-control" type="file" id="photo1" onChange={handleFileChange} style={{ display: 'none' }} />Photo</label>
+                                        <input className="form-control" type="file" name="file" id="photo1" accept='image/*' onChange={handleImageChange} style={{ display: 'none' }} />Photo</label>
                                     <label style={{ width: '15px' }}></label>
                                     <label htmlFor="attach1"><i className="fa fa-solid fa-paperclip"></i>
-                                        <input className="form-control" type="file" id="attach1" style={{ display: 'none' }} />Attach File</label>
+                                        <input className="form-control" type="file" name="file" id="attach1" accept='application/pdf' onChange={handleFileChange} style={{ display: 'none' }} />Attach File</label>
                                 </div>
                             </div>
 
@@ -242,6 +257,8 @@ const Home = () => {
                                 </div>
 
                                 <p className='m-0'>{post.post_body}</p>
+                                 <embed src={`${post.image_path}`}/>
+                                {/* <iframe rel="preload" src={`${post.image_path}`} style="width:600px; height:500px;" frameborder="0" as="fetch" type="application/pdf" crossorigin ></iframe> */}
                                 <a href={`${post.image_path}`} target="_blank" rel="noreferrer">
                                     <img alt='' src={`${post.image_path}`} width='250' />
                                 </a>
@@ -253,7 +270,7 @@ const Home = () => {
                                 <div className='mb-3'>
                                     <form onSubmit={commentSubmit} style={{ display: 'flex', alignItems: 'center' }}>
                                         <i className="fa fa-regular fa-comment fa-lg ms-1"></i>
-                                        <textarea rows="1" className="form-control ms-4 me-2" style={{ resize: 'none', borderRadius: '25px' }} value={commentText.comment_body} onChange={(e) => setCommentText({ post_id: post.post_id, comment_body: e.target.value })} ></textarea>
+                                        <textarea rows="1" className="form-control ms-4 me-2" style={{ resize: 'none', borderRadius: '25px' }} value={commentText.comment_body} onChange={(e) => {commentText.post_id==post.post_id && setCommentText({ post_id: post.post_id, comment_body: e.target.value })}} ></textarea>
                                         <button type="submit" style={{ border: 'none', backgroundColor: 'transparent' }} ><i className="fa fa-regular fa-paper-plane fa-lg me-1"></i></button>
                                     </form>
                                 </div>

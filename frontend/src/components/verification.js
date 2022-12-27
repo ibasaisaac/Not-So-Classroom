@@ -4,14 +4,14 @@ import '../static/verification_pop.css';
 import giraffe from '../static/giraffe.svg';
 import birdies from '../static/birdies.svg';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Verification = props => {
     const [isLoading, setIsLoading] = useState(false);
     const { setPopUp } = props;
     const [otp, setOTP] = useState('');
     const [msg, setMsg] = useState('');
-    const history = useHistory();
+    const navigate = useNavigate();
 
 
     const Verify = async (e) => {
@@ -24,7 +24,7 @@ const Verification = props => {
                     setMsg(res.data.msg);
                     toast.success("Registration Successful!");
                     setPopUp(false);
-                    history.push('./login');
+                    navigate('/login');
                 }
             })
             .catch(error => {

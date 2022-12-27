@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import jwt_decode from "jwt-decode";
-import 'react-toastify/dist/ReactToastify.css'; 
-import { ToastContainer, toast } from 'react-toastify';
 
 import '../static/header.css';
 import logo from '../static/pencil.svg';
@@ -13,7 +11,7 @@ const Header = () => {
     const [user, setUser] = useState('')
     const [token, setToken] = useState('');
     const [expire, setExpire] = useState('');
-    const history = useHistory();
+    const navigate = useNavigate();
 
     useEffect(() => {
         refreshToken();
@@ -36,7 +34,7 @@ const Header = () => {
             })
             .catch(error => {
                 if (error.response) {
-                    history.push("./login");
+                    navigate("/login");
                 }
             })
     }
@@ -62,7 +60,7 @@ const Header = () => {
     const Logout = async () => {
         try {
             await axios.delete('http://localhost:5000/logout');
-            history.push("./login");
+            navigate("/login");
         } catch (error) {
             console.log(error);
         }
@@ -71,28 +69,28 @@ const Header = () => {
 
     const homeButton = async (e) => {
         e.preventDefault()
-        history.push("./home");
+        navigate("/home");
     }
     const profileButton = async (e) => {
         e.preventDefault()
-        history.push("./profile");
+        navigate("/profile");
     }
     const groupButton = async (e) => {
         e.preventDefault()
         if (user.class_group) {
-            history.push('./group');
+            navigate('/group');
         }
     }
     const clubButton = async (e) => {
         e.preventDefault()
-        history.push('./clubmenu');
+        navigate('/clubmenu');
     }
     const shopButton = async (e) => {
         e.preventDefault()
-        history.push("./shop");
+        navigate("/shop");
     }
     const supportButton = async () => {
-        history.push("./support");
+        navigate("/support");
     }
 
     if(user){
@@ -118,8 +116,7 @@ const Header = () => {
 
                 <div className="offcanvas-header p-4" style={{ maxHeight: '45px' }}>
                     <h5 className="offcanvas-title">Ahoy there, {username}!</h5>
-                    <button type="button" className="btn-close" data-bs-dismiss="offcanvas">
-                    </button>
+                    <button type="button" className="btn-close" data-bs-dismiss="offcanvas"></button>
                 </div>
 
                 <div className="offcanvas-body" >

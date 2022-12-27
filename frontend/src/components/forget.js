@@ -4,12 +4,12 @@ import '../static/verification_pop.css';
 import giraffe from '../static/giraffe.svg';
 import birdies from '../static/birdies.svg';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Forget = props => {
     const [isLoading, setIsLoading] = useState(false);
     const { setPopUp } = props;
-    const history = useHistory();
+    const navigate = useNavigate();
     const [otp, setOTP] = useState('');
     const [password, setPassword] = useState('');
     const [msg, setMsg] = useState('');
@@ -25,7 +25,7 @@ const Forget = props => {
                     setMsg(res.data.msg);
                     toast.success("Password updated!");
                     setPopUp(false);
-                    history.push('./login');
+                    navigate('/login');
                 }
             })
             .catch(error => {

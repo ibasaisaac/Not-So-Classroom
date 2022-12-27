@@ -307,8 +307,7 @@ function destroyOTP() {
 function make_mailConfig(email) {
     return {
         from: 'not.so.classroom@gmail.com',
-        // to: `${email}`,
-        to: 'ummetasnim@iut-dhaka.edu',
+        to: `${email}`,
 
         subject: 'Verify Email Address for Not So Classroom',
         text: `Thanks for registering for an account on Not So Classroom! Before we get started, we just need to confirm that this is you. Here's your code: ${otp}. This code will expire in 5 minutes.`

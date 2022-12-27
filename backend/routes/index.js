@@ -1,11 +1,11 @@
 import express from "express";
 import { getUser, Register, Login, Logout, Resend, Verification, Forget, joinGroup, createGroup} from "../controllers/users.js";
-import { submitPost, editPost, deletePost, showPost, editComment, submitComment, deleteComment, showEvent, search, showProduct, addProduct} from "../controllers/feed.js";
+import { submitPost, editPost, deletePost, showPost, editComment, submitComment, deleteComment, showEvent, search, showProduct, addProduct, buyProduct} from "../controllers/feed.js";
 import { verifyToken } from "../middleware/verifyToken.js";
 import { refreshToken } from "../controllers/refreshToken.js";
 
-import { userprofile, CR_verification, createEvent, changedp, showdp} from "../controllers/profile.js";
-
+import { userprofile, CR_verification, createEvent, changedp, showOrders, ChangePassword} from "../controllers/profile.js";
+ 
 const router = express.Router();
  
 router.use('/uploads', express.static('uploads'));
@@ -30,13 +30,15 @@ router.post('/getpost', showPost);
 router.post('/getevent', showEvent);
 router.post('/getproduct', showProduct);
 router.post('/addproduct', addProduct);
+router.post('/buy', buyProduct);
 router.get('/token', refreshToken);
 
 router.get('/profile', userprofile);
 router.post('/cr_verify', CR_verification);
 router.post('/postevent',createEvent);
 router.post('/dp',changedp);
-router.get('/getdp',showdp);
+router.post('/getorders',showOrders);
+router.post('/pass_verify',ChangePassword);
 
 router.post('/login', Login);
 router.delete('/logout', Logout);

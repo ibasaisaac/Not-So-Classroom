@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../static/login.css';
 import Forget from './forget';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 const Login = () => {
@@ -12,7 +12,7 @@ const Login = () => {
     const [remember, setRemember] = useState(false);
     const [msg1, setMsg1] = useState('');
     const [msg2, setMsg2] = useState('');
-    const history = useHistory();
+    const navigate = useNavigate();
     const [popUp, setPopUp] = useState(false);
 
 
@@ -25,7 +25,7 @@ const Login = () => {
                 password: password,
                 remember: remember
             })
-            history.push("./home");
+            navigate("/home");
         } catch (error) {
             if (error.response.status === 404) { setMsg1(error.response.data.msg); setEmail('')}
             else if (error.response.status === 400) { setMsg2(error.response.data.msg); setPassword('') }

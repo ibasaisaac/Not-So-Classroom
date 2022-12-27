@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../static/clubmenu.css';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ClubJoin from './join_club';
 import us from '../static/us.png';
 
@@ -9,7 +9,7 @@ import us from '../static/us.png';
 const Clubmenu = () => {
     const [user, setUser] = useState('')
     const [clubJoinPopUp, setClubJoinPopUp] = useState(false);
-    const history = useHistory();
+    const navigate = useNavigate();
 
     useEffect(() => {
         getUser()
@@ -30,7 +30,7 @@ const Clubmenu = () => {
     const clubButton = async (e) => {
         e.preventDefault()
         console.log('click')
-        history.push('./club');
+        navigate('/club');
     }
 
     return (

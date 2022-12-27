@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./components/home";
 import Profile from "./components/profile";
 import Group from "./components/group";
@@ -15,56 +15,21 @@ import Register from "./components/register";
 function App() {
   return (
     <BrowserRouter>
-      <Switch>
-
-        <Route exact path="/">
-          <Header />
-          <Home />
-        </Route>
-
-        <Route path="/register">
-          <Register />
-        </Route>
-
-        <Route path="/login">
-          <Login />
-        </Route>
-
-        <Route path="/verify">
-          <Verification />
-        </Route>
-
-        <Route path="/home">
-          <Header />
-          <Home />
-        </Route>
-
-        <Route path="/profile">
-          <Header />
-          <Profile />
-        </Route>
-
-        <Route path="/group">
-          <Header />
-          <Group />
-        </Route>
-
-        <Route path="/clubmenu">
-          <Header />
-          <Clubmenu />
-        </Route>
-
-        <Route path="/club">
-          <Header />
-          <Club />
-        </Route>
-
-        <Route path="/shop">
-          <Header />
-          <Shop />
-        </Route>
-
-      </Switch >
+    
+      <Routes>
+     
+          <Route exact path="/" element={(<><Header /> <Home/></>)} />
+          <Route path="/register" element={<Register/>} />
+          <Route path="/login" element={<Login/>} />
+          <Route path="/verify" element={(<><Header /> <Verification/></>)} />
+          <Route path="/home" element={(<><Header /> <Home/></>)} />
+          <Route path="/profile" element={(<><Header /> <Profile/></>)} />
+          <Route path="/group" element={(<><Header /> <Group/></>)} />
+          <Route path="/clubmenu" element={(<><Header /> <Clubmenu/></>)} />
+          <Route path="/club" element={(<><Header /> <Club/></>)} />
+          <Route path="/shop" element={(<><Header /> <Shop/></>)} />
+  
+      </Routes >
     </BrowserRouter >
   );
 }

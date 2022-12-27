@@ -4,11 +4,11 @@ import '../static/verification_pop.css';
 import giraffe from '../static/giraffe.svg';
 import birdies from '../static/birdies.svg';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const ChangePass = props => {
     const { setPopUpPass } = props;
-    const history = useHistory();
+    const navigate = useNavigate();
     const [new_pass, setNewPassword] = useState('');
     const [old_pass, setOldPassword] = useState('');
     const [msg, setMsg] = useState('');
@@ -30,7 +30,7 @@ const ChangePass = props => {
                     toast.success("Password updated!");
                     console.log('hoi');
                     setPopUpPass(false);
-                    history.push('./profile');
+                    navigate('/profile');
               }
             })
             .catch(error => {
