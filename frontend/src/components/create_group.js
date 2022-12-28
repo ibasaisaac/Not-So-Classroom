@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { toast } from 'react-toastify';
+
 import '../static/verification_pop.css';
 import giraffe from '../static/giraffe.svg';
 import birdies from '../static/birdies.svg';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+
 
 const GroupCreate = props => {
     const setPopUp  = props.setGroupCreatePopUp
@@ -13,7 +14,6 @@ const GroupCreate = props => {
     const [msg, setMsg] = useState('');
     const [group, setGroup] = useState({ name: '', dept: '', prog: '', batch: '', section: '', count: '' });
     const [progs, setProgs] = useState([]);
-    const navigate = useNavigate();
 
     const Auth = async (e) => {
         e.preventDefault();

@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import '../static/login.css';
-import Forget from './forget';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+
+import Forget from './forget_pass.js';
+
+import '../static/login.css';
+
+
 
 
 const Login = () => {
@@ -20,7 +24,7 @@ const Login = () => {
         e.preventDefault();
 
         try {
-            await axios.post('http://localhost:5000/login', {
+           await axios.post('http://localhost:5000/login', {
                 email: email + '@iut-dhaka.edu',
                 password: password,
                 remember: remember

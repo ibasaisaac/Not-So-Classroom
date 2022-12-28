@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { toast } from 'react-toastify';
+
 import '../static/verification_pop.css';
 import giraffe from '../static/giraffe.svg';
 import birdies from '../static/birdies.svg';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+
 
 const ProductCreate = props => {
     const setPopUp = props.setProductCreatePopUp
     const [user] = useState(props.setUser);
-    const [msg, setMsg] = useState('');
     const [product, setProduct] = useState({ name: '', info: '', category: '', s_stock: '', m_stock: '', l_stock: '', total: '', price: '', pic: [] });
-    const navigate = useNavigate();
     const [images, setImages] = useState([])
 
     const create = async (e) => {

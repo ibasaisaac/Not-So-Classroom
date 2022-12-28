@@ -6,6 +6,9 @@ import jwt_decode from "jwt-decode";
 import '../static/header.css';
 import logo from '../static/pencil.svg';
 
+export const axiosJWT = axios.create();
+
+
 const Header = () => {
     const [username, setUsername] = useState(null);
     const [user, setUser] = useState('')
@@ -14,33 +17,35 @@ const Header = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        refreshToken();
-    }, []);
 
-
-    const refreshToken = async () => {
-        axios.get('http://localhost:5000/token')
-            .then((response) => {
-                setToken(response.data.accessToken);
-                const decoded = jwt_decode(response.data.accessToken);
-                setUsername(decoded.username);
-                setExpire(decoded.exp);
-                axios.get('http://localhost:5000/getuser', {
-                })
-                    .then(function (res1) {
-                        console.log('header', res1.data);
-                        setUser(res1.data);
+        const refreshToken = async () => {
+            axios.get('http://localhost:5000/token')
+                .then((response) => {
+                    setToken(response.data.accessToken);
+                    const decoded = jwt_decode(response.data.accessToken);
+                    setUsername(decoded.username);
+                    setExpire(decoded.exp);
+                    axiosJWT.get('http://localhost:5000/getuser', {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
                     })
-            })
-            .catch(error => {
-                if (error.response) {
-                    navigate("/login");
-                }
-            })
-    }
+                        .then(function (res) {
+                            setUser(res.data)
+                        })
+                })
+                .catch(error => {
+                    if (error.response) {
+                        navigate("/login");
+                    }
+                })
+        }
+        
+        refreshToken();
+    },[navigate, token]);
 
-    const axiosJWT = axios.create();
 
+    
     axiosJWT.interceptors.request.use(async (config) => {
         const currentDate = new Date();
         if (expire * 1000 < currentDate.getTime()) {
@@ -48,7 +53,6 @@ const Header = () => {
             config.headers.Authorization = `Bearer ${response.data.accessToken}`;
             setToken(response.data.accessToken);
             const decoded = jwt_decode(response.data.accessToken);
-            setUsername(decoded.username);
             setExpire(decoded.exp);
         }
         return config;
@@ -93,7 +97,6 @@ const Header = () => {
         navigate("/support");
     }
 
-    if(user){
     return (
         <div className='sticky-top marker' style={{ backgroundColor: 'var(--crystal)' }}>
             <nav className="navbar">
@@ -183,7 +186,7 @@ const Header = () => {
                 </div>
             </div>
         </div>
-    )}
+    )
 }
 
 export default Header

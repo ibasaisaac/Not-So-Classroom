@@ -1,5 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+
+import Header from "./components/header";
 import Home from "./components/home";
 import Profile from "./components/profile";
 import Group from "./components/group";
@@ -8,10 +10,8 @@ import Clubmenu from "./components/club_menu";
 import Club from "./components/club";
 import Verification from "./components/verification";
 import Login from "./components/login";
-import Header from "./components/header";
 import Register from "./components/register";
 import Chat from "./components/chat";
-// app.locals.User = ;
 
 function App() {
   return (

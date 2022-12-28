@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import '../static/register.css';
-import Verification from './verification';
 import axios from "axios";
+
+import Verification from './verification';
+
+import '../static/register.css';
 
 const Register = () => {
     const [isLoading, setIsLoading] = useState(false);

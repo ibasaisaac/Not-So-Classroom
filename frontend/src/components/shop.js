@@ -3,7 +3,7 @@ import axios from 'axios';
 import '../static/shop.css';
 import Product from './product';
 import ProductCreate from './create_product';
-
+import { axiosJWT } from './header.js';
 import touristkid from '../static/touristkid.svg';
 
 const Shop = () => {
@@ -14,28 +14,34 @@ const Shop = () => {
     const [productCreatePopUp, setProductCreatePopUp] = useState(false);
 
     useEffect(() => {
+
+        const prepareShopPage = async () => {
+            const token = ''
+            await axiosJWT.get('http://localhost:5000/getuser', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+                .then(function (res1) {
+                    console.log('shop', res1.data);
+                    setUser(res1.data);
+                    axios.post('http://localhost:5000/getproduct', {
+                        club_id: 0
+                    })
+                        .then(function (res2) {
+                            console.log('shop products', res2.data)
+                            setProducts(res2.data)
+                        })
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
+
         prepareShopPage();
     }, []);
 
-    const prepareShopPage = async () => {
-        await axios.get('http://localhost:5000/getuser', {
-        })
-            .then(function (res1) {
-                console.log(res1.data);
-                setUser(res1.data);
-                axios.post('http://localhost:5000/getproduct', {
-                    club_id: 0
-                })
-                    .then(function (res2) {
-                        console.log(res2.data)
-                        setProducts(res2.data)
-                    })
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    }
-
+    
 
     function addProduct() {
         setProductCreatePopUp(true);
@@ -56,9 +62,9 @@ const Shop = () => {
             <img className="bgshopprop" src={touristkid} alt="kid" />
 
             <div className="row row-cols-1 row-cols-md-4 g-4 m-5">
-                 {products.map((product) => (
+                {products.map((product) => (
                     <div className="col" key={`${product.product_id}`}>
-                        <div className="card h-100 p-3" onClick={() => {setPopUpProduct(true); setItem(product);}} style={{ backgroundColor: random_color(), borderRadius: '0' }}>
+                        <div className="card h-100 p-3" onClick={() => { setPopUpProduct(true); setItem(product); }} style={{ backgroundColor: random_color(), borderRadius: '0' }}>
                             <img alt='' src={product.pic1_path} width='auto' height='230px' className="card-img-top" />
                             <div className="card-body">
                                 <h5 className="card-title text-center">{product.price + 'BDT'}</h5>
@@ -66,12 +72,12 @@ const Shop = () => {
                             </div>
                         </div>
                     </div>
-                ))} 
+                ))}
             </div>
 
             {popUpProduct && <Product setPopUpProduct={setPopUpProduct} setItem={item} setUser={user} />}
-            {productCreatePopUp && <ProductCreate setProductCreatePopUp={setProductCreatePopUp}  setUser={user}/>}
-       
+            {productCreatePopUp && <ProductCreate setProductCreatePopUp={setProductCreatePopUp} setUser={user} />}
+
         </div >
     )
 }

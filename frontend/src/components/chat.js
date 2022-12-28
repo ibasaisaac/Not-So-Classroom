@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import ChannelList from './channelList.js';
-import '../static/chat.css';
-import MessagesPanel from './messagePanel.js';
 import socketClient from "socket.io-client";
+
+import ChannelList from './channelList.js';
+import MessagesPanel from './messagePanel.js';
+import '../static/chat.css';
+
 
 const Chat = () => {
 
@@ -13,7 +15,7 @@ const Chat = () => {
     useEffect(() => {
         loadChannels()
         configureSocket()
-    }, []);
+    },);
 
     const configureSocket = () => {
         var socket = socketClient("http://127.0.0.1:5000");

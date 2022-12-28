@@ -1,18 +1,20 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../static/group.css';
-import Edit from './edit_body';
 import { toast } from 'react-toastify';
 
+import { axiosJWT } from './header.js';
+import Edit from './edit_body.js';
+import '../static/group.css';
 import abckid from '../static/abckid.svg';
+
 
 const Club = () => {
     const [user, setUser] = useState('')
-    const [club_id, setID] = useState('')
+    const [ setClub] = useState({ id: '', name: '' })
     const [posts, setPosts] = useState('')
     const [propToEdit, setPropToEdit] = useState(['', {}]);
     const [postEditPopUp, setPostEditPopUp] = useState(false);
-    const [sessions, setSessions] = useState('')
+    // const [sessions, setSessions] = useState('')
 
     const [text, setText] = useState('')
     const [image, setImage] = useState({ preview: '', data: '' })
@@ -20,37 +22,39 @@ const Club = () => {
 
 
     useEffect(() => {
-        prepareClubPage();
-    }, []);
 
-    const prepareClubPage = async () => {
-
-        await axios.get('http://localhost:5000/getuser', {
-        })
-            .then(function (res1) {
-                console.log(res1.data);
-                setUser(res1.data);
-                axios.post('http://localhost:5000/getpost', {
-                    category: 'club_id',
-                    category_id: 0
-                })
-                    .then(function (res2) {
-                        console.log(res2.data)
-                        setPosts(res2.data);
-                        axios.post('http://localhost:5000/getsession', {
-                            id: res1.data.club_id
-                        })
-                            .then(function (res3) {
-                                console.log(res3.data)
-                            })
-                    })
+        const prepareClubPage = async () => {
+            const token = ''
+            await axiosJWT.get('http://localhost:5000/getuser', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             })
-            .catch(error => {
-                console.log(error);
-            });
-    }
+                .then(function (res1) {
+                    setUser(res1.data);
+                    setClub(res1.data.clubs);
+                    axios.post('http://localhost:5000/getpost', {
+                        category: 'club_id',
+                        category_id: res1.data.class_group.id
+                    })
+                        .then(function (res2) {
+                            setPosts(res2.data);
+                            axios.post('http://localhost:5000/getsession', {
+                                id: res1.data.class_group.id
+                            })
+                                .then(function (res3) {
+                                })
+                        })
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
 
-    const postSubmit = async (e) => {
+        prepareClubPage();
+    }, [setClub]);
+
+        const postSubmit = async (e) => {
         e.preventDefault();
         const data = new FormData();
         data.set('op_id', user.student_id);
@@ -170,12 +174,12 @@ const Club = () => {
         }
     };
 
-    const color = useMemo(() => random_color(), []);
-    const color2 = useMemo(() => random_color(), []);
-    function random_color() {
-        var colors = ['var(--melon)', 'var(--caramel)', 'var(--crystal)', 'var(--vista)'];
-        return colors[Math.floor(Math.random() * colors.length)];
-    }
+    // const color = useMemo(() => random_color(), []);
+    // const color2 = useMemo(() => random_color(), []);
+    // function random_color() {
+    //     var colors = ['var(--melon)', 'var(--caramel)', 'var(--crystal)', 'var(--vista)'];
+    //     return colors[Math.floor(Math.random() * colors.length)];
+    // }
 
     if (!user || !posts)
         return <div style={{ textAlign: 'center', lineHeight: '600px' }}><i className="fa-regular fa-circle fa-beat fa-3x"></i><i className="fa-solid fa-circle fa-beat fa-3x"></i><i className="fa-regular fa-circle fa-beat fa-3x"></i></div>

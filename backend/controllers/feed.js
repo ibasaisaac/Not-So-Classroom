@@ -1,14 +1,14 @@
 import { Op } from 'sequelize';
+import multer from 'multer';
+
+import User from "../models/userModel.js";
 import { Post, Comment } from "../models/postModel.js";
 import Media from "../models/mediaModel.js"
-import Event from "../models/eventModel.js";
-import User from "../models/userModel.js";
+import Event from "../models/eventModel.js"
 import Group from "../models/groupModel.js"
-import Product from "../models/productModel.js"
 import { ScheduleMon, ScheduleTue, ScheduleWed, ScheduleThu, ScheduleFri } from "../models/scheduleModel.js";
+import Product from "../models/productModel.js"
 import { Order, OrderedItems } from "../models/orderModel.js";
-import multer from 'multer';
-import { Sequelize } from "sequelize";
 
 
 const storage = multer.diskStorage({

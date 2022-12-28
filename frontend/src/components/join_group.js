@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 import '../static/verification_pop.css';
 import giraffe from '../static/giraffe.svg';
 import birdies from '../static/birdies.svg';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+
 
 const GroupJoin = props => {
     const setPopUp = props.setGroupJoinPopUp

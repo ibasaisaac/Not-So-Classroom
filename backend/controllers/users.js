@@ -1,9 +1,11 @@
-import User from "../models/userModel.js";
-import Student from "../models/studentModel.js";
-import Group from "../models/groupModel.js";
 import nodemailer from 'nodemailer';
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+
+import Student from "../models/studentModel.js";
+import User from "../models/userModel.js";
+import Group from "../models/groupModel.js";
+
 
 let id, email, username, password;
 let currentUser = {
@@ -15,12 +17,12 @@ let currentUser = {
     class_group: ''
 }
 
-
 export async function storeUser (id, email, username, dp, group, role) {
     currentUser.student_id = id;
     currentUser.email = email;
     currentUser.username = username;
     currentUser.dp = dp;
+    // console.log(group)
     const t = await Group.findOne({
         attributes: ['group_id', 'group_name'],
         where: {
@@ -105,7 +107,7 @@ export const Login = async (req, res) => { //check pass, sign tokens and update 
     //data to hash in token secret, token secret, token expiry time  
     //token secrets stored in .env, to use them needed dotenv
     const accessToken = jwt.sign({ userId, username, email }, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: '15s'
+        expiresIn: '1200s'
     }); //new access token everytime browser is closed
 
 

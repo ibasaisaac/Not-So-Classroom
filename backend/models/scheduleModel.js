@@ -1,6 +1,7 @@
 import { Sequelize } from "sequelize";
 import db from "../config/database.js";
 import Group from "./groupModel.js";
+
 const { DataTypes } = Sequelize;
 
 export const ScheduleMon = db.define('schedule_mon', {

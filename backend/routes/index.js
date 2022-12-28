@@ -1,9 +1,10 @@
 import express from "express";
-import { getUser, Register, Login, Logout, Resend, Verification, Forget, joinGroup, createGroup} from "../controllers/users.js";
-import { submitPost, editPost, deletePost, showPost, editComment, submitComment, deleteComment, showEvent, search, showProduct, addProduct, buyProduct} from "../controllers/feed.js";
+
 import { verifyToken } from "../middleware/verifyToken.js";
 import { refreshToken } from "../controllers/refreshToken.js";
 
+import { getUser, Register, Login, Logout, Resend, Verification, Forget, joinGroup, createGroup} from "../controllers/users.js";
+import { submitPost, editPost, deletePost, showPost, editComment, submitComment, deleteComment, showEvent, search, showProduct, addProduct, buyProduct} from "../controllers/feed.js";
 import { CR_verification, changeDP, changePassword, createEvent, showOrders} from "../controllers/profile.js";
  
 const router = express.Router();
@@ -25,7 +26,7 @@ router.post('/joingroup', joinGroup);
 router.post('/creategroup', createGroup);
 
 router.get('/register', verifyToken);
-router.get('/getuser', getUser);
+router.get('/getuser', verifyToken, getUser);
 router.post('/getpost', showPost);
 router.post('/getevent', showEvent);
 router.post('/getproduct', showProduct);

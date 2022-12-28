@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import '../static/profile.css';
 import axios from 'axios';
-import ChangePass from './change_pass';
-import CR_verification from './cr_verification';
-import Product from './product';
 import { toast } from 'react-toastify';
+
+import { axiosJWT } from './header.js';
+import ChangePass from './change_pass.js';
+import CrVerification from './cr_verification.js';
+import Product from './product.js';
+
+import '../static/profile.css';
 
 
 const Profile = () => {
-    const [user, setUser] = useState('');
+    const [user, setUser] = useState('')
     const [event, setEvent] = useState({ place: '', room: '', date: '', time: '', details: '' });
     const [popUpCR, setPopUpCR] = useState(false);
     const [popUpPass, setPopUpPass] = useState(false);
@@ -18,28 +21,35 @@ const Profile = () => {
     const [popUpProduct, setPopUpProduct] = useState(false);
 
     useEffect(() => {
+
+        const prepareProfile = async () => {
+            const token = ''
+            await axiosJWT.get('http://localhost:5000/getuser', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+                .then((resp) => {
+                    setUser(resp.data);
+                    axios.post('http://localhost:5000/getorders', {
+                        buyer_id: resp.data.student_id
+                    })
+                        .then(function (res2) {
+                            if (res2.status === 201) {
+                                setOrders(res2.data)
+                            }
+                        })
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        }
+    
+
         prepareProfile()
     }, []);
 
-    const prepareProfile = async () => {
-        axios.get('http://localhost:5000/getUser', {
-        })
-            .then((resp) => {
-                setUser(resp.data);
-                axios.post('http://localhost:5000/getorders', {
-                    buyer_id: resp.data.student_id
-                })
-                    .then(function (res2) {
-                        if (res2.status === 201) {
-                            setOrders(res2.data)
-                        }
-                    })
-            })
-            .catch(error => {
-                console.log(error);
-            })
-    }
-
+   
     const createGroupEvent = async (e) => {
         e.preventDefault();
         axios.post('http://localhost:5000/postevent', {
@@ -180,9 +190,7 @@ const Profile = () => {
                             }
                         })()
                     }
-                    <a href="#" style={{ color: 'black', position: 'relative', left: '20px' }}
-                        onClick={handlePopup}
-                    >Ask role access</a>
+                    <a href="/#" style={{ color: 'black', position: 'relative', left: '20px' }} onClick={handlePopup}>Ask role access</a>
                 </div>
 
                 <div className="emm">
@@ -196,7 +204,7 @@ const Profile = () => {
                 </div>
 
                 <div className="c_s">
-                    <a className="change" href="#" style={{ color: 'black' }}
+                    <a className="change" href="/#" style={{ color: 'black' }}
                         onClick={handlePopupPass}
                     >Change</a>
                 </div>
@@ -366,7 +374,7 @@ const Profile = () => {
                 </div>
             </div>
 
-            {popUpCR && <CR_verification setPopUpCR={setPopUpCR} setUser={user} />}
+            {popUpCR && <CrVerification setPopUpCR={setPopUpCR} setUser={user} />}
             {popUpProduct && <Product setPopUpProduct={setPopUpProduct} setItem={item} setUser={user} />}
             {popUpPass && <ChangePass setPopUpPass={setPopUpPass} setUser={user} />}
         </div >

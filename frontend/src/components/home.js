@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import '../static/home.css';
-import Edit from './edit_body';
-import GroupCreate from './create_group';
-import GroupJoin from './join_group';
 import { toast } from 'react-toastify';
 
+import { axiosJWT } from './header.js';
+import Edit from './edit_body.js';
+import GroupCreate from './create_group.js';
+import GroupJoin from './join_group.js';
+
+import '../static/home.css';
 import homekids from '../static/homekids.svg';
 import bag from '../static/backpack.svg';
 import paint from '../static/palette.svg';
 import shop from '../static/shopping.svg';
 
+
 const Home = () => {
     const [user, setUser] = useState('')
     const [posts, setPosts] = useState('')
-
     const [text, setText] = useState('')
     const [image, setImage] = useState([])
     const [file, setFile] = useState()
@@ -29,32 +31,36 @@ const Home = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+
+        const prepareHomePage = async () => {
+            const token = ''
+            await axiosJWT.get('http://localhost:5000/getuser', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+                .then(function (res1) {
+                    console.log('home', res1.data);
+                    setUser(res1.data);
+                    axios.post('http://localhost:5000/getpost', {
+                        category: 'home',
+                        category_id: 0
+                    })
+                        .then(function (res2) {
+                            console.log('home posts', res2.data)
+                            setPosts(res2.data);
+                        })
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
+
         prepareHomePage()
     }, []);
 
-    const prepareHomePage = async () => {
-        await axios.get('http://localhost:5000/getuser', {
-        })
-            .then(function (res1) {
-                console.log('home', res1.data);
-                setUser(res1.data);
-                axios.post('http://localhost:5000/getpost', {
-                    category: 'home',
-                    category_id: 0
-                })
-                    .then(function (res2) {
-                        console.log('home posts', res2.data)
-                        setPosts(res2.data);
-                    })
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    }
-
+    
     const postSubmit = async (e) => {
-
-
         e.preventDefault();
         const data = new FormData();
         data.set('op_id', user.student_id)
@@ -196,7 +202,6 @@ const Home = () => {
         navigate('/shop');
     }
 
-
     if (!user || !posts)
         return <div style={{ textAlign: 'center', lineHeight: '600px' }}><i className="fa-regular fa-circle fa-beat fa-3x"></i><i className="fa-solid fa-circle fa-beat fa-3x"></i><i className="fa-regular fa-circle fa-beat fa-3x"></i></div>
     return (
@@ -260,7 +265,7 @@ const Home = () => {
 
                                         <a key={m.media_id} href={`${m.path}`} target="_blank" rel="noreferrer">
                                             {m.type === 'application/pdf' ?
-                                                <iframe rel="preload" src={`${m.path}`} style={{ width: '500px', height: '300px' }} as="fetch" type="application/pdf" crossOrigin="true" ></iframe> :
+                                                <iframe rel="preload" src={`${m.path}`} style={{ width: '500px', height: '300px' }} title={m.path} as="fetch" type="application/pdf" crossOrigin="true" ></iframe> :
                                                 <img alt='' src={`${m.path}`} className="gallery_item" />}</a>
 
                                     )
@@ -334,6 +339,8 @@ const Home = () => {
             {groupCreatePopUp && <GroupCreate setGroupCreatePopUp={setGroupCreatePopUp} setUser={user} />}
         </div >
     )
+
+    
 }
 
 export default Home

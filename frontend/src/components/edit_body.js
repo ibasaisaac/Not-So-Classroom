@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { toast } from 'react-toastify';
-import '../static/home.css';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+
+import '../static/home.css';
+
 
 
 const Edit = props => {
-    console.log(props)
     const setPopUp  = props.setPostEditPopUp
     const [propToEdit] = useState(props.setPropToEdit[0])
     const [text, setText] = useState(props.setPropToEdit[1])
@@ -19,7 +20,7 @@ const Edit = props => {
             .then(res => {
                 if (res.status === 200) {
                     toast.success(res.data.msg, {
-                        // onClose: () => window.location.reload(true)
+                        onClose: () => window.location.reload(true)
                     });
                 }
             })
@@ -37,7 +38,7 @@ const Edit = props => {
             .then(res => {
                 if (res.status === 200) {
                     toast.success(res.data.msg, {
-                        // onClose: () => window.location.reload(true)
+                        onClose: () => window.location.reload(true)
                     });
                 }
             })

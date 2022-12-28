@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { toast } from 'react-toastify';
-import '../static/product.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
+import '../static/product.css';
+
 
 const Product = props => {
-    console.log(props)
     const setPopUp = props.setPopUpProduct;
     const [item] = useState(props.setItem)
     const [user] = useState(props.setUser);
@@ -14,7 +14,6 @@ const Product = props => {
     const [address, setAddress] = useState('');
     const [phone, setPhone] = useState('');
     const [isOpen, setIsOpen] = useState(false);
-    const [setMsg] = useState('');
 
     const Buy = async (e) => {
         e.preventDefault();
@@ -62,7 +61,7 @@ const Product = props => {
                                     <label>{quantity}</label>
                                     {(quantity < item[size]) ? <button onClick={() => setQuantity(quantity + 1)}> + </button> : <button disabled> + </button>}
                                 </div>
-                                <div className="col">BDT {item.price} <span className="" ><a onClick={() => setQuantity(0)}>&#10005;</a></span></div>
+                                <div className="col">BDT {item.price} <span className="" ><a href='/#' onClick={() => setQuantity(0)}>&#10005;</a></span></div>
                             </div>
 
                         </div>

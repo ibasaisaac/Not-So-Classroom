@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
-import '../static/group.css';
-import Edit from './edit_body';
 import { toast } from 'react-toastify';
 
+import { axiosJWT } from './header.js';
+import Edit from './edit_body.js';
+
+import '../static/group.css';
 import abckid from '../static/abckid.svg';
+
 
 const Group = () => {
     const [user, setUser] = useState('')
@@ -28,48 +31,44 @@ const Group = () => {
 
 
     useEffect(() => {
+
+        const prepareGroupPage = async () => {
+            const token = ''
+            await axiosJWT.get('http://localhost:5000/getuser', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+                .then(function (res1) {
+                    console.log('group', res1.data);
+                    setUser(res1.data);
+                    setGroup(res1.data.class_group);
+                    axios.post('http://localhost:5000/getpost', {
+                        category: 'group_id',
+                        category_id: res1.data.class_group.id
+                    })
+                        .then(function (res2) {
+                            console.log('group posts', res2.data)
+                            setPosts(res2.data);
+                            axios.post('http://localhost:5000/getevent', {
+                                id: res1.data.class_group.id
+                            })
+                                .then(function (res3) {
+                                    console.log(res3.data)
+                                    setQuizzes(res3.data.quiz);
+                                    setEvents(res3.data.event);
+                                })
+                        })
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
+
         prepareGroupPage();
     }, []);
 
-    const prepareGroupPage = async () => {
-
-        await axios.get('http://localhost:5000/getuser', {
-        })
-            .then(function (res1) {
-                console.log('group', res1.data);
-                setUser(res1.data);
-                setGroup(res1.data.class_group);
-                axios.post('http://localhost:5000/getpost', {
-                    category: 'group_id',
-                    category_id: res1.data.class_group.id
-                })
-                    .then(function (res2) {
-                        console.log('group posts', res2.data)
-                        setPosts(res2.data);
-                        axios.post('http://localhost:5000/getevent', {
-                            id: res1.data.class_group.id
-                        })
-                            .then(function (res3) {
-                                console.log(res3.data)
-                                setQuizzes(res3.data.quiz);
-                                setEvents(res3.data.event);
-                            })
-                    })
-            })
-            .catch(error => {
-                console.log(error);
-            });
-
-        // const projects = response.data.value;
-        // const promises = projects.map(project =>
-        //     axios.get('http://localhost:5000/getuser', {})
-        // );
-
-        // const results = await axios.all(promises)
-
-        // console.log(results);
-    }
-
+    
     const postSubmit = async (e) => {
         e.preventDefault();
         const data = new FormData();
@@ -286,7 +285,7 @@ const Group = () => {
 
                                         <a key={m.media_id} href={`${m.path}`} target="_blank" rel="noreferrer">
                                             {m.type === 'application/pdf' ?
-                                                <iframe rel="preload" src={`${m.path}`} style={{ width: '500px', height: '300px' }} as="fetch" type="application/pdf" crossOrigin="true" ></iframe> :
+                                                <iframe rel="preload" src={`${m.path}`} style={{ width: '500px', height: '300px' }} title={m.path} as="fetch" type="application/pdf" crossOrigin="true" ></iframe> :
                                                 <img alt='' src={`${m.path}`} className="gallery_item" />}</a>
 
                                     )

@@ -1,10 +1,12 @@
 import multer from 'multer';
 import bcrypt from "bcrypt";
+
 import User from "../models/userModel.js";
-import { Order, OrderedItems } from "../models/orderModel.js";
-import Product from '../models/productModel.js';
 import Role from "../models/role_verifyModel.js";
 import Event from "../models/eventModel.js";
+import { Order, OrderedItems } from "../models/orderModel.js";
+import Product from '../models/productModel.js';
+
 
 
 const imgconfig = multer.diskStorage({
@@ -28,14 +30,12 @@ export const changeDP = async (req, res) => {
 
       if (req.file == undefined) {
         filename = '';
-        console.log('here')
       }
       else {
         filename = 'http://localhost:5000/uploads/' + req.file.filename;
       }
 
       try {
-        console.log(filename)
         User.update({
           dp: filename
         }, {
