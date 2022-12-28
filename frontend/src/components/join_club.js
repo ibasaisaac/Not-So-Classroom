@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const ClubJoin = props => {
-    const { setClubJoinPopUp } = props
+    const setPopUp = props.setClubJoinPopUp
     const [user] = useState(props.setUser)
     const [code, setCode] = useState('');
     const [msg, setMsg] = useState('');
@@ -21,7 +21,7 @@ const ClubJoin = props => {
         })
             .then(res => {
                 if (res.status === 200) {
-                    setClubJoinPopUp(false);
+                    setPopUp(false);
                 }
             })
             .catch(error => {
@@ -31,7 +31,7 @@ const ClubJoin = props => {
 
     return (
         <div className="container-fluid PopUp">
-            <button className="popup-x" onClick={() => setClubJoinPopUp(false)} >X</button>
+            <button className="popup-x" onClick={() => setPopUp(false)} >X</button>
 
             <img alt='' className="giraffe" src={giraffe} />
             <img alt='' className="birdie" src={birdies} />

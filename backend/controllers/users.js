@@ -27,7 +27,7 @@ export async function storeUser (id, email, username, dp, group, role) {
             group_id: group
         }
     });
-    currentUser.class_group = {id: t.group_id, name: t.group_name};
+    t ? currentUser.class_group = {id: t.group_id, name: t.group_name}:{id: 0, name: ''}
     currentUser.role = role;
 }
 
@@ -248,7 +248,7 @@ export const createGroup = async (req, res) => {
             student_count: req.body.count
         })
             .then(function (response) {
-                const newGroupId = response.null
+                const newGroupId = response.group_id
                 User.update({
                     class_group: newGroupId
                 }, {

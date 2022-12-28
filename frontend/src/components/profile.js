@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 const Profile = () => {
     const [user, setUser] = useState('');
     const [event, setEvent] = useState({ place: '', room: '', date: '', time: '', details: '' });
-    const [popUp, setPopUp] = useState(false);
+    const [popUpCR, setPopUpCR] = useState(false);
     const [popUpPass, setPopUpPass] = useState(false);
     const [progs, setProgs] = useState([]);
     const [orders, setOrders] = useState('')
@@ -130,7 +130,7 @@ const Profile = () => {
     }
     const handlePopup = async (e) => {
         e.preventDefault();
-        setPopUp(true);
+        setPopUpCR(true);
     }
 
 
@@ -327,7 +327,7 @@ const Profile = () => {
             }
 
             <div id="section4">
-                <h5 style={{ position: 'relative', left: '22%', top: '82.5px' }}>My Orders</h5>
+                <h5 style={{ position: 'relative', left: '22%', marginTop: '5%', height: '100%', width: '100%', background: 'white' }}>My Orders</h5>
                 <div className="sec2">
                     <table className="table table-hover">
                         <thead>
@@ -341,7 +341,7 @@ const Profile = () => {
                         </thead>
                         <tbody>
                             {orders.map((order) => (
-                                <tr onClick={() => {setPopUpProduct(true); setItem(order.items[0].details);}}>
+                                <tr onClick={() => { setPopUpProduct(true); setItem(order.items[0].details); }}>
                                     <th scope="row">{order.order_id}</th>
                                     <td>{order.DOO}</td>
                                     <td colSpan="1">
@@ -366,8 +366,8 @@ const Profile = () => {
                 </div>
             </div>
 
-            {popUp && <CR_verification setPopUp={setPopUp} setUser={user} />}
-            {popUpProduct && <Product setPopUp={setPopUpProduct} setItem={item}  setUser={user} />}
+            {popUpCR && <CR_verification setPopUpCR={setPopUpCR} setUser={user} />}
+            {popUpProduct && <Product setPopUpProduct={setPopUpProduct} setItem={item} setUser={user} />}
             {popUpPass && <ChangePass setPopUpPass={setPopUpPass} setUser={user} />}
         </div >
     )

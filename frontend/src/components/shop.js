@@ -10,7 +10,7 @@ const Shop = () => {
     const [user, setUser] = useState('')
     const [products, setProducts] = useState('')
     const [item, setItem] = useState('')
-    const [popUp, setPopUp] = useState(false);
+    const [popUpProduct, setPopUpProduct] = useState(false);
     const [productCreatePopUp, setProductCreatePopUp] = useState(false);
 
     useEffect(() => {
@@ -58,7 +58,7 @@ const Shop = () => {
             <div className="row row-cols-1 row-cols-md-4 g-4 m-5">
                  {products.map((product) => (
                     <div className="col" key={`${product.product_id}`}>
-                        <div className="card h-100 p-3" onClick={() => {setPopUp(true); setItem(product);}} style={{ backgroundColor: random_color(), borderRadius: '0' }}>
+                        <div className="card h-100 p-3" onClick={() => {setPopUpProduct(true); setItem(product);}} style={{ backgroundColor: random_color(), borderRadius: '0' }}>
                             <img alt='' src={product.pic1_path} width='auto' height='230px' className="card-img-top" />
                             <div className="card-body">
                                 <h5 className="card-title text-center">{product.price + 'BDT'}</h5>
@@ -69,7 +69,7 @@ const Shop = () => {
                 ))} 
             </div>
 
-            {popUp && <Product setPopUp={setPopUp} setItem={item}  setUser={user} />}
+            {popUpProduct && <Product setPopUpProduct={setPopUpProduct} setItem={item} setUser={user} />}
             {productCreatePopUp && <ProductCreate setProductCreatePopUp={setProductCreatePopUp}  setUser={user}/>}
        
         </div >

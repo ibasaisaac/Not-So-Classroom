@@ -11,7 +11,7 @@ const Club = () => {
     const [club_id, setID] = useState('')
     const [posts, setPosts] = useState('')
     const [propToEdit, setPropToEdit] = useState(['', {}]);
-    const [popUp, setPopUp] = useState(false);
+    const [postEditPopUp, setPostEditPopUp] = useState(false);
     const [sessions, setSessions] = useState('')
 
     const [text, setText] = useState('')
@@ -154,7 +154,7 @@ const Club = () => {
                         <i className="fa fa-solid fa-ellipsis fa-lg"></i>
                     </button>
                     <ul className="dropdown-menu">
-                        <li><a href='/#' className="dropdown-item" onClick={() => { setPopUp(true); setPropToEdit(['p', props.flag[1].post]); }}>Edit</a></li>
+                        <li><a href='/#' className="dropdown-item" onClick={() => { setPostEditPopUp(true); setPropToEdit(['p', props.flag[1].post]); }}>Edit</a></li>
                         <li><a href='/#' className="dropdown-item" onClick={(e) => postDelete(e, props.flag[1].post.post_id)}>Delete</a></li>
                     </ul>
                 </div>
@@ -163,7 +163,7 @@ const Club = () => {
         else if (props.flag[0] === 'c' && user.student_id === props.flag[1].comment.comment_op.student_id) {
             return (
                 <div className='text-end me-3'>
-                    <a href='/#' className='anc' onClick={() => { setPopUp(true); setPropToEdit(['c', props.flag[1].comment]); }}>edit</a> &ensp;
+                    <a href='/#' className='anc' onClick={() => { setPostEditPopUp(true); setPropToEdit(['c', props.flag[1].comment]); }}>edit</a> &ensp;
                     <a href='/#' className='anc' onClick={(e) => commentDelete(e, props.flag[1].comment.comment_id)} >delete</a>
                 </div>
             )
@@ -286,7 +286,7 @@ const Club = () => {
                 </div>
 
             </div>
-            {popUp && <Edit setPopUp={setPopUp} setPropToEdit={propToEdit} />}
+            {postEditPopUp && <Edit setPostEditPopUp={setPostEditPopUp} setPropToEdit={propToEdit} />}
         </div >
     )
 }

@@ -7,6 +7,7 @@ const { DataTypes } = Sequelize;
 const Group = db.define('class_groups', {
     group_id: {
         type: DataTypes.INTEGER,
+        autoIncrement: true,
         primaryKey: true
     },
     group_code: {
@@ -40,8 +41,6 @@ const Group = db.define('class_groups', {
 (async () => {
     await db.sync();
 })();
-
-
 
 
 export default Group;

@@ -7,7 +7,7 @@ import axios from 'axios';
 import { useNavigate} from 'react-router-dom';
 
 const CR_verification = props => {
-    const { setPopUp } = props;
+    const setPopUp = props.setPopUpCR;
     //const [rolePopup, setPopUp] = useState(false);
     const [id,setID]=useState('')
     const [role,setRole]= useState('')

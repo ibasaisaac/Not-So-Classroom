@@ -6,6 +6,7 @@ const { DataTypes } = Sequelize;
 export const Post = db.define('posts', {
     post_id: {
         type: DataTypes.INTEGER,
+        autoIncrement: true,
         primaryKey: true
     },
     home: {
@@ -21,9 +22,6 @@ export const Post = db.define('posts', {
         allowNull: true
     },
     post_body: {
-        type: DataTypes.STRING
-    },
-    image_path: {
         type: DataTypes.STRING
     },
     dop: {
@@ -43,6 +41,7 @@ export const Post = db.define('posts', {
 export const Comment = db.define('comments', {
     comment_id: {
         type: DataTypes.INTEGER,
+        autoIncrement: true,
         primaryKey: true
     },
     comment_body: {

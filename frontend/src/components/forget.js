@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Forget = props => {
     const [isLoading, setIsLoading] = useState(false);
-    const { setPopUp } = props;
+    const setPopUp = props.setPopUp;
     const navigate = useNavigate();
     const [otp, setOTP] = useState('');
     const [password, setPassword] = useState('');

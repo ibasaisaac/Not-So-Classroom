@@ -8,15 +8,16 @@ import abckid from '../static/abckid.svg';
 
 const Group = () => {
     const [user, setUser] = useState('')
-    const [group, setGroup] = useState({id: '', name: ''})
+    const [group, setGroup] = useState({ id: '', name: '' })
     const [posts, setPosts] = useState('')
     const [events, setEvents] = useState('')
     const [quizzes, setQuizzes] = useState('')
 
     const [text, setText] = useState('')
-    const [image, setImage] = useState({ preview: '', data: '' })
+    const [image, setImage] = useState([])
+    const [file, setFile] = useState()
     const [commentText, setCommentText] = useState({ post_id: '', comment_body: '' })
-    const [popUp, setPopUp] = useState(false);
+    const [postEditPopUp, setPostEditPopUp] = useState(false);
     const [propToEdit, setPropToEdit] = useState(['', {}]);
     const [cardPop, setCardPop] = useState(false);
     const [searchPop, setSearchPop] = useState(false);
@@ -35,15 +36,15 @@ const Group = () => {
         await axios.get('http://localhost:5000/getuser', {
         })
             .then(function (res1) {
-                console.log(res1.data);
+                console.log('group', res1.data);
                 setUser(res1.data);
                 setGroup(res1.data.class_group);
                 axios.post('http://localhost:5000/getpost', {
                     category: 'group_id',
-                    category_id: res1.data.class_group
+                    category_id: res1.data.class_group.id
                 })
                     .then(function (res2) {
-                        console.log(res2.data)
+                        console.log('group posts', res2.data)
                         setPosts(res2.data);
                         axios.post('http://localhost:5000/getevent', {
                             id: res1.data.class_group.id
@@ -76,13 +77,21 @@ const Group = () => {
         data.set('category', 'group_id');
         data.set('category_id', group.id);
         data.set('post_body', text);
-        data.append('file', image.data);
+        if (file) {
+            data.append('files', file);
+        }
+        else {
+            Object.values(image).forEach(img => {
+                data.append("files", img);
+            });
+        }
 
         await axios.post('http://localhost:5000/post', data)
             .then(res => {
                 if (res.status === 200) {
                     setText('')
                     setImage('')
+                    setFile('')
                     toast.success('Post created!')
                     var newPosts = [res.data, ...posts]
                     setPosts(newPosts);
@@ -183,14 +192,6 @@ const Group = () => {
             });
     }
 
-    const handleFileChange = (e) => {
-        const img = {
-            preview: URL.createObjectURL(e.target.files[0]),
-            data: e.target.files[0],
-        }
-        setImage(img)
-    }
-
     function Modify1(props) {
         if (props.flag[0] === 'p' && user.student_id === props.flag[1].post.post_op.student_id) {
             return (
@@ -199,7 +200,7 @@ const Group = () => {
                         <i className="fa fa-solid fa-ellipsis fa-lg"></i>
                     </button>
                     <ul className="dropdown-menu">
-                        <li><a href='/#' className="dropdown-item" onClick={() => { setPopUp(true); setPropToEdit(['p', props.flag[1].post]); }}>Edit</a></li>
+                        <li><a href='/#' className="dropdown-item" onClick={() => { setPostEditPopUp(true); setPropToEdit(['p', props.flag[1].post]); }}>Edit</a></li>
                         <li><a href='/#' className="dropdown-item" onClick={(e) => postDelete(e, props.flag[1].post.post_id)}>Delete</a></li>
                     </ul>
                 </div>
@@ -208,7 +209,7 @@ const Group = () => {
         else if (props.flag[0] === 'c' && user.student_id === props.flag[1].comment.comment_op.student_id) {
             return (
                 <div className='text-end me-3'>
-                    <a href='/#' className='anc' onClick={() => { setPopUp(true); setPropToEdit(['c', props.flag[1].comment]); }}>edit</a> &ensp;
+                    <a href='/#' className='anc' onClick={() => { setPostEditPopUp(true); setPropToEdit(['c', props.flag[1].comment]); }}>edit</a> &ensp;
                     <a href='/#' className='anc' onClick={(e) => commentDelete(e, props.flag[1].comment.comment_id)} >delete</a>
                 </div>
             )
@@ -240,13 +241,21 @@ const Group = () => {
                             </div>
 
                             <div>
-                                {image.preview && <img className='img-thumbnail mx-5 my-1' src={image.preview} width='100' height='100' alt='' />}
+                                <div style={{ display: 'flex' }}>
+                                    {image && Array.from(image).map((img) => (
+                                        <div>
+                                            {img && <img key={img.name} className='img-thumbnail my-1' src={URL.createObjectURL(img)} width='100' height='100' alt='' />}
+                                        </div>
+                                    ))}
+                                    {file && <p>{file.name}</p>}
+                                </div>
+
                                 <div className='text-end py-1'>
                                     <label htmlFor="photo1"><i className="fa fa-solid fa-image"></i>
-                                        <input className="form-control" type="file" id="photo1" onChange={handleFileChange} style={{ display: 'none' }} />Photo</label>
+                                        <input className="form-control" type="file" id="photo1" accept="image/*" multiple onChange={(e) => { setImage(e.target.files) }} style={{ display: 'none' }} />Photo</label>
                                     <label style={{ width: '15px' }}></label>
                                     <label htmlFor="attach1"><i className="fa fa-solid fa-paperclip"></i>
-                                        <input className="form-control" type="file" id="attach1" style={{ display: 'none' }} />Attach File</label>
+                                        <input className="form-control" type="file" id="attach1" accept='application/pdf' onChange={(e) => { setFile(e.target.files[0]) }} style={{ display: 'none' }} />Attach File</label>
                                 </div>
                             </div>
 
@@ -263,7 +272,7 @@ const Group = () => {
 
                             <div>
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <img src={`${post.post_op.dp}`} className='img-thumbnail' width='50' height='50' style={{ border: 'none', borderRadius: '50px' }} alt='' />
+                                    <img alt='' src={`${post.post_op.dp}`} className='img-thumbnail' width='50' height='50' style={{ border: 'none', borderRadius: '50px' }} />
                                     <h5 >@{post.post_op.username}
                                         <p style={{ fontSize: '10px', color: 'grey', margin: '0' }}>{post.dop}</p>
                                     </h5>
@@ -272,9 +281,17 @@ const Group = () => {
                                 </div>
 
                                 <p className='m-0'>{post.post_body}</p>
-                                <a href={`${post.image_path}`} target="_blank" rel="noreferrer">
-                                    <img src={`${post.image_path}`} width='250' alt='' />
-                                </a>
+                                <div className="gallery">
+                                    {post.media.map((m) => (
+
+                                        <a key={m.media_id} href={`${m.path}`} target="_blank" rel="noreferrer">
+                                            {m.type === 'application/pdf' ?
+                                                <iframe rel="preload" src={`${m.path}`} style={{ width: '500px', height: '300px' }} as="fetch" type="application/pdf" crossOrigin="true" ></iframe> :
+                                                <img alt='' src={`${m.path}`} className="gallery_item" />}</a>
+
+                                    )
+                                    )}
+                                </div>
                             </div>
 
                             <div className='py-4'>
@@ -381,7 +398,7 @@ const Group = () => {
                 </div>
 
             </div>
-            {popUp && <Edit setPopUp={setPopUp} setPropToEdit={propToEdit} />}
+            {postEditPopUp && <Edit setPostEditPopUp={setPostEditPopUp} setPropToEdit={propToEdit} />}
 
             {cardPop && <div>
                 <div className='modal-backdrop' onClick={() => setCardPop(false)}></div>

@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const GroupJoin = props => {
-    const { setGroupJoinPopUp } = props
+    const setPopUp = props.setGroupJoinPopUp
     const [user] = useState(props.setUser)
     const [code, setCode] = useState('');
     const [msg, setMsg] = useState('');
@@ -21,7 +21,7 @@ const GroupJoin = props => {
         })
             .then(res => {
                 if (res.status === 200) {
-                    setGroupJoinPopUp(false);
+                    setPopUp(false);
                     navigate('/group');
                 }
             })
@@ -32,7 +32,7 @@ const GroupJoin = props => {
 
     return (
         <div className="container-fluid PopUp">
-            <button className="popup-x" onClick={() => setGroupJoinPopUp(false)} >X</button>
+            <button className="popup-x" onClick={() => setPopUp(false)} >X</button>
 
             <img alt='' className="giraffe" src={giraffe} />
             <img alt='' className="birdie" src={birdies} />

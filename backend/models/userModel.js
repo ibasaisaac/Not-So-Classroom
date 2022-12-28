@@ -1,6 +1,7 @@
 import { Sequelize } from "sequelize";
 import db from "../config/database.js";
 import {Post, Comment} from "../models/postModel.js";
+import Media from "../models/mediaModel.js";
 import Group from "../models/groupModel.js";
 import Club from "../models/clubModel.js";
 
@@ -34,7 +35,7 @@ const User = db.define('users', {
     },
     class_group: {
         type: DataTypes.INTEGER,
-        allowNull: true
+        defaultValue: 0
     },
     role: {
         type: DataTypes.STRING,
@@ -51,10 +52,14 @@ const User = db.define('users', {
 
 User.hasMany(Post, { as: "posts", foreignKey: "op_id" });
 Post.belongsTo(User, { as: "post_op", foreignKey: "op_id" });
-Post.hasMany(Comment, { as: "comments", foreignKey: "post_id" });
-Comment.belongsTo(Post, { as: "post", foreignKey: "post_id" });
+
 User.hasMany(Comment, { as: "comments", foreignKey: "op_id" });
 Comment.belongsTo(User, { as: "comment_op", foreignKey: "op_id" });
+
+Post.hasMany(Comment, { as: "comments", foreignKey: "post_id" });
+Comment.belongsTo(Post, { as: "post", foreignKey: "post_id" });
+Post.hasMany(Media, { as: "media", foreignKey: "post_id" });
+Media.belongsTo(Post, { as: "media", foreignKey: "post_id" });
 
 User.belongsTo(Group, { as: "group", foreignKey: "class_group" });
 Group.hasMany(User, { as: "students", foreignKey: "class_group" });

@@ -7,7 +7,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const ChangePass = props => {
-    const { setPopUpPass } = props;
+    const setPopUp = props.setPopUpPass;
     const navigate = useNavigate();
     const [new_pass, setNewPassword] = useState('');
     const [old_pass, setOldPassword] = useState('');
@@ -28,8 +28,7 @@ const ChangePass = props => {
                 if (res.status === 200) {
                     setMsg(res.data.msg);
                     toast.success("Password updated!");
-                    console.log('hoi');
-                    setPopUpPass(false);
+                    setPopUp(false);
                     navigate('/profile');
               }
             })
@@ -41,7 +40,7 @@ const ChangePass = props => {
 
     return (
         <div className="container-fluid PopUp">
-            <button className="popup-x" onClick={() => setPopUpPass(false)} >X</button>
+            <button className="popup-x" onClick={() => setPopUp(false)} >X</button>
 
             <img alt=''  className="giraffe" src={giraffe} />
             <img alt=''  className="birdie" src={birdies} />

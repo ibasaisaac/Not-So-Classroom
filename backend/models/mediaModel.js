@@ -3,23 +3,20 @@ import db from "../config/database.js";
 
 const { DataTypes } = Sequelize;
 
-const Role = db.define('role_verify', {
-    role_id: {
+const Media = db.define('media', {
+    media_id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
     },
-    student_id: {
+    post_id: {
         type: DataTypes.INTEGER
     },
-    role: {
+    type: {
         type: DataTypes.STRING
     },
-    group_id: {
-        type: DataTypes.INTEGER
-    },
-    club_id: {
-        type: DataTypes.INTEGER
+    path: {
+        type: DataTypes.STRING
     }
 }, {
     timestamps: false,
@@ -30,4 +27,4 @@ const Role = db.define('role_verify', {
     await db.sync();
 })();
 
-export default Role;
+export default Media

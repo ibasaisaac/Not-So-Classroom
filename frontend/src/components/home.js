@@ -17,8 +17,8 @@ const Home = () => {
     const [posts, setPosts] = useState('')
 
     const [text, setText] = useState('')
-    const [image, setImage] = useState({ preview: '', data: '' })
-    const [file, setFile] = useState({ preview: '', data: '' })
+    const [image, setImage] = useState([])
+    const [file, setFile] = useState()
     const [commentText, setCommentText] = useState({ post_id: '', comment_body: '' })
     const [postEditPopUp, setPostEditPopUp] = useState(false);
     const [propToEdit, setPropToEdit] = useState(['', {}]);
@@ -36,14 +36,14 @@ const Home = () => {
         await axios.get('http://localhost:5000/getuser', {
         })
             .then(function (res1) {
-                // console.log(res1.data);
+                console.log('home', res1.data);
                 setUser(res1.data);
                 axios.post('http://localhost:5000/getpost', {
                     category: 'home',
                     category_id: 0
                 })
                     .then(function (res2) {
-                        console.log(res2.data)
+                        console.log('home posts', res2.data)
                         setPosts(res2.data);
                     })
             })
@@ -53,17 +53,22 @@ const Home = () => {
     }
 
     const postSubmit = async (e) => {
-        console.log('hi', image.data)
+
+
         e.preventDefault();
         const data = new FormData();
-        data.set('op_id', user.student_id);
+        data.set('op_id', user.student_id)
         data.set('category', 'home');
         data.set('category_id', 0);
         data.set('post_body', text);
-        // if(file)
-        // data.append('file', file.data);
-        // else
-        data.set('file', image.data);
+        if (file) {
+            data.append('files', file);
+        }
+        else {
+            Object.values(image).forEach(img => {
+                data.append("files", img);
+            });
+        }
 
 
         await axios.post('http://localhost:5000/post', data)
@@ -71,6 +76,7 @@ const Home = () => {
                 if (res.status === 200) {
                     setText('')
                     setImage('')
+                    setFile('')
                     toast.success('Post created!')
                     var newPosts = [res.data, ...posts]
                     setPosts(newPosts);
@@ -109,17 +115,15 @@ const Home = () => {
                 comment_body: commentText.comment_body
             });
             if (res.status === 200) {
-                if (res.status === 200) {
-                    setCommentText({ comment_body: '' })
-                    toast.success('Comment created!')
-                    var newPosts = posts.map((post) => {
-                        if (post.post_id === commentText.post_id)
-                            post.comments = [res.data, ...post.comments]
-                        return post;
-                    })
-                    setCommentText({ post_id: '' })
-                    setPosts(newPosts);
-                }
+                setCommentText({ comment_body: '' })
+                toast.success('Comment created!')
+                var newPosts = posts.map((post) => {
+                    if (post.post_id === commentText.post_id)
+                        post.comments = [res.data, ...post.comments]
+                    return post;
+                })
+                setCommentText({ post_id: '' })
+                setPosts(newPosts);
             }
         }
         catch (error) {
@@ -145,22 +149,6 @@ const Home = () => {
         catch (error) {
             console.log(error);
         }
-    }
-
-    const handleImageChange = (e) => {
-        const img = {
-            preview: URL.createObjectURL(e.target.files[0]),
-            data: e.target.files[0],
-        }
-        setImage(img)
-    }
-    const handleFileChange = (e) => {
-        const img = {
-            preview: URL.createObjectURL(e.target.files[0]),
-            data: e.target.files[0],
-        }
-        console.log(img)
-        setFile(img)
     }
 
     function Modify1(props) {
@@ -227,14 +215,21 @@ const Home = () => {
                             </div>
 
                             <div>
-                                {image.preview && <img alt='' className='img-thumbnail mx-5 my-1' src={image.preview} width='100' height='100' />}
-                                {file.preview && <p>{file.data.name}</p>}
+                                <div style={{ display: 'flex' }}>
+                                    {image && Array.from(image).map((img) => (
+                                        <div>
+                                            {img && <img key={img.name} className='img-thumbnail my-1' src={URL.createObjectURL(img)} width='100' height='100' alt='' />}
+                                        </div>
+                                    ))}
+                                    {file && <p>{file.name}</p>}
+                                </div>
+
                                 <div className='text-end py-1'>
                                     <label htmlFor="photo1"><i className="fa fa-solid fa-image"></i>
-                                        <input className="form-control" type="file" name="file" id="photo1" accept='image/*' onChange={handleImageChange} style={{ display: 'none' }} />Photo</label>
+                                        <input className="form-control" type="file" id="photo1" accept="image/*" multiple onChange={(e) => {setImage(e.target.files)}} style={{ display: 'none' }} />Photo</label>
                                     <label style={{ width: '15px' }}></label>
                                     <label htmlFor="attach1"><i className="fa fa-solid fa-paperclip"></i>
-                                        <input className="form-control" type="file" name="file" id="attach1" accept='application/pdf' onChange={handleFileChange} style={{ display: 'none' }} />Attach File</label>
+                                        <input className="form-control" type="file" id="attach1" accept='application/pdf' onChange={(e) => {setFile(e.target.files[0])}} style={{ display: 'none' }} />Attach File</label>
                                 </div>
                             </div>
 
@@ -260,11 +255,17 @@ const Home = () => {
                                 </div>
 
                                 <p className='m-0'>{post.post_body}</p>
-                                <embed src={`${post.image_path}`} />
-                                {/* <iframe rel="preload" src={`${post.image_path}`} style="width:600px; height:500px;" frameborder="0" as="fetch" type="application/pdf" crossorigin ></iframe> */}
-                                <a href={`${post.image_path}`} target="_blank" rel="noreferrer">
-                                    <img alt='' src={`${post.image_path}`} width='250' />
-                                </a>
+                                <div className="gallery">
+                                    {post.media.map((m) => (
+
+                                        <a key={m.media_id} href={`${m.path}`} target="_blank" rel="noreferrer">
+                                            {m.type === 'application/pdf' ?
+                                                <iframe rel="preload" src={`${m.path}`} style={{ width: '500px', height: '300px' }} as="fetch" type="application/pdf" crossOrigin="true" ></iframe> :
+                                                <img alt='' src={`${m.path}`} className="gallery_item" />}</a>
+
+                                    )
+                                    )}
+                                </div>
                             </div>
 
                             <div className='py-4'>

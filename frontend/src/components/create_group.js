@@ -7,7 +7,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const GroupCreate = props => {
-    const { setGroupCreatePopUp } = props
+    const setPopUp  = props.setGroupCreatePopUp
     const [user] = useState(props.setUser)
     const [code, setCode] = useState('');
     const [msg, setMsg] = useState('');
@@ -32,7 +32,7 @@ const GroupCreate = props => {
                     setMsg('Copy and share it with others!');
                     toast.success("Registration Successful!", {
                         onClose: () => {
-                            setGroupCreatePopUp(false);
+                            setPopUp(false);
                             window.location.reload(true)
                         }
                     })
@@ -58,7 +58,7 @@ const GroupCreate = props => {
 
     return (
         <div className="container-fluid PopCreate">
-            <button className="popup-x" onClick={() => setGroupCreatePopUp(false)} >X</button>
+            <button className="popup-x" onClick={() => setPopUp(false)} >X</button>
 
             <img alt='' className="giraffe" src={giraffe} />
             <img alt='' className="birdie" src={birdies} />

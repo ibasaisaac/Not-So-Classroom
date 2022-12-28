@@ -1,6 +1,6 @@
-import { QueryTypes, Op } from 'sequelize';
-import db from '../config/database.js'
+import { Op } from 'sequelize';
 import { Post, Comment } from "../models/postModel.js";
+import Media from "../models/mediaModel.js"
 import Event from "../models/eventModel.js";
 import User from "../models/userModel.js";
 import Group from "../models/groupModel.js"
@@ -8,6 +8,7 @@ import Product from "../models/productModel.js"
 import { ScheduleMon, ScheduleTue, ScheduleWed, ScheduleThu, ScheduleFri } from "../models/scheduleModel.js";
 import { Order, OrderedItems } from "../models/orderModel.js";
 import multer from 'multer';
+import { Sequelize } from "sequelize";
 
 
 const storage = multer.diskStorage({
@@ -25,59 +26,75 @@ const uploads = multer({ storage: storage }).array('files')
 
 export const submitPost = async (req, res) => {
   var newPostId
-  let filename;
+  let filenames = [], type = ''
 
-  upload(req, res, (err) => {
+  uploads(req, res, (err) => {
     if (err) {
       console.log(err)
     }
     else {
 
-      if (req.file == undefined) {
-        filename = '';
+      if (!req.files.length) { //no file, only text
+        type = ''
       }
       else {
-        filename = 'http://localhost:5000/uploads/' + req.file.filename;
+        if (req.files[0].mimetype == 'application/pdf') //pdf file
+          type = req.files[0].mimetype
+        Array.from(req.files).map((i) => (
+          filenames.push('http://localhost:5000/uploads/' + i.filename)
+        ))
       }
 
       try {
         Post.create({
           op_id: req.body.op_id,
           [req.body.category]: req.body.category_id,
-          post_body: req.body.post_body,
-          image_path: filename
+          post_body: req.body.post_body
         })
           .then(function (response) {
-            newPostId = response.null
+            newPostId = response.post_id
 
-            Post.findOne({
-              attributes: ['post_id', 'dop', 'post_body', 'image_path'],
-              include: [
-                {
-                  model: Comment, as: "comments",
-                  attributes: ['comment_id', 'doc', 'comment_body'],
-                  include: [
-                    {
-                      model: User, as: "comment_op",
-                      attributes: ['student_id', 'username']
-                    }
-                  ],
-                },
-                {
-                  model: User, as: "post_op",
-                  attributes: ['student_id', 'username', 'dp']
+            var promises = filenames.map((i) => (
+              Media.create({
+                post_id: newPostId,
+                type: type,
+                path: i
+              })
+            ))
+            Promise.all(promises).then(function () {
+              Post.findOne({
+                attributes: ['post_id', 'dop', 'post_body'],
+                include: [
+                  {
+                    model: Comment, as: "comments",
+                    attributes: ['comment_id', 'doc', 'comment_body'],
+                    include: [
+                      {
+                        model: User, as: "comment_op",
+                        attributes: ['student_id', 'username']
+                      }
+                    ],
+                  },
+                  {
+                    model: Media, as: "media",
+                    attributes: ['media_id', 'type', 'path']
+                  },
+                  {
+                    model: User, as: "post_op",
+                    attributes: ['student_id', 'username', 'dp']
+                  }
+                ],
+                where: {
+                  post_id: newPostId
                 }
-              ],
-              where: {
-                post_id: newPostId
-              }
+              })
+                .then(function (newPost) {
+                  res.status(200).json(newPost)
+                })
+                .catch(err => {
+                  console.log(err);
+                })
             })
-              .then(function (newPost) {
-                res.status(200).json(newPost)
-              })
-              .catch(err => {
-                console.log(err);
-              })
           })
       }
       catch (error) {
@@ -114,7 +131,7 @@ export const deletePost = async (req, res) => {
 export const showPost = async (req, res) => {
   try {
     const results = await Post.findAll({
-      attributes: ['post_id', 'dop', 'post_body', 'image_path'],
+      attributes: ['post_id', 'dop', 'post_body'],
       include: [
         {
           model: Comment, as: "comments",
@@ -125,6 +142,10 @@ export const showPost = async (req, res) => {
               attributes: ['student_id', 'username']
             }
           ],
+        },
+        {
+          model: Media, as: "media",
+          attributes: ['media_id', 'type', 'path']
         },
         {
           model: User, as: "post_op",
@@ -154,7 +175,7 @@ export const submitComment = async (req, res) => {
       op_id: req.body.op_id,
       comment_body: req.body.comment_body
     }).then(function (response) {
-      newCommentId = response.null
+      newCommentId = response.comment_id
     })
 
     const newComment = await Comment.findOne({
@@ -487,7 +508,7 @@ export const buyProduct = async (req, res) => {
     })
       .then(function (response) {
         newOrderId = response.order_id
-        
+
         OrderedItems.create({
           order_id: newOrderId,
           product_id: req.body.product_id,

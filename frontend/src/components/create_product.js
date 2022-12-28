@@ -7,7 +7,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const ProductCreate = props => {
-    const { setProductCreatePopUp } = props
+    const setPopUp = props.setProductCreatePopUp
     const [user] = useState(props.setUser);
     const [msg, setMsg] = useState('');
     const [product, setProduct] = useState({ name: '', info: '', category: '', s_stock: '', m_stock: '', l_stock: '', total: '', price: '', pic: [] });
@@ -33,7 +33,7 @@ const ProductCreate = props => {
         await axios.post('http://localhost:5000/addproduct', data)
             .then(res => {
                 if (res.status === 200) {
-                    setProductCreatePopUp(false)
+                    setPopUp(false)
                     toast.success('Item added!', {
                         onClose: () => window.location.reload(true)
                     });
@@ -65,7 +65,7 @@ const ProductCreate = props => {
 
     return (
         <div className="container-fluid PopCreate" style={{ width: '66%', height: '99%', zIndex: '1051', top: '0%' }}>
-            <button className="popup-x" onClick={() => setProductCreatePopUp(false)} >X</button>
+            <button className="popup-x" onClick={() => setPopUp(false)} >X</button>
 
             <img alt='' className="giraffe" src={giraffe} />
             <img alt='' className="birdie" src={birdies} />

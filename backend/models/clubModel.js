@@ -7,6 +7,7 @@ const { DataTypes } = Sequelize;
 const Club = db.define('clubs', {
     club_id: {
         type: DataTypes.INTEGER,
+        autoIncrement: true,
         primaryKey: true
     },
     club_code: {

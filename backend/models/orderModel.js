@@ -7,8 +7,8 @@ const { DataTypes } = Sequelize;
 export const Order = db.define('orders', {
     order_id: {
         type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
+        primaryKey: true
     },
     buyer_id: {
         type: DataTypes.INTEGER

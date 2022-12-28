@@ -6,8 +6,8 @@ const { DataTypes } = Sequelize;
 const Product = db.define('products', {
     product_id: {
         type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
+        primaryKey: true
     },
     club_id: {
         type: DataTypes.INTEGER

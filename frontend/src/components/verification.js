@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Verification = props => {
     const [isLoading, setIsLoading] = useState(false);
-    const { setPopUp } = props;
+    const setPopUp = props.setPopUp;
     const [otp, setOTP] = useState('');
     const [msg, setMsg] = useState('');
     const navigate = useNavigate();

@@ -6,7 +6,7 @@ import axios from 'axios';
 
 const Edit = props => {
     console.log(props)
-    const { setPostPopUp } = props
+    const setPopUp  = props.setPostEditPopUp
     const [propToEdit] = useState(props.setPropToEdit[0])
     const [text, setText] = useState(props.setPropToEdit[1])
 
@@ -19,7 +19,7 @@ const Edit = props => {
             .then(res => {
                 if (res.status === 200) {
                     toast.success(res.data.msg, {
-                        onClose: () => window.location.reload(true)
+                        // onClose: () => window.location.reload(true)
                     });
                 }
             })
@@ -37,7 +37,7 @@ const Edit = props => {
             .then(res => {
                 if (res.status === 200) {
                     toast.success(res.data.msg, {
-                        onClose: () => window.location.reload(true)
+                        // onClose: () => window.location.reload(true)
                     });
                 }
             })
@@ -50,7 +50,7 @@ const Edit = props => {
     if (propToEdit === 'p') {
         return (
             <div className="container-fluid PopEdit">
-                <button className="popup-x" onClick={() => setPostPopUp(false)} >X</button>
+                <button className="popup-x" onClick={() => setPopUp(false)}  >X</button>
 
                 <div className='form-contain'>
                     <form onSubmit={Edit_post} style={{ display: 'flex', alignItems: 'center', fontFamily: 'comfortaa' }} >
@@ -66,7 +66,7 @@ const Edit = props => {
     else {
         return (
             <div className="container-fluid PopEdit">
-                 <button className="popup-x" onClick={() => setPostPopUp(false)} >X</button>
+                 <button className="popup-x" onClick={() => setPopUp(false)} >X</button>
 
                 <div className='form-contain'>
                     <form onSubmit={Edit_comment} style={{ display: 'flex', alignItems: 'center', fontFamily: 'comfortaa' }}  >

@@ -5,7 +5,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const Product = props => {
-    const { setPopUp } = props;
+    console.log(props)
+    const setPopUp = props.setPopUpProduct;
     const [item] = useState(props.setItem)
     const [user] = useState(props.setUser);
     const [size, setSize] = useState('S_stock');

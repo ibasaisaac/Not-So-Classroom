@@ -14,6 +14,7 @@ export const refreshToken = async(req, res) => {
         if(!user) return res.sendStatus(403); //forbidden, browser have cookies, but no user with the token
         jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
             if(err) return res.sendStatus(403);
+            // console.log(user)
             const userId = user.student_id;
             const username = user.username;
             const email = user.email;

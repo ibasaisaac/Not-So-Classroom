@@ -6,6 +6,7 @@ const { DataTypes } = Sequelize;
 const Event = db.define('events', {
     event_id: {
         type: DataTypes.INTEGER,
+        autoIncrement: true,
         primaryKey: true
     },
     date: {

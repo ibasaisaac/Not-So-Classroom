@@ -2,6 +2,7 @@ import { Sequelize } from "sequelize";
 
 const db = new Sequelize('classroom', 'root', '', {
     logging: false,
+    logQueryParameters: false,
     host: "localhost",
     dialect: "mysql",
     define: {
