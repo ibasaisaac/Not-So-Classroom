@@ -10,7 +10,7 @@ import birdies from '../static/birdies.svg';
 const ProductCreate = props => {
     const setPopUp = props.setProductCreatePopUp
     const [user] = useState(props.setUser);
-    const [product, setProduct] = useState({ name: '', info: '', category: '', s_stock: '', m_stock: '', l_stock: '', total: '', price: '', pic: [] });
+    const [product, setProduct] = useState({ name: '', info: '', category: '', s_stock: '0', m_stock: '0', l_stock: '0', total: '0', price: '', pic: [] });
     const [images, setImages] = useState([])
 
     const create = async (e) => {
@@ -19,7 +19,6 @@ const ProductCreate = props => {
         data.set('club_id', 0);
         data.set('seller_id', user.student_id);
         data.set('product_name', product.name);
-        console.log(product.total)
         data.set('stock', parseInt(product.total) + parseInt(product.s_stock) + parseInt(product.m_stock) + parseInt(product.l_stock));
         data.set('s_stock', product.s_stock);
         data.set('m_stock', product.m_stock);
@@ -34,7 +33,7 @@ const ProductCreate = props => {
                 if (res.status === 200) {
                     setPopUp(false)
                     toast.success('Item added!', {
-                        onClose: () => window.location.reload(true)
+                        // onClose: () => window.location.reload(true)
                     });
                 }
             })
@@ -49,7 +48,7 @@ const ProductCreate = props => {
                 <input type="number" placeholder='S' required className="form-control" value={product.s_stock} onChange={(e) => setProduct({ ...product, s_stock: e.target.value })} />
                 <input type="number" placeholder='M' required className="form-control" value={product.m_stock} onChange={(e) => setProduct({ ...product, m_stock: e.target.value })} />
                 <input type="number" placeholder='L' required className="form-control" value={product.l_stock} onChange={(e) => setProduct({ ...product, l_stock: e.target.value })} />
-                <input type="number" id="count" placeholder='Total' readOnly className="form-control" value={parseInt(product.s_stock) + parseInt(product.m_stock) + parseInt(product.l_stock)} onChange={(e) => setProduct({ ...product, total: e.target.value })} />
+                <input type="number" id="count" placeholder='Total' readOnly className="form-control" value={parseInt(product.s_stock) + parseInt(product.m_stock) + parseInt(product.l_stock)} onChange={(e) => setProduct({ ...product, total: e.target.value })}/>
             </div>
         } else {
             return <div className="col-sm-9">
@@ -83,8 +82,8 @@ const ProductCreate = props => {
                 <div className="form-group row mb-2" >
                     <label htmlFor="category" className="col-sm-3 col-form-label">Category</label>
                     <div className="col-sm-9">
-                        <select className="form-select" id='category' onChange={(e) => setProduct({ ...product, category: e.target.value })}>
-                            <option>Choose..</option>
+                        <select defaultValue={0} className="form-select" id='category' onChange={(e) => setProduct({ ...product, category: e.target.value })}>
+                            <option value={0} disabled>Choose..</option>
                             <option value={1}>Clothes</option>
                             <option value={2}>Others</option>
                         </select>
@@ -103,7 +102,7 @@ const ProductCreate = props => {
                         <input className="form-control" required type="file" accept="image/*" multiple id="photo" onChange={handleFileChange} />
                         <div style={{ display: 'flex' }}>
                             {images && Array.from(images).map((image) => (
-                                <div>
+                                <div key={image.name}>
                                     {image && <img className='img-thumbnail' src={URL.createObjectURL(image)} width='50' height='50' alt='' />}
                                 </div>
                             ))}

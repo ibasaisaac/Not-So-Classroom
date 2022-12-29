@@ -222,8 +222,8 @@ const Home = () => {
                             <div>
                                 <div style={{ display: 'flex' }}>
                                     {image && Array.from(image).map((img) => (
-                                        <div>
-                                            {img && <img key={img.name} className='img-thumbnail my-1' src={URL.createObjectURL(img)} width='100' height='100' alt='' />}
+                                        <div key={img.name}>
+                                            {img && <img className='img-thumbnail my-1' src={URL.createObjectURL(img)} width='100' height='100' alt='' />}
                                         </div>
                                     ))}
                                     {file && <p>{file.name}</p>}

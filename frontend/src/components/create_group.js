@@ -78,7 +78,7 @@ const GroupCreate = props => {
                     <label htmlFor="dept" className="col-sm-3 col-form-label">Department</label>
                     <div className="col-sm-9">
                         <select defaultValue={0} className="form-control custom-select" id="dept" onChange={(e) => handleProg(e.target.value)}>
-                            <option value={0}>Choose...</option>
+                            <option value={0} disabled>Choose...</option>
                             <option value={'MPE'}>MPE</option>
                             <option value={'EEE'}>EEE</option>
                             <option value={'TVE'}>TVE</option>
@@ -93,7 +93,7 @@ const GroupCreate = props => {
                     <label htmlFor="prog" className="col-sm-3 col-form-label">Programme</label>
                     <div className="col-sm-9">
                         <select defaultValue={0} className="form-control custom-select" id="prog" onChange={(e) => setGroup({ ...group, prog: e.target.value })}>
-                            <option value={0}>Choose...</option>
+                            <option value={0} disabled>Choose...</option>
                             {progs.map((p) => (
                                 <option value={p}>{p}</option>
                             ))}
@@ -105,7 +105,7 @@ const GroupCreate = props => {
                     <label htmlFor="batch" className="col-sm-3 col-form-label">Batch</label>
                     <div className="col-sm-9">
                         <select defaultValue={0} className="form-control custom-select" id="batch" onChange={(e) => setGroup({ ...group, batch: e.target.value })}>
-                            <option value={0}>Choose...</option>
+                            <option value={0} disabled>Choose...</option>
                             <option value={2018}>2018</option>
                             <option value={2019}>2019</option>
                             <option value={2020}>2020</option>
@@ -118,7 +118,7 @@ const GroupCreate = props => {
                     <label htmlFor="section" className="col-sm-3 col-form-label">Section</label>
                     <div className="col-sm-9">
                         <select defaultValue={0} className="form-control custom-select" id="section" onChange={(e) => setGroup({ ...group, section: e.target.value })}>
-                            <option value={0}>Choose...</option>
+                            <option value={0} disabled>Choose...</option>
                             <option value={1}>1</option>
                             <option value={2}>2</option>
                         </select>

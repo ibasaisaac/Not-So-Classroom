@@ -229,10 +229,8 @@ const Profile = () => {
                             <p style={{ position: 'relative', left: '5%' }}>Add Event:</p>
                             <div id="block">
                                 <div id="roomblock" className="room">
-                                    <select defaultValue={0} className="form-control custom-select" id="room"
-                                        style={{ backgroundColor: 'white', border: 'none' }}
-                                        onChange={(e) => setEvent({ ...event, room: e.target.value })}>
-                                        <option value={0}>Select Room</option>
+                                    <select defaultValue={0} className="form-control custom-select" id="room" style={{ backgroundColor: 'white', border: 'none' }} onChange={(e) => setEvent({ ...event, room: e.target.value })}>
+                                        <option value={0} disabled>Select Room</option>
                                         {progs.map((p) => (
                                             <option value={p}>{p}</option>
                                         ))}
@@ -240,23 +238,18 @@ const Profile = () => {
                                 </div>
                                 <div id="placeblock" className="clc">
 
-                                    <select defaultValue={0} className="form-control custom-select" id="place"
-                                        style={{ backgroundColor: 'white', border: 'none' }}
-                                        onChange={(e) => handleProg(e.target.value)}>
-                                        <option value={0}>Select Place</option>
+                                    <select defaultValue={0} className="form-control custom-select" id="place" style={{ backgroundColor: 'white', border: 'none' }} onChange={(e) => handleProg(e.target.value)}>
+                                        <option value={0} disabled>Select Place</option>
                                         <option value="AB2">AB2</option>
                                         <option value="AB3">AB3</option>
                                     </select>
                                 </div>
 
                                 <div id="timeblock" className="d">
-                                    <input type="date" style={{ backgroundColor: 'white', border: 'none' }}
-                                        onChange={(e) => setEvent({ ...event, date: e.target.value })} />
+                                    <input type="date" style={{ backgroundColor: 'white', border: 'none' }} onChange={(e) => setEvent({ ...event, date: e.target.value })} />
                                 </div>
                                 <div id="timeblock" className="t">
-                                    <input type="time" style={{ backgroundColor: 'white', border: 'none' }}
-                                        className="start-time"
-                                        onChange={(e) => setEvent({ ...event, time: e.target.value })} />
+                                    <input type="time" style={{ backgroundColor: 'white', border: 'none' }} className="start-time" onChange={(e) => setEvent({ ...event, time: e.target.value })} />
                                 </div>
                             </div>
                             <div id="block">
@@ -287,10 +280,8 @@ const Profile = () => {
                             <p style={{ position: 'relative', left: '5%' }}>Add Event:</p>
                             <div id="block">
                                 <div id="roomblock" className="room">
-                                    <select defaultValue={0} className="form-control custom-select" id="room"
-                                        style={{ backgroundColor: 'white', border: 'none' }}
-                                        onChange={(e) => setEvent({ ...event, room: e.target.value })}>
-                                        <option value={0}>Select Room</option>
+                                    <select defaultValue={0} className="form-control custom-select" id="room" style={{ backgroundColor: 'white', border: 'none' }} onChange={(e) => setEvent({ ...event, room: e.target.value })}>
+                                        <option value={0} disabled>Select Room</option>
                                         {progs.map((p) => (
                                             <option value={p}>{p}</option>
                                         ))}
@@ -298,10 +289,8 @@ const Profile = () => {
                                 </div>
                                 <div id="placeblock" className="clc">
 
-                                    <select defaultValue={0} className="form-control custom-select" id="place"
-                                        style={{ backgroundColor: 'white', border: 'none' }}
-                                        onChange={(e) => handleProg(e.target.value)}>
-                                        <option value={0}>Select Place</option>
+                                    <select defaultValue={0} className="form-control custom-select" id="place" style={{ backgroundColor: 'white', border: 'none' }} onChange={(e) => handleProg(e.target.value)}>
+                                        <option value={0} disabled>Select Place</option>
                                         <option value="AB2">AB2</option>
                                         <option value="AB3">AB3</option>
                                     </select>
@@ -349,7 +338,7 @@ const Profile = () => {
                         </thead>
                         <tbody>
                             {orders.map((order) => (
-                                <tr onClick={() => { setPopUpProduct(true); setItem(order.items[0].details); }}>
+                                <tr key={order.order_id} onClick={() => { setPopUpProduct(true); setItem(order.items[0].details); }}>
                                     <th scope="row">{order.order_id}</th>
                                     <td>{order.DOO}</td>
                                     <td colSpan="1">

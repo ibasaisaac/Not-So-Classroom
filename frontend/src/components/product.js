@@ -81,20 +81,20 @@ const Product = props => {
                         </div>
                         <form onSubmit={Buy}>
                             <label>Room No.
-                                <input id="room" placeholder="NH-102" value={address} onChange={(e) => setAddress( e.target.value)}/></label>
+                                <input id="room" placeholder="NH-102" value={address} onChange={(e) => setAddress(e.target.value)} /></label>
                             <label>Contact no.
-                                <input id="code" placeholder="+880" value={phone} onChange={(e) => setPhone(e.target.value)}/></label>
+                                <input id="code" placeholder="+880" value={phone} onChange={(e) => setPhone(e.target.value)} /></label>
                             <label className="mt-3">Payment method
                                 <p>
-                                    <input className="form-check-input" name='payment' type="radio" selected/>Cash on Delivery
+                                    <input className="form-check-input" name='payment' type="radio" selected />Cash on Delivery
                                     &ensp;
                                     {/* <input className="form-check-input" name='payment' type="radio" />bKash */}
                                 </p>
                             </label>
                             <div className='text-center m-3'>
-                            <button className="btn btn-lg btn-primary">Checkout</button></div>
+                                <button className="btn btn-lg btn-primary">Checkout</button></div>
                         </form>
-                        
+
                     </div>
 
                 </div>
@@ -109,10 +109,10 @@ const Product = props => {
                     <div className='col-sm-5'>
                         <div id="carouselExampleDark" className="carousel carousel-dark slide m-0 p-0" data-bs-ride="carousel" style={{ border: '1px solid black', height: '200px', width: '200px' }}>
                             <div className="carousel-indicators">
-                            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" className="active"></button>
-                            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                        </div> 
+                                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" className="active"></button>
+                                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                            </div>
                             <div className="carousel-inner">
                                 <div className="carousel-item active" data-bs-interval="3000">
                                     <img alt='' src={item.pic1_path} className="d-block w-100" />
@@ -146,7 +146,22 @@ const Product = props => {
                         <h6>{item.price}</h6>
 
                         <p>{item.product_info}</p>
-                        {item.stock &&
+
+                        {item.stock === 0 &&
+                            <div className="form-group">
+                                <select defaultValue={0} required className="form-control" style={{ overflow: 'none' }} onChange={(e) => setSize(e.target.value)}>
+                                    {<option value={0} disabled>Out of stock</option>}
+                                </select>
+                            </div>}
+
+                        {(item.stock !== 0) && (item.S_stock === 0) && (item.M_stock === 0) && (item.L_stock === 0) &&
+                            <div className="form-group">
+                                <select required className="form-control" style={{ overflow: 'none' }} onChange={(e) => setSize(e.target.value)}>
+                                    {<option value={item.stock}>{item.stock} items left</option>}
+                                </select>
+                            </div>}
+
+                        {((item.S_stock > 0) || (item.M_stock > 0) || (item.L_stock > 0)) &&
                             <div className="form-group">
                                 <select required className="form-control" style={{ overflow: 'none' }} onChange={(e) => setSize(e.target.value)}>
                                     {item.S_stock === 0 && <option disabled>S - Out of stock</option>}
@@ -157,12 +172,14 @@ const Product = props => {
                                     {item.L_stock > 0 && <option value={'L_stock'}>L - {item.L_stock} items left</option>}
                                 </select>
                             </div>}
+
                         <div className="text-center mt-5">
-                            <button type="submit" className="btn btn-light btn-lg bt_modal" onClick={() => { setIsOpen(true); setQuantity(1) }} >Buy now</button>
+                            {item.stock === 0 && <button disabled type="submit" className="btn btn-light btn-lg bt_modal" onClick={() => { setIsOpen(true); setQuantity(1) }} >Buy now</button>}
+                            {item.stock !== 0 && <button type="submit" className="btn btn-light btn-lg bt_modal" onClick={() => { setIsOpen(true); setQuantity(1) }} >Buy now</button>}
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
         )
     }
 }

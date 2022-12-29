@@ -242,8 +242,8 @@ const Group = () => {
                             <div>
                                 <div style={{ display: 'flex' }}>
                                     {image && Array.from(image).map((img) => (
-                                        <div>
-                                            {img && <img key={img.name} className='img-thumbnail my-1' src={URL.createObjectURL(img)} width='100' height='100' alt='' />}
+                                        <div key={img.name}>
+                                            {img && <img className='img-thumbnail my-1' src={URL.createObjectURL(img)} width='100' height='100' alt='' />}
                                         </div>
                                     ))}
                                     {file && <p>{file.name}</p>}
@@ -361,13 +361,13 @@ const Group = () => {
 
                         <h6 className='mt-2' onClick={() => setRoutinePop(true)}>Class Schedule</h6>
                         <div style={{ display: 'flex', justifyContent: 'space-evenly', fontFamily: 'inter' }}>
-                            <select className="form-control custom-select" style={{ backgroundColor: 'transparent', border: 'none' }} onChange={(e) => setParam({ ...param, building: e.target.value })}>
-                                <option>Building</option>
+                            <select defaultValue={0} className="form-control custom-select" style={{ backgroundColor: 'transparent', border: 'none' }} onChange={(e) => setParam({ ...param, building: e.target.value })}>
+                                <option value="0" disabled>Building</option>
                                 <option value="AB2">AB2</option>
                                 <option value="AB3">AB3</option>
                             </select>
-                            <select className="form-control custom-select" style={{ backgroundColor: 'transparent', border: 'none' }} onChange={(e) => setParam({ ...param, room: e.target.value })}>
-                                <option>Room</option>
+                            <select defaultValue={0} className="form-control custom-select" style={{ backgroundColor: 'transparent', border: 'none' }} onChange={(e) => setParam({ ...param, room: e.target.value })}>
+                                <option value="0" disabled>Room</option>
                                 <option value="105">105</option>
                                 <option value="106">106</option>
                                 <option value="205">205</option>
@@ -381,8 +381,8 @@ const Group = () => {
                                 <option value="LAB5">LAB5</option>
                                 <option value="LAB6">LAB6</option>
                             </select>
-                            <select className="form-control custom-select" style={{ backgroundColor: 'transparent', border: 'none' }} onChange={(e) => setParam({ ...param, day: e.target.value })}>
-                                <option>Weekday</option>
+                            <select defaultValue={0} className="form-control custom-select" style={{ backgroundColor: 'transparent', border: 'none' }} onChange={(e) => setParam({ ...param, day: e.target.value })}>
+                                <option value="0" disabled>Weekday</option>
                                 <option value="Mon">Mon</option>
                                 <option value="Tue">Tue</option>
                                 <option value="Wed">Wed</option>
@@ -429,7 +429,7 @@ const Group = () => {
                         {/* <small>{cardDetails.date}</small>  &ensp; <small>{cardDetails.place}</small>  */}
                         <p></p>
                         {slot.map((s) => (
-                            <div>
+                            <div key={s.slot}>
                                 {s.slot && <p>{s.slot} {'->'}  {s.course} {s.group && <label>{s.group.prog}{s.group.section}</label>} {s.info}</p>}
                             </div>
                         ))}
