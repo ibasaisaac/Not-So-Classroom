@@ -147,7 +147,7 @@ const Profile = () => {
     if (!user || !orders)
         return <div style={{ textAlign: 'center', lineHeight: '600px' }}><i className="fa-regular fa-circle fa-beat fa-3x"></i><i className="fa-solid fa-circle fa-beat fa-3x"></i><i className="fa-regular fa-circle fa-beat fa-3x"></i></div>
     return (
-        <div>
+        <div style={{overflowX: 'hidden'}}>
             <header>
                 <div className="wrapper">
                     <img className="my_dp" alt='' src={`${user.dp}`} />
@@ -190,7 +190,7 @@ const Profile = () => {
                             }
                         })()
                     }
-                    <a href="/#" style={{ color: 'black', position: 'relative', left: '20px' }} onClick={handlePopup}>Ask role access</a>
+                    <button style={{ color: 'black', position: 'relative', left: '20px' }} onClick={handlePopup}>Ask role access</button>
                 </div>
 
                 <div className="emm">
@@ -201,17 +201,12 @@ const Profile = () => {
                 <div className="pp">
                     <p className="password" style={{ margin: '20px', display: 'inline' }}>Password:</p>
                     <p className="p" style={{ margin: '20px', display: 'inline' }}>********</p>
-                </div>
-
-                <div className="c_s">
-                    <a className="change" href="/#" style={{ color: 'black' }}
-                        onClick={handlePopupPass}
-                    >Change</a>
+                    <button className="c_s" onClick={handlePopupPass}>Change</button>
                 </div>
 
                 <div className="all">
                     <p className="allow">Allow desktop notification:</p>
-                    <input type="checkbox" className="chk" id="switch" />
+                    <input type="checkbox" className="chk" id="switch" onChange={()=>Notification.requestPermission()}/>
                     <label className="labell" htmlFor="switch"></label>
                     <div className="s"></div>
                     <div className="background"></div>
@@ -323,7 +318,7 @@ const Profile = () => {
                 </div>
             }
 
-            <div id="section4">
+            <div className="mb-5" id="section4">
                 <h5 style={{ position: 'relative', left: '22%', marginTop: '5%', height: '100%', width: '100%', background: 'white' }}>My Orders</h5>
                 <div className="sec2">
                     <table className="table table-hover">
@@ -346,11 +341,12 @@ const Profile = () => {
                                             <tbody>
                                                 <tr>
                                                     <td>{order.items[0].details.product_name}</td>
-                                                    <td><img src={order.items[0].details.pic1_path} className='img-thumbnail' width='35' height='35' style={{ border: 'none' }} alt='' /></td>
+                                                    <td><img src={order.items[0].details.pic1_path} className='img-thumbnail' width='70' height='70' style={{ border: 'none' }} alt='' /></td>
                                                 </tr>
                                                 <tr>
+                                                    <td>{order.items[0].size}</td>
                                                     <td>x{order.items[0].quantity}</td>
-                                                    <td>{order.items[0].size}</td></tr>
+                                                    </tr>
                                             </tbody>
                                         </table>
                                     </td>

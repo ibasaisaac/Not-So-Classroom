@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 import '../static/verification_pop.css';
 import giraffe from '../static/giraffe.svg';
 import birdies from '../static/birdies.svg';
 
 
+
 const GroupCreate = props => {
-    const setPopUp  = props.setGroupCreatePopUp
+    const setPopUp = props.setGroupCreatePopUp
     const [user] = useState(props.setUser)
     const [code, setCode] = useState('');
     const [msg, setMsg] = useState('');
     const [group, setGroup] = useState({ name: '', dept: '', prog: '', batch: '', section: '', count: '' });
     const [progs, setProgs] = useState([]);
+    const navigate = useNavigate();
 
     const Auth = async (e) => {
         e.preventDefault();
@@ -33,7 +36,7 @@ const GroupCreate = props => {
                     toast.success("Registration Successful!", {
                         onClose: () => {
                             setPopUp(false);
-                            window.location.reload(true)
+                            navigate('/group')
                         }
                     })
                 }
@@ -65,18 +68,18 @@ const GroupCreate = props => {
 
             <form className="form-containn_create mb-3" style={{ fontFamily: 'comfortaa' }} onSubmit={Auth} >
 
-                <h3 className="text-center mb-5" style={{ fontFamily: 'marker', color: 'black', fontSize: '20px' }}>Create a Group for your class</h3>
+                <h3 className="text-center mb-4" style={{ fontFamily: 'marker', color: 'black', fontSize: '20px' }}>Create a Group for your class</h3>
 
                 <div className="form-group row mb-2">
-                    <label htmlFor="name" className="col-sm-3 col-form-label">Group name</label>
-                    <div className="col-sm-9">
+                    <label htmlFor="name" className="col-sm-4 col-form-label">Group name</label>
+                    <div className="col-sm-8">
                         <input type="text" required className="form-control" id="name" value={group.name} onChange={(e) => setGroup({ ...group, name: e.target.value })} />
                     </div>
                 </div>
 
                 <div className="form-group row mb-2" >
-                    <label htmlFor="dept" className="col-sm-3 col-form-label">Department</label>
-                    <div className="col-sm-9">
+                    <label htmlFor="dept" className="col-sm-4 col-form-label">Department</label>
+                    <div className="col-sm-8">
                         <select defaultValue={0} className="form-control custom-select" id="dept" onChange={(e) => handleProg(e.target.value)}>
                             <option value={0} disabled>Choose...</option>
                             <option value={'MPE'}>MPE</option>
@@ -90,8 +93,8 @@ const GroupCreate = props => {
                 </div>
 
                 <div className="form-group row mb-2" >
-                    <label htmlFor="prog" className="col-sm-3 col-form-label">Programme</label>
-                    <div className="col-sm-9">
+                    <label htmlFor="prog" className="col-sm-4 col-form-label">Programme</label>
+                    <div className="col-sm-8">
                         <select defaultValue={0} className="form-control custom-select" id="prog" onChange={(e) => setGroup({ ...group, prog: e.target.value })}>
                             <option value={0} disabled>Choose...</option>
                             {progs.map((p) => (
@@ -102,8 +105,8 @@ const GroupCreate = props => {
                 </div>
 
                 <div className="form-group row mb-2" >
-                    <label htmlFor="batch" className="col-sm-3 col-form-label">Batch</label>
-                    <div className="col-sm-9">
+                    <label htmlFor="batch" className="col-sm-4 col-form-label">Batch</label>
+                    <div className="col-sm-8">
                         <select defaultValue={0} className="form-control custom-select" id="batch" onChange={(e) => setGroup({ ...group, batch: e.target.value })}>
                             <option value={0} disabled>Choose...</option>
                             <option value={2018}>2018</option>
@@ -115,8 +118,8 @@ const GroupCreate = props => {
                 </div>
 
                 <div className="form-group row mb-2" >
-                    <label htmlFor="section" className="col-sm-3 col-form-label">Section</label>
-                    <div className="col-sm-9">
+                    <label htmlFor="section" className="col-sm-4 col-form-label">Section</label>
+                    <div className="col-sm-8">
                         <select defaultValue={0} className="form-control custom-select" id="section" onChange={(e) => setGroup({ ...group, section: e.target.value })}>
                             <option value={0} disabled>Choose...</option>
                             <option value={1}>1</option>
@@ -126,15 +129,15 @@ const GroupCreate = props => {
                 </div>
 
                 <div className="form-group row mb-2" >
-                    <label htmlFor="count" className="col-sm-3 col-form-label">Students</label>
-                    <div className="col-sm-9">
+                    <label htmlFor="count" className="col-sm-4 col-form-label">Students</label>
+                    <div className="col-sm-8">
                         <input type="number" id="count" required className="form-control" onChange={(e) => setGroup({ ...group, count: e.target.value })} />
                     </div>
                 </div>
 
                 <div className="form-group row mb-3" >
-                    <label htmlFor="otp" className="col-sm-3 col-form-label">Group code</label>
-                    <div className="col-sm-9">
+                    <label htmlFor="otp" className="col-sm-4 col-form-label">Group code</label>
+                    <div className="col-sm-8">
                         <input type="text" id="otp" readOnly className="form-control-plaintext" value={code} onClick={(e) => { navigator.clipboard.writeText(e.target.value); setMsg('Copied!') }} />
                         <small>{msg}</small>
                     </div>

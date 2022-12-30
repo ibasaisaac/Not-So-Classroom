@@ -40,12 +40,12 @@ const Header = () => {
                     }
                 })
         }
-        
+
         refreshToken();
-    },[navigate, token]);
+    }, [navigate, token]);
 
 
-    
+
     axiosJWT.interceptors.request.use(async (config) => {
         const currentDate = new Date();
         if (expire * 1000 < currentDate.getTime()) {
@@ -105,7 +105,7 @@ const Header = () => {
                         <i className="fa fa-solid fa-bars fa-xl" ></i>
                     </button>
 
-                    <a href='/#' className="navbar-brand" onClick={homeButton}><img src={logo} alt="Logo" width="30" height="24" className="d-inline-block align-text-top" />Not So Classroom</a>
+                    <button style={{ backgroundColor: 'transparent', border: '0' }} className="navbar-brand" onClick={homeButton}><img src={logo} alt="Logo" width="30" height="24" className="d-inline-block align-text-top" />Not So Classroom</button>
                     <div>
                         <label> {username}, &ensp; </label>
                         <button onClick={Logout} style={{ backgroundColor: 'transparent', border: 'none' }}>
@@ -127,58 +127,58 @@ const Header = () => {
                         <ul className="navbar-nav gap-2">
                             <li>
                                 <button type="button" className="btn btn-light btn-block text-center" data-bs-dismiss="offcanvas" onClick={homeButton}>
-                                    <a href='/#'>Home</a>
+                                    <button style={{ backgroundColor: 'transparent', border: '0' }}>Home</button>
                                 </button>
                             </li>
                             <li >
                                 <button type="button" className="btn btn-light btn-block text-center" data-bs-dismiss="offcanvas" onClick={profileButton}>
-                                    <a href='/#'>Profile</a>
+                                    <button style={{ backgroundColor: 'transparent', border: '0' }}>Profile</button>
                                 </button>
                             </li>
                             <li>
                                 <button type="button" className="btn btn-light btn-block text-center" data-bs-dismiss="offcanvas" onClick={groupButton}>
-                                    <a href='/#'>Group</a>
+                                    <button style={{ backgroundColor: 'transparent', border: '0' }}>Group</button>
                                 </button>
                             </li>
                             <li>
                                 <button type="button" className="btn btn-light btn-block text-center" data-bs-dismiss="offcanvas" onClick={clubButton}>
-                                    <a href='/#'>Clubs</a>
+                                    <button style={{ backgroundColor: 'transparent', border: '0' }}>Clubs</button>
                                 </button>
                             </li>
                             <li >
                                 <button type="button" className="btn btn-light btn-block text-center" data-bs-dismiss="offcanvas" onClick={shopButton}>
-                                    <a href='/#'>Shop</a>
+                                    <button style={{ backgroundColor: 'transparent', border: '0' }}>Shop</button>
                                 </button>
                             </li>
                             <li>
                                 <button type="button" className="btn btn-light btn-block text-center" data-bs-dismiss="offcanvas" onClick={supportButton}>
-                                    <a href='/#'>Support</a>
+                                    <button style={{ backgroundColor: 'transparent', border: '0' }}>Support</button>
                                 </button>
                             </li>
 
                             < div className="penguin" >
                                 <div className="penguin-head">
-                                    <div className="face left"></div>
-                                    <div className="face right"></div>
+                                    <div className="face leftt"></div>
+                                    <div className="face rightt"></div>
                                     <div className="chin"></div>
-                                    <div className="eye left">
+                                    <div className="eye leftt">
                                         <div className="eye-lid"></div>
                                     </div>
-                                    <div className="eye right">
+                                    <div className="eye rightt">
                                         <div className="eye-lid"></div>
                                     </div>
-                                    <div className="blush left"></div>
-                                    <div className="blush right"></div>
+                                    <div className="blush leftt"></div>
+                                    <div className="blush rightt"></div>
                                     <div className="beak top"></div>
                                     <div className="beak bottom"></div>
                                 </div>
                                 <div className="shirt">
                                 </div>
                                 <div className="penguin-body">
-                                    <div className="arm left"></div>
-                                    <div className="arm right"></div>
-                                    <div className="foot left"></div>
-                                    <div className="foot right"></div>
+                                    <div className="arm leftt"></div>
+                                    <div className="arm rightt"></div>
+                                    <div className="foot leftt"></div>
+                                    <div className="foot rightt"></div>
                                 </div>
                             </div >
                         </ul>

@@ -515,15 +515,23 @@ export const buyProduct = async (req, res) => {
           size: req.body.size,
           quantity: req.body.quantity
         })
-        Product.increment({
-          [req.body.size + '_stock']: -req.body.quantity
-        },
-          { where: { product_id: req.body.product_id } })
           .then(function () {
+
+            if (req.body.size) {
+              Product.increment({
+                [req.body.size]: -req.body.quantity,
+                stock: -req.body.quantity
+              },
+                { where: { product_id: req.body.product_id } })
+            }
+            else {
+              Product.increment({
+                stock: -req.body.quantity
+              },
+                { where: { product_id: req.body.product_id } })
+            }
+
             res.status(200).json({ msg: "Order placed" });
-          })
-          .catch(err => {
-            console.log(err);
           })
       })
   } catch (error) {

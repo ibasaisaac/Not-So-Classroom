@@ -17,24 +17,29 @@ let currentUser = {
     class_group: ''
 }
 
-export async function storeUser (id, email, username, dp, group, role) {
+export async function storeUser(id, email, username, dp, group, role) {
     currentUser.student_id = id;
     currentUser.email = email;
     currentUser.username = username;
-    currentUser.dp = dp;
-    // console.log(group)
-    const t = await Group.findOne({
-        attributes: ['group_id', 'group_name'],
-        where: {
-            group_id: group
-        }
-    });
-    t ? currentUser.class_group = {id: t.group_id, name: t.group_name}:{id: 0, name: ''}
+    currentUser.class_group = group;
     currentUser.role = role;
+    currentUser.dp = dp;
 }
 
 export const getUser = async (req, res) => {
-    res.json(currentUser);
+    try {
+        Group.findOne({
+            attributes: ['group_id', 'group_name'],
+            where: {
+                group_id: currentUser.class_group
+            }
+        }).then(function (t) {
+            t ? currentUser.class_group = { id: t.group_id, name: t.group_name } : currentUser.class_group = { id: 0, name: '' }
+            return res.json(currentUser);
+        })
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 
@@ -265,7 +270,7 @@ export const createGroup = async (req, res) => {
     }
     catch (error) {
         console.log(error)
-        return res.status(402).json({msg: 'This group already exists!'});
+        return res.status(402).json({ msg: 'This group already exists!' });
     }
 }
 

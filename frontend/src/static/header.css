@@ -53,11 +53,11 @@
     top: 15%;
 }
 
-.face.left {
+.face.leftt {
     left: 5%;
 }
 
-.face.right {
+.face.rightt {
     right: 5%;
 }
 
@@ -78,11 +78,11 @@
     border-radius: 50%;
 }
 
-.eye.left {
+.eye.leftt {
     left: 25%;
 }
 
-.eye.right {
+.eye.rightt {
     right: 25%;
 }
 
@@ -103,11 +103,11 @@
     border-radius: 50%;
 }
 
-.blush.left {
+.blush.leftt {
     left: 15%;
 }
 
-.blush.right {
+.blush.rightt {
     right: 15%;
 }
 
@@ -177,7 +177,7 @@
     z-index: -1;
 }
 
-.arm.left {
+.arm.leftt {
     top: 35%;
     left: 5%;
     transform-origin: top left;
@@ -185,7 +185,7 @@
     animation: 3s linear infinite wave;
 }
 
-.arm.right {
+.arm.rightt {
     top: 0%;
     right: -5%;
     transform: rotate(-45deg);
@@ -218,12 +218,12 @@
     z-index: -1;
 }
 
-.foot.left {
+.foot.leftt {
     left: 25%;
     transform: rotate(80deg);
 }
 
-.foot.right {
+.foot.rightt {
     right: 25%;
     transform: rotate(-80deg);
 }

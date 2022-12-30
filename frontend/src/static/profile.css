@@ -1,21 +1,22 @@
 @import "style.css";
- html{
+
+html {
     scroll-behavior: smooth;
 }
 
-body{
+body {
     margin: 0;
     padding: 0;
 }
 
-header{
+header {
     height: 220px;
     width: 100%;
-    color:black;
+    color: black;
     background-color: var(--crystal);
 }
 
-.wrapper{
+.wrapper {
     height: 140px;
     width: 140px;
     position: relative;
@@ -28,20 +29,20 @@ header{
     overflow: hidden;
 }
 
-.my_dp{
+.my_dp {
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
     margin: auto;
     max-width: 100%;
-    max-height: 100%; 
+    max-height: 100%;
     position: absolute;
 
     opacity: 1;
-  display: block;
-  transition: .5s ease;
-  backface-visibility: hidden;
+    display: block;
+    transition: .5s ease;
+    backface-visibility: hidden;
 }
 
 
@@ -54,24 +55,24 @@ header{
     transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     text-align: center;
-  }
-  
-  .wrapper:hover .my_dp {
+}
+
+.wrapper:hover .my_dp {
     opacity: 0.3;
-  }
-  
-  .wrapper:hover .middle {
+}
+
+.wrapper:hover .middle {
     opacity: 1;
-  }
-  
-  .text {
-    background-color: #0494aa;
+}
+
+.text {
+    background-color: var(--vista);
     color: white;
     font-size: 16px;
     padding: 6px 16px;
-  }
+}
 
-.my_file{
+.my_file {
     position: absolute;
     bottom: 0;
     outline: none;
@@ -84,7 +85,7 @@ header{
     opacity: 0;
 }
 
-.c{
+.c {
     position: relative;
     top: 90px;
     left: 45px;
@@ -95,16 +96,16 @@ header{
     left: 50%;
     margin: auto;
     max-width: 100%;
-    max-height: 100%; 
+    max-height: 100%;
     position: absolute;
 }
 
-.p{
+.p {
     position: relative;
     left: 42.5px;
 }
 
-.name{
+.name {
     position: relative;
     left: 350px;
     bottom: 20px;
@@ -112,7 +113,7 @@ header{
     font-weight: bold;
 }
 
-.ib{
+.ib {
     position: relative;
     left: 350px;
     bottom: 25px;
@@ -121,7 +122,7 @@ header{
     letter-spacing: 2px;
 }
 
-.id{
+.id {
     position: relative;
     left: 350px;
     bottom: 25px;
@@ -130,18 +131,18 @@ header{
     letter-spacing: 2px;
 }
 
-#section1{
+#section1 {
     height: 31.25rem;
     background: white;
     display: inline-block;
     width: 100%;
 }
 
-#section2{
+#section2 {
     align-content: center;
 }
 
-.sec2{
+.sec2 {
     height: 100%;
     width: 65%;
     color: black;
@@ -150,46 +151,54 @@ header{
     left: 20%;
 }
 
-#roomblock,#placeblock,#timeblock{
-    display:inline-block;
-}
-
-#detailsblock, #entergblock{
+#roomblock,
+#placeblock,
+#timeblock {
     display: inline-block;
 }
 
-.clc{
+#detailsblock,
+#entergblock {
+    display: inline-block;
+}
+
+.clc {
     width: 15%;
     height: 10%;
     position: relative;
     left: 10%;
     bottom: 20%;
 }
-.room{
+
+.room {
     width: 15%;
     height: 10%;
     position: relative;
     bottom: 15%;
     left: 45%;
 }
-.d{
+
+.d {
     width: 15%;
-    height: 10%;;
+    height: 10%;
+    ;
     position: relative;
     bottom: 15%;
     left: 35%;
     border-radius: 10%;
 }
-.t{
+
+.t {
     width: 15%;
-    height: 10%;;
+    height: 10%;
+    ;
     position: relative;
     bottom: 15%;
     left: 40%;
     border-radius: 10%;
 }
 
-.details{
+.details {
     width: 40%;
     height: 100%;
     position: relative;
@@ -198,7 +207,8 @@ header{
     left: 25%;
     margin-top: 5%;
 }
-.cdetails{
+
+.cdetails {
     width: 21rem;
     height: 6.8rem;
     position: relative;
@@ -215,21 +225,22 @@ header{
     background: #FFB0AD;
 }
 
-.dd{
+.dd {
     position: relative;
     left: 35px;
     top: 10px
 }
 
-.click{
-    background-color: white;   
+.click {
+    background-color: white;
 }
 
-.click:hover{
+.click:hover {
     background-color: #F8C8DC;
 }
 
-.click,.links{
+.click,
+.links {
     padding: 12px;
     font-size: 1em;
     border: none;
@@ -239,57 +250,57 @@ header{
     transition: 0.3s;
 }
 
-.list{
+.list {
     position: absolute;
     transform: scaleY(0);
     transform-origin: top;
     transition: 0.3s;
 }
 
-.newlist{
+.newlist {
     transform: scaleY(1);
 }
 
-.links{
+.links {
     background-color: #F7FFA3;
 }
 
-.links:hover{
+.links:hover {
     background-color: #FFA3F7;
     transform: scale(1.1);
 }
 
-.r{
+.r {
     position: relative;
     left: 35px;
     top: 10px
 }
 
-.enterg{
+.enterg {
     position: relative;
     left: 70%;
 }
 
-.enterc{
+.enterc {
     position: relative;
     left: 70%;
 }
 
-.e{
+.e {
     position: relative;
     width: 90px;
     height: 48px;
-    background: #8BC6FC;    ;
+    background: #8BC6FC;
     color: black;
     border: none;
 }
 
-#section3{
+#section3 {
     margin-top: 15%;
     align-content: center;
 }
 
-.sec3{
+.sec3 {
     height: 100%;
     width: 65%;
     color: black;
@@ -298,7 +309,7 @@ header{
     left: 20%;
 }
 
-.clc1{
+.clc1 {
     width: 200px;
     height: 30px;
     position: relative;
@@ -306,15 +317,16 @@ header{
     bottom: 221px;
 }
 
-.click1{
-    background-color: white;   
+.click1 {
+    background-color: white;
 }
 
-.click1:hover{
+.click1:hover {
     background-color: #F8C8DC;
 }
 
-.click1,.links1{
+.click1,
+.links1 {
     padding: 12px;
     font-size: 1em;
     border: none;
@@ -324,27 +336,27 @@ header{
     transition: 0.3s;
 }
 
-.list1{
+.list1 {
     position: absolute;
     transform: scaleY(0);
     transform-origin: top;
     transition: 0.3s;
 }
 
-.newlist1{
+.newlist1 {
     transform: scaleY(1);
 }
 
-.links1{
+.links1 {
     background-color: #F7FFA3;
 }
 
-.links1:hover{
+.links1:hover {
     background-color: #FFA3F7;
     transform: scale(1.1);
 }
 
-.croom{
+.croom {
     width: 100px;
     height: 48px;
     position: relative;
@@ -353,13 +365,13 @@ header{
     left: 37.5%;
 }
 
-.cr{
+.cr {
     position: relative;
     left: 35px;
     top: 10px
 }
 
-.cdate{
+.cdate {
     width: 200px;
     height: 48px;
     position: relative;
@@ -368,46 +380,48 @@ header{
     left: 55%;
 }
 
-.cd{
-    position: relative;
-    left: 35px;
-    top: 10px
-}
-.cdd{
+.cd {
     position: relative;
     left: 35px;
     top: 10px
 }
 
-.enter1{
+.cdd {
+    position: relative;
+    left: 35px;
+    top: 10px
+}
+
+.enter1 {
     position: relative;
     left: 61.75%;
     bottom: -5px;
 }
 
-.e1{
+.e1 {
     position: relative;
     width: 90px;
     height: 48px;
-    background: #8BC6FC;    ;
+    background: #8BC6FC;
+    ;
     color: black;
     border: none;
 }
 
-.container{
+.container {
     text-align: center;
     margin-top: -20px;
     font-size: 15px;
 }
 
-.role{
+.role {
     position: relative;
     right: 350px;
     top: 77px;
     font-size: 15px;
 }
 
-.btnn{
+.btnn {
     border: 1.3px solid black;
     /* background: none; */
     padding: 5px 10px;
@@ -415,54 +429,50 @@ header{
     margin: 30px;
 }
 
-.btn1{
+.btn1 {
     background: #DADADA;
 }
 
-.em{
+.em {
     position: relative;
     left: 285px;
 }
 
-.email{
+.email {
     position: relative;
     left: 245px;
     font-size: 15px;
 }
 
-.pp{
+.pp {
     position: relative;
     left: 285px;
 }
 
-.p{
+.p {
     position: relative;
     top: 20px;
     right: 27px;
 }
 
-.password{
+.password {
     position: relative;
     left: -40px;
     font-size: 15px;
     top: 20px;
 }
 
-.c_s{
+.c_s {
     position: relative;
-    left: 300px;
-    bottom: 90px;
+    left: 40px;
     font-size: 15px;
     color: black;
     margin: 20px;
-    top: 10px;
+    top: 15px;
 }
 
-.change{
-    padding: 20px;
-}
 
-.all{
+.all {
     position: relative;
     left: 265px;
     font-size: 15px;
@@ -473,9 +483,9 @@ header{
     height: 0;
     width: 0;
     visibility: hidden;
-} 
+}
 
- .labell{
+.labell {
     cursor: pointer;
     position: relative;
     left: 220px;
@@ -488,9 +498,9 @@ header{
     border-radius: 100px;
     position: relative;
     transition: all 0.5s;
-} 
+}
 
-.s{
+.s {
     position: absolute;
     bottom: 62px;
     left: 225px;
@@ -504,11 +514,11 @@ header{
     pointer-events: none;
 }
 
-input:checked + label{
+input:checked+label {
     transform: rotate(180deg);
 }
 
-input:checked ~ .s{
+input:checked~.s {
     transform: rotate(-180deg);
     background: black;
-} 
+}
