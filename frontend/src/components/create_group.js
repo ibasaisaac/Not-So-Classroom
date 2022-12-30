@@ -98,7 +98,7 @@ const GroupCreate = props => {
                         <select defaultValue={0} className="form-control custom-select" id="prog" onChange={(e) => setGroup({ ...group, prog: e.target.value })}>
                             <option value={0} disabled>Choose...</option>
                             {progs.map((p) => (
-                                <option value={p}>{p}</option>
+                                <option key={p} value={p}>{p}</option>
                             ))}
                         </select>
                     </div>

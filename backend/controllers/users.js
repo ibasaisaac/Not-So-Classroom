@@ -14,6 +14,7 @@ let currentUser = {
     username: '',
     dp: '',
     role: '',
+    group_name: '',
     class_group: ''
 }
 
@@ -29,12 +30,12 @@ export async function storeUser(id, email, username, dp, group, role) {
 export const getUser = async (req, res) => {
     try {
         Group.findOne({
-            attributes: ['group_id', 'group_name'],
+            attributes: ['group_name'],
             where: {
                 group_id: currentUser.class_group
             }
         }).then(function (t) {
-            t ? currentUser.class_group = { id: t.group_id, name: t.group_name } : currentUser.class_group = { id: 0, name: '' }
+            t ? currentUser.group_name = t.group_name : currentUser.group_name = ''
             return res.json(currentUser);
         })
     } catch (error) {

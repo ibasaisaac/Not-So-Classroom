@@ -227,7 +227,7 @@ const Profile = () => {
                                     <select defaultValue={0} className="form-control custom-select" id="room" style={{ backgroundColor: 'white', border: 'none' }} onChange={(e) => setEvent({ ...event, room: e.target.value })}>
                                         <option value={0} disabled>Select Room</option>
                                         {progs.map((p) => (
-                                            <option value={p}>{p}</option>
+                                            <option key={p} value={p}>{p}</option>
                                         ))}
                                     </select>
                                 </div>
@@ -278,7 +278,7 @@ const Profile = () => {
                                     <select defaultValue={0} className="form-control custom-select" id="room" style={{ backgroundColor: 'white', border: 'none' }} onChange={(e) => setEvent({ ...event, room: e.target.value })}>
                                         <option value={0} disabled>Select Room</option>
                                         {progs.map((p) => (
-                                            <option value={p}>{p}</option>
+                                            <option key={p} value={p}>{p}</option>
                                         ))}
                                     </select>
                                 </div>

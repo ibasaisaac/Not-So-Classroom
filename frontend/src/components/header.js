@@ -81,7 +81,7 @@ const Header = () => {
     }
     const groupButton = async (e) => {
         e.preventDefault()
-        if (user.class_group) {
+        if (user.class_group !== 0) {
             navigate('/group');
         }
     }
@@ -126,33 +126,33 @@ const Header = () => {
                     <div className="offcanvas-body comfortaa" >
                         <ul className="navbar-nav gap-2">
                             <li>
-                                <button type="button" className="btn btn-light btn-block text-center" data-bs-dismiss="offcanvas" onClick={homeButton}>
-                                    <button style={{ backgroundColor: 'transparent', border: '0' }}>Home</button>
+                                <button type="button" style={{ border: '0' }} className="btn btn-light btn-block text-center" data-bs-dismiss="offcanvas" onClick={homeButton}>
+                                    Home
                                 </button>
                             </li>
                             <li >
-                                <button type="button" className="btn btn-light btn-block text-center" data-bs-dismiss="offcanvas" onClick={profileButton}>
-                                    <button style={{ backgroundColor: 'transparent', border: '0' }}>Profile</button>
+                                <button type="button" style={{ border: '0' }} className="btn btn-light btn-block text-center" data-bs-dismiss="offcanvas" onClick={profileButton}>
+                                    Profile
                                 </button>
                             </li>
                             <li>
-                                <button type="button" className="btn btn-light btn-block text-center" data-bs-dismiss="offcanvas" onClick={groupButton}>
-                                    <button style={{ backgroundColor: 'transparent', border: '0' }}>Group</button>
+                                <button type="button" style={{ border: '0' }} className="btn btn-light btn-block text-center" data-bs-dismiss="offcanvas" onClick={groupButton}>
+                                    Group
                                 </button>
                             </li>
                             <li>
-                                <button type="button" className="btn btn-light btn-block text-center" data-bs-dismiss="offcanvas" onClick={clubButton}>
-                                    <button style={{ backgroundColor: 'transparent', border: '0' }}>Clubs</button>
+                                <button type="button" style={{ border: '0' }} className="btn btn-light btn-block text-center" data-bs-dismiss="offcanvas" onClick={clubButton}>
+                                    Clubs
                                 </button>
                             </li>
                             <li >
-                                <button type="button" className="btn btn-light btn-block text-center" data-bs-dismiss="offcanvas" onClick={shopButton}>
-                                    <button style={{ backgroundColor: 'transparent', border: '0' }}>Shop</button>
+                                <button type="button" style={{ border: '0' }} className="btn btn-light btn-block text-center" data-bs-dismiss="offcanvas" onClick={shopButton}>
+                                    Shop
                                 </button>
                             </li>
                             <li>
-                                <button type="button" className="btn btn-light btn-block text-center" data-bs-dismiss="offcanvas" onClick={supportButton}>
-                                    <button style={{ backgroundColor: 'transparent', border: '0' }}>Support</button>
+                                <button type="button" style={{ border: '0' }} className="btn btn-light btn-block text-center" data-bs-dismiss="offcanvas" onClick={supportButton}>
+                                    Support
                                 </button>
                             </li>
 

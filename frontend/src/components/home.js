@@ -181,10 +181,10 @@ const Home = () => {
 
     const groupButton = async (e) => {
         e.preventDefault()
-        if (user.role === 'cr' && user.class_group.id===0) {
+        if (user.role === 'cr' && user.class_group===0) {
             setGroupCreatePopUp(true);
         }
-        else if (user.class_group.id===0) {
+        else if (user.class_group===0) {
             setGroupJoinPopUp(true);
         }
         else {

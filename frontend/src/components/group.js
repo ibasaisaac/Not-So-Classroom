@@ -25,9 +25,10 @@ const Group = () => {
     const [cardPop, setCardPop] = useState(false);
     const [searchPop, setSearchPop] = useState(false);
     const [routinePop, setRoutinePop] = useState(false);
-    const [slot, setSlot] = useState([]);
+    const [sched, setSched] = useState([]);
+    const [e, setE] = useState([]);
     const [cardDetails, setCardDetails] = useState('');
-    const [param, setParam] = useState({ building: '', room: '', day: '' });
+    const [param, setParam] = useState({ building: '', room: '', date: '' });
 
 
     useEffect(() => {
@@ -42,16 +43,16 @@ const Group = () => {
                 .then(function (res1) {
                     console.log('group', res1.data);
                     setUser(res1.data);
-                    setGroup(res1.data.class_group);
+                    setGroup({id:res1.data.class_group, name: res1.data.group_name});
                     axios.post('http://localhost:5000/getpost', {
                         category: 'group_id',
-                        category_id: res1.data.class_group.id
+                        category_id: res1.data.class_group
                     })
                         .then(function (res2) {
                             console.log('group posts', res2.data)
                             setPosts(res2.data);
                             axios.post('http://localhost:5000/getevent', {
-                                id: res1.data.class_group.id
+                                id: res1.data.class_group
                             })
                                 .then(function (res3) {
                                     console.log(res3.data)
@@ -166,21 +167,24 @@ const Group = () => {
     const search = async (e) => {
         console.log(param)
         e.preventDefault();
+        console.log(param)
         await axios.post('http://localhost:5000/search', {
             building: param.building,
             room: param.room,
-            day: param.day
+            date: param.date
         })
             .then(res => {
                 if (res.status === 200) {
-                    console.log(res.data)
-                    setSlot([{ slot: res.data.p1_slot, course: res.data.p1_course, group: res.data.p1_group_details, info: res.data.p1_info },
-                    { slot: res.data.p2_slot, course: res.data.p2_course, group: res.data.p2_group_details, info: res.data.p2_info },
-                    { slot: res.data.p3_slot, course: res.data.p3_course, group: res.data.p3_group_details, info: res.data.p3_info },
-                    { slot: res.data.p4_slot, course: res.data.p4_course, group: res.data.p4_group_details, info: res.data.p4_info },
-                    { slot: res.data.p5_slot, course: res.data.p5_course, group: res.data.p5_group_details, info: res.data.p5_info },
-                    { slot: res.data.p6_slot, course: res.data.p6_course, group: res.data.p6_group_details, info: res.data.p6_info }])
-
+                    console.log(res.data.results)
+                    setSched(
+                        [{ slot: res.data.results.p1_slot, course: res.data.results.p1_course, group: res.data.results.p1_group_details, info: res.data.results.p1_info },
+                        { slot: res.data.results.p2_slot, course: res.data.results.p2_course, group: res.data.results.p2_group_details, info: res.data.results.p2_info },
+                        { slot: res.data.results.p3_slot, course: res.data.results.p3_course, group: res.data.results.p3_group_details, info: res.data.results.p3_info },
+                        { slot: res.data.results.p4_slot, course: res.data.results.p4_course, group: res.data.results.p4_group_details, info: res.data.results.p4_info },
+                        { slot: res.data.results.p5_slot, course: res.data.results.p5_course, group: res.data.results.p5_group_details, info: res.data.results.p5_info },
+                        { slot: res.data.results.p6_slot, course: res.data.results.p6_course, group: res.data.results.p6_group_details, info: res.data.results.p6_info }]
+                        )
+                        setE(res.data.e)
                 }
             })
             .then(() => {
@@ -199,8 +203,8 @@ const Group = () => {
                         <i className="fa fa-solid fa-ellipsis fa-lg"></i>
                     </button>
                     <ul className="dropdown-menu">
-                        <li><button style={{ backgroundColor: 'transparent', border: '0' }}className="dropdown-item" onClick={() => { setPostEditPopUp(true); setPropToEdit(['p', props.flag[1].post]); }}>Edit</button></li>
-                        <li><button style={{ backgroundColor: 'transparent', border: '0' }}className="dropdown-item" onClick={(e) => postDelete(e, props.flag[1].post.post_id)}>Delete</button></li>
+                        <li><button style={{ backgroundColor: 'transparent', border: '0' }} className="dropdown-item" onClick={() => { setPostEditPopUp(true); setPropToEdit(['p', props.flag[1].post]); }}>Edit</button></li>
+                        <li><button style={{ backgroundColor: 'transparent', border: '0' }} className="dropdown-item" onClick={(e) => postDelete(e, props.flag[1].post.post_id)}>Delete</button></li>
                     </ul>
                 </div>
             )
@@ -360,14 +364,14 @@ const Group = () => {
 
                             <h5 className='mt-3'>Schedule</h5>
 
-                            <h6 className='mt-2' onClick={() => setRoutinePop(true)}>Class Schedule</h6>
+                            <h6 className='mt-2' onClick={() => setRoutinePop(true)} style={{ cursor: 'pointer' }}>Class Schedule</h6>
                             <div style={{ display: 'flex', justifyContent: 'space-evenly', fontFamily: 'inter' }}>
-                                <select defaultValue={0} className="form-control custom-select" style={{ backgroundColor: 'transparent', border: 'none' }} onChange={(e) => setParam({ ...param, building: e.target.value })}>
+                                <select defaultValue={0} className="form-control custom-select p-0" style={{ backgroundColor: 'transparent', border: 'none', fontSize: '12px' }} onChange={(e) => setParam({ ...param, building: e.target.value })}>
                                     <option value="0" disabled>Building</option>
                                     <option value="AB2">AB2</option>
                                     <option value="AB3">AB3</option>
                                 </select>
-                                <select defaultValue={0} className="form-control custom-select" style={{ backgroundColor: 'transparent', border: 'none' }} onChange={(e) => setParam({ ...param, room: e.target.value })}>
+                                <select defaultValue={0} className="form-control custom-select p-0" style={{ backgroundColor: 'transparent', border: 'none', fontSize: '12px' }} onChange={(e) => setParam({ ...param, room: e.target.value })}>
                                     <option value="0" disabled>Room</option>
                                     <option value="105">105</option>
                                     <option value="106">106</option>
@@ -382,15 +386,9 @@ const Group = () => {
                                     <option value="LAB5">LAB5</option>
                                     <option value="LAB6">LAB6</option>
                                 </select>
-                                <select defaultValue={0} className="form-control custom-select" style={{ backgroundColor: 'transparent', border: 'none' }} onChange={(e) => setParam({ ...param, day: e.target.value })}>
-                                    <option value="0" disabled>Weekday</option>
-                                    <option value="Mon">Mon</option>
-                                    <option value="Tue">Tue</option>
-                                    <option value="Wed">Wed</option>
-                                    <option value="Thu">Thu</option>
-                                    <option value="Fri">Fri</option>
-                                </select>
-                                <button type='submit' onClick={search}>Search</button>
+                                <input type="date" className="form-control p-0" style={{ backgroundColor: 'transparent', border: 'none', fontSize: '12px' }} onChange={(e) => setParam({ ...param, date: e.target.value })} />
+
+                                <button type='submit' style={{ backgroundColor: 'transparent', fontSize: '14px', marginLeft: '7px' }} onClick={search}>Search</button>
                             </div>
                         </div>
 
@@ -424,14 +422,19 @@ const Group = () => {
 
                 {searchPop && <div>
                     <div className='modal-backdrop' onClick={() => setSearchPop(false)}></div>
-                    <div className="card PopEvent" key={`${cardDetails.event_id}`} style={{ zIndex: '1050' }}>
+                    <div className="card PopEvent" key={`${cardDetails.event_id}`} style={{ zIndex: '1050',top:'15%'}}>
                         <div className="card-body p-2 inter" style={{ backgroundColor: color, width: '100%' }}>
-                            <h4 className='text-center'>{param.building} {param.room} on {param.day}day</h4>
+                            <h4 className='text-center'>{param.building} {param.room} on {param.date}</h4>
                             {/* <small>{cardDetails.date}</small>  &ensp; <small>{cardDetails.place}</small>  */}
                             <p></p>
-                            {slot.map((s) => (
+                            {sched.map((s) => (
                                 <div key={s.slot}>
                                     {s.slot && <p>{s.slot} {'->'}  {s.course} {s.group && <label>{s.group.prog}{s.group.section}</label>} {s.info}</p>}
+                                </div>
+                            ))}
+                            {e.map((s) => (
+                                <div key={s.event_id}>
+                                    {<p>{s.date.substring(12,17)} {'->'}  {s.title} {s.info}</p>}
                                 </div>
                             ))}
                         </div>
