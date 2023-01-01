@@ -55,16 +55,24 @@ const Profile = () => {
                         })
 
                     axios.post('http://localhost:5000/getproductorders', {
-                        seller_id: resp.data.student_id,
-                        status: status,
-                        oid: oid
+                        seller_id: resp.data.student_id
                     })
                         .then(function (ress) {
                             if (ress.status === 201) {
-                                console.log('lol ', ress.data)
+                                // console.log('lol ', ress.data)
+                                setProductOrder(ress.data)
+                            }
+                        })
+
+                    axios.post('http://localhost:5000/changestatus', {
+                        status: status,
+                        oid: oid
+                    })
+                        .then(function (res3) {
+                            if (res3.status === 201) {
+                                console.log('lol stat', res3.data)
                                 console.log(status)
                                 console.log(oid)
-                                setProductOrder(ress.data)
                             }
                         })
                 })
@@ -77,6 +85,38 @@ const Profile = () => {
         prepareProfile()
     }, []);
 
+    // const productDelete = async (e, props) => {
+    //     e.preventDefault();
+    //     try {
+    //         const res = await axios.post('http://localhost:5000/del_product', {
+    //             product_id: props
+    //         });
+    //         if (res.status === 200) {
+    //             toast.success(res.data.msg)
+    //             var newProduct = myproduct.filter((p) => props !== p.product_id);
+    //             setMyProduct(newProduct);
+    //         }
+    //     }
+    //     catch (error) {
+    //         console.log(error);
+    //     }
+    // }
+
+    // const changeStatus = async (e) => {
+    //     e.preventDefault();
+    //     axios.post('http://localhost:5000/getstatus', {
+    //         status: status,
+    //         oid: oid
+    //     })
+    //         .then(function (res3) {
+    //             if (res3.status === 201) {
+    //                 console.log('lol stat', res3.data)
+    //                 console.log(status)
+    //                 console.log(oid)
+    //                 setProductOrder(res3.data)
+    //             }
+    //         })
+    // }
 
     const createGroupEvent = async (e) => {
         e.preventDefault();
@@ -175,7 +215,7 @@ const Profile = () => {
     if (!user || !orders)
         return <div style={{ textAlign: 'center', lineHeight: '600px' }}><i className="fa-regular fa-circle fa-beat fa-3x"></i><i className="fa-solid fa-circle fa-beat fa-3x"></i><i className="fa-regular fa-circle fa-beat fa-3x"></i></div>
     return (
-        <div style={{overflowX: 'hidden'}}>
+        <div style={{ overflowX: 'hidden' }}>
             <header>
                 <div className="wrapper">
                     <img className="my_dp" alt='' src={`${user.dp}`} />
@@ -234,7 +274,7 @@ const Profile = () => {
 
                 <div className="all">
                     <p className="allow">Allow desktop notification:</p>
-                    <input type="checkbox" className="chk" id="switch" onChange={()=>Notification.requestPermission()}/>
+                    <input type="checkbox" className="chk" id="switch" onChange={() => Notification.requestPermission()} />
                     <label className="labell" htmlFor="switch"></label>
                     <div className="s"></div>
                     <div className="background"></div>
@@ -375,7 +415,7 @@ const Profile = () => {
                                                 <tr>
                                                     <td>{order.items[0].size}</td>
                                                     <td>x{order.items[0].quantity}</td>
-                                                    </tr>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </td>
@@ -408,6 +448,9 @@ const Profile = () => {
                                     <th scope="row">{i + 1}</th>
                                     <td>{m.product_name}</td>
                                     <td>{m.price}</td>
+                                    <td><a
+                                    // onClick={(e) => Delete(e, props.flag[1].p.product_id)}
+                                    >Delete</a></td>
                                 </tr>
                             ))}
                         </tbody>

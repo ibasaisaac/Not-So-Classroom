@@ -5,7 +5,7 @@ import { refreshToken } from "../controllers/refreshToken.js";
 
 import { getUser, Register, Login, Logout, Resend, Verification, Forget, joinGroup, createGroup} from "../controllers/users.js";
 import { submitPost, editPost, deletePost, showPost, editComment, submitComment, deleteComment, showEvent, search, showProduct, addProduct, buyProduct} from "../controllers/feed.js";
-import { CR_verification, changeDP, changePassword, createEvent, showOrders, showProductOrders, showMyProduct} from "../controllers/profile.js";
+import { CR_verification, changeDP, changePassword, createEvent, showOrders, showProductOrders, showMyProduct, changeStatus} from "../controllers/profile.js";
  
 const router = express.Router();
  
@@ -41,6 +41,7 @@ router.post('/postevent', createEvent);
 router.post('/getorders', showOrders);
 router.post('/getproductorders', showProductOrders);
 router.post('/getmyproduct', showMyProduct);
+router.post('/changestatus', changeStatus);
 
 router.post('/login', Login);
 router.delete('/logout', Logout);

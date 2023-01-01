@@ -209,20 +209,28 @@ export const showProductOrders = async (req, res) => {
         ['DOO', 'DESC']
       ],
     });
-
-    // Order.update({
-    //   status: req.body.status,
-    // }, {
-    //   where: {
-    //     order_id: req.body.oid
-    //   }
-    // });
-
     res.status(201).json(results);
   } catch (error) {
     console.log(error);
   }
 }
+
+export const changeStatus = async (req, res) => {
+  try {
+    console.log(req.body.status);
+    const results = Order.update({
+          status: req.body.status,
+        }, {
+          where: {
+            order_id: req.body.oid
+          }
+        })
+    res.status(201).json({ msg: "Status Updated" });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 
 export const showMyProduct = async (req, res) => {
   try {
@@ -241,3 +249,12 @@ export const showMyProduct = async (req, res) => {
     console.log(error);
   }
 }
+
+
+    // Order.update({
+    //   status: req.body.status,
+    // }, {
+    //   where: {
+    //     order_id: req.body.oid
+    //   }
+    // });
