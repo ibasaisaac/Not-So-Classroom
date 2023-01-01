@@ -5,7 +5,7 @@ import { axiosJWT } from './header.js';
 import ClubJoin from './join_club.js';
 
 import '../static/clubmenu.css';
-import us from '../static/us.png';
+import clubkids from '../static/clubkids.svg';
 
 
 const Clubmenu = () => {
@@ -43,7 +43,7 @@ const Clubmenu = () => {
 
     return (
         <div className="container-fluid cont">
-            <img alt='' className="us" src={us} />
+            <img alt='' className="bgprop" src={clubkids} />
 
             <div className="container-fluid" style={{ fontFamily: 'marker' }}>
                 <button className="button btn1" onClick={(e) => clubButton(e)}>IUT COMPUTER SOCIETY (IUTCS)</button>

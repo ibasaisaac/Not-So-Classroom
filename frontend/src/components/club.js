@@ -1,25 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
 import { axiosJWT } from './header.js';
 import Edit from './edit_body.js';
-import '../static/home.css';
-import abckid from '../static/abckid.svg';
+import Session from './session'
+import '../static/club.css';
+import pencilkid from '../static/pencilkid.svg';
+import banner from '../static/default_banner.png';
 
 
 const Club = () => {
     const [user, setUser] = useState('')
-    const [ setClub] = useState({ id: '', name: '' })
+    const [group, setClub] = useState({ id: '', name: '' })
     const [posts, setPosts] = useState('')
-    const [propToEdit, setPropToEdit] = useState(['', {}]);
-    const [postEditPopUp, setPostEditPopUp] = useState(false);
-    // const [sessions, setSessions] = useState('')
+    const [sessions, setSessions] = useState('')
+    const [activity, setActivity] = useState(true)
+    const [member, setMember] = useState(false)
+    const [achievement, setAchievement] = useState(false)
+    const [shop, setShop] = useState(false)
 
     const [text, setText] = useState('')
-    const [image, setImage] = useState({ preview: '', data: '' })
+    const [image, setImage] = useState([])
+    const [file, setFile] = useState()
     const [commentText, setCommentText] = useState({ post_id: '', comment_body: '' })
-
+    const [postEditPopUp, setPostEditPopUp] = useState(false);
+    const [propToEdit, setPropToEdit] = useState(['', {}]);
+    const [sessionPopUp, setSessionPopUp] = useState(false);
+    const [sessionDetails, setSessionDetails] = useState('');
 
     useEffect(() => {
 
@@ -31,19 +39,23 @@ const Club = () => {
                 }
             })
                 .then(function (res1) {
+                    console.log('club', res1.data);
                     setUser(res1.data);
-                    setClub(res1.data.clubs);
+                    // setClub({id:res1.data.club, name: res1.data.club_name});
                     axios.post('http://localhost:5000/getpost', {
                         category: 'club_id',
-                        category_id: res1.data.class_group.id
+                        category_id: 1
                     })
                         .then(function (res2) {
+                            console.log('club posts', res2.data)
                             setPosts(res2.data);
-                            axios.post('http://localhost:5000/getsession', {
-                                id: res1.data.class_group.id
-                            })
-                                .then(function (res3) {
-                                })
+                            // axios.post('http://localhost:5000/getsessions', {
+                            //     id: 1
+                            // })
+                            //     .then(function (res3) {
+                            //         console.log(res3.data)
+                            //         setSessions(res3.data.quiz);
+                            //     })
                         })
                 })
                 .catch(error => {
@@ -52,22 +64,30 @@ const Club = () => {
         }
 
         prepareClubPage();
-    }, [setClub]);
+    }, []);
 
-        const postSubmit = async (e) => {
+    const postSubmit = async (e) => {
         e.preventDefault();
         const data = new FormData();
         data.set('op_id', user.student_id);
-        data.set('category', 'club_id');
-        data.set('category_id', 0);
+        data.set('category', 'group_id');
+        data.set('category_id', group.id);
         data.set('post_body', text);
-        data.append('file', image.data);
+        if (file) {
+            data.append('files', file);
+        }
+        else {
+            Object.values(image).forEach(img => {
+                data.append("files", img);
+            });
+        }
 
         await axios.post('http://localhost:5000/post', data)
             .then(res => {
                 if (res.status === 200) {
                     setText('')
                     setImage('')
+                    setFile('')
                     toast.success('Post created!')
                     var newPosts = [res.data, ...posts]
                     setPosts(newPosts);
@@ -140,16 +160,6 @@ const Club = () => {
         }
     }
 
-
-
-    const handleFileChange = (e) => {
-        const img = {
-            preview: URL.createObjectURL(e.target.files[0]),
-            data: e.target.files[0],
-        }
-        setImage(img)
-    }
-
     function Modify1(props) {
         if (props.flag[0] === 'p' && user.student_id === props.flag[1].post.post_op.student_id) {
             return (
@@ -158,8 +168,8 @@ const Club = () => {
                         <i className="fa fa-solid fa-ellipsis fa-lg"></i>
                     </button>
                     <ul className="dropdown-menu">
-                        <li><button style={{ backgroundColor: 'transparent', border: '0' }}className="dropdown-item" onClick={() => { setPostEditPopUp(true); setPropToEdit(['p', props.flag[1].post]); }}>Edit</button></li>
-                        <li><button style={{ backgroundColor: 'transparent', border: '0' }}className="dropdown-item" onClick={(e) => postDelete(e, props.flag[1].post.post_id)}>Delete</button></li>
+                        <li><button style={{ backgroundColor: 'transparent', border: '0' }} className="dropdown-item" onClick={() => { setPostEditPopUp(true); setPropToEdit(['p', props.flag[1].post]); }}>Edit</button></li>
+                        <li><button style={{ backgroundColor: 'transparent', border: '0' }} className="dropdown-item" onClick={(e) => postDelete(e, props.flag[1].post.post_id)}>Delete</button></li>
                     </ul>
                 </div>
             )
@@ -167,131 +177,234 @@ const Club = () => {
         else if (props.flag[0] === 'c' && user.student_id === props.flag[1].comment.comment_op.student_id) {
             return (
                 <div className='text-end me-3'>
-                    <button style={{ backgroundColor: 'transparent', border: '0' }}className='anc' onClick={() => { setPostEditPopUp(true); setPropToEdit(['c', props.flag[1].comment]); }}>edit</button> &ensp;
-                    <button style={{ backgroundColor: 'transparent', border: '0' }}className='anc' onClick={(e) => commentDelete(e, props.flag[1].comment.comment_id)} >delete</button>
+                    <button style={{ backgroundColor: 'transparent', border: '0' }} className='anc' onClick={() => { setPostEditPopUp(true); setPropToEdit(['c', props.flag[1].comment]); }}>edit</button> &ensp;
+                    <button style={{ backgroundColor: 'transparent', border: '0' }} className='anc' onClick={(e) => commentDelete(e, props.flag[1].comment.comment_id)} >delete</button>
                 </div>
             )
         }
     };
 
-    // const color = useMemo(() => random_color(), []);
-    // const color2 = useMemo(() => random_color(), []);
-    // function random_color() {
-    //     var colors = ['var(--melon)', 'var(--caramel)', 'var(--crystal)', 'var(--vista)'];
-    //     return colors[Math.floor(Math.random() * colors.length)];
-    // }
+    const color = useMemo(() => random_color(), []);
+    const color2 = useMemo(() => random_color(), []);
+    function random_color() {
+        var colors = ['var(--melon)', 'var(--caramel)', 'var(--crystal)', 'var(--vista)'];
+        return colors[Math.floor(Math.random() * colors.length)];
+    }
+    function Activities() {
+        return (
+            <div className="col-sm-7 p-3 inter" style={{ backgroundColor: '#d9d9d9' }}>
+
+                {/* createpost */}
+                <div className='mb-3 p-3' style={{ backgroundColor: 'white' }}>
+                    <form onSubmit={postSubmit}>
+
+                        <div style={{ display: 'flex', alignItems: 'center' }}><i className="fa fa-regular fa-pen-to-square fa-2x"></i>
+                            <textarea rows="2" className="form-control mx-1" style={{ resize: 'none' }} placeholder="Whats on your mind?" value={text} onChange={(e) => setText(e.target.value)} ></textarea>
+                        </div>
+
+                        <div>
+                            <div style={{ display: 'flex' }}>
+                                {image && Array.from(image).map((img) => (
+                                    <div key={img.name}>
+                                        {img && <img className='img-thumbnail my-1' src={URL.createObjectURL(img)} width='100' height='100' alt='' />}
+                                    </div>
+                                ))}
+                                {file && <p>{file.name}</p>}
+                            </div>
+
+                            <div className='text-end py-1'>
+                                <label htmlFor="photo1"><i className="fa fa-solid fa-image"></i>
+                                    <input className="form-control" type="file" id="photo1" accept="image/*" multiple onChange={(e) => { setImage(e.target.files) }} style={{ display: 'none' }} />Photo</label>
+                                <label style={{ width: '15px' }}></label>
+                                <label htmlFor="attach1"><i className="fa fa-solid fa-paperclip"></i>
+                                    <input className="form-control" type="file" id="attach1" accept='application/pdf' onChange={(e) => { setFile(e.target.files[0]) }} style={{ display: 'none' }} />Attach File</label>
+                            </div>
+                        </div>
+
+                        <div className="text-end mt-1">
+                            <button type="submit" className="btn btn-primary" style={{ backgroundColor: 'var(--vista)' }}>Post</button>
+                        </div>
+                    </form>
+                </div>
+
+                {posts.map((post) => (
+
+                    // displaypost
+                    <div key={`${post.post_id}`} className='mb-2 px-3 pt-2' style={{ backgroundColor: 'white', boxShadow: '1px 1px 5px grey', position: 'relative' }}>
+
+                        <div>
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <img alt='' src={`${post.post_op.dp}`} className='img-thumbnail' width='50' height='50' style={{ border: 'none', borderRadius: '50px' }} />
+                                <h5 >@{post.post_op.username}
+                                    <p style={{ fontSize: '10px', color: 'grey', margin: '0' }}>{post.dop}</p>
+                                </h5>
+                                <p style={{ marginLeft: 'auto' }}></p>
+                                <Modify1 flag={['p', { post }]} />
+                            </div>
+
+                            <p className='m-0'>{post.post_body}</p>
+                            <div className="gallery">
+                                {post.media.map((m) => (
+
+                                    <a key={m.media_id} href={`${m.path}`} target="_blank" rel="noreferrer">
+                                        {m.type === 'application/pdf' ?
+                                            <iframe rel="preload" src={`${m.path}`} style={{ width: '500px', height: '300px' }} title={m.path} as="fetch" type="application/pdf" crossOrigin="true" ></iframe> :
+                                            <img alt='' src={`${m.path}`} className="gallery_item" />}</a>
+
+                                )
+                                )}
+                            </div>
+                        </div>
+
+                        <div className='py-4'>
+
+                            {/* createcomment */}
+                            <div className='mb-3'>
+                                <form onSubmit={commentSubmit} style={{ display: 'flex', alignItems: 'center' }}>
+                                    <i className="fa fa-regular fa-comment fa-lg ms-1"></i>
+                                    <textarea rows="1" className="form-control ms-4 me-2" style={{ resize: 'none', borderRadius: '25px' }} onChange={(e) => setCommentText({ post_id: post.post_id, comment_body: e.target.value })} ></textarea>
+                                    <button type="submit" style={{ border: 'none', backgroundColor: 'transparent' }} ><i className="fa fa-regular fa-paper-plane fa-lg me-1"></i></button>
+                                </form>
+                            </div>
+
+                            {/* displaycomment */}
+                            <div style={{ maxHeight: '114px', overflowY: 'auto' }}>
+                                {post.comments.map((comment) => (
+                                    <div className='m-1 px-3 py-1' key={`${comment.comment_id}`} style={{ backgroundColor: '#d9d9d9', borderRadius: '25px' }} >
+
+                                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                                            <h6 >@{comment.comment_op.username}
+                                                <small style={{ fontSize: '10px', color: 'grey', margin: '0' }}>&ensp;{comment.doc}</small>
+                                            </h6>
+                                            <p style={{ marginLeft: 'auto' }}></p>
+                                        </div>
+
+                                        <p className='m-0'>{comment.comment_body}</p>
+                                        <Modify1 flag={['c', { comment }]} />
+                                    </div>
+                                ))}
+                            </div>
+
+                        </div>
+                    </div>
+                ))}
+            </div>
+        )
+    }
+    function Members() {
+        return (
+            <div className="col-sm-7 p-3" >
+                <div className="mod">
+                    <p>Moderator</p>
+                    <div className="mod1">
+                        <p>1. Isaba</p>
+                    </div>
+
+                    <div className="mod2">
+                        <p>2. Tasnim</p>
+                    </div>
+                </div>
+
+                <div className="peo">
+                    <p>People</p>
+                    <div className="peo1">
+                        <p>1. Sumaiya</p>
+                    </div>
+
+                    <div className="peo2">
+                        <p>2. Farzana</p>
+                    </div>
+
+                    <div className="peo3">
+                        <p>3. Eleen</p>
+                    </div>
+
+                    <div className="peo4">
+                        <p>4. Rifa</p>
+                    </div>
+
+                    <div className="peo5">
+                        <p>5. Sanjita</p>
+                    </div>
+
+                    <div className="peo6">
+                        <p>6. Lamia</p>
+                    </div>
+                </div>
+            </div>)
+    }
+    function Achievements() {
+        return (
+            <div className="col-sm-7 p-3" >
+                <div className="achi">
+                    <p><b>SEC Inter University Junior</b></p>
+                    <p><b>Programming Contest, 2022</b></p>
+
+                    <div className="achi1">
+                        <p><b>IUT_সংশপ্তক (3rd)</b></p>
+                        <p>Members: A,B,C</p>
+                        <p>Prize money: 10,000 BDT</p>
+                    </div>
+                </div>
+            </div>)
+    }
+    function Shop() { return (<div className="col-sm-7 p-3" ></div>) }
 
     if (!user || !posts)
         return <div style={{ textAlign: 'center', lineHeight: '600px' }}><i className="fa-regular fa-circle fa-beat fa-3x"></i><i className="fa-solid fa-circle fa-beat fa-3x"></i><i className="fa-regular fa-circle fa-beat fa-3x"></i></div>
     return (
         <div className="container-fluid">
+            <div className="bg2">
+                <div className="mask">
+                    <img className="mask" alt='banner' src={banner} />
+                    <p className="iut"><b>club.name</b></p>
+                </div>
 
-            <div className="row mx-5 my-4">
+                <div className="navbar">
+                    <nav>
+                        <ul>
+                            <li><button style={{ backgroundColor: 'transparent', border: 'none' }} onClick={() => { setActivity(true); setMember(false); setShop(false); setAchievement(false) }}>Activities</button></li>
+                            <li><button style={{ backgroundColor: 'transparent', border: 'none' }} onClick={() => { setMember(true); setActivity(false); setShop(false); setAchievement(false) }}>Members</button></li>
+                            <li><button style={{ backgroundColor: 'transparent', border: 'none' }} onClick={() => { setShop(true); setActivity(false); setMember(false); setAchievement(false) }}>Shop</button></li>
+                            <li><button style={{ backgroundColor: 'transparent', border: 'none' }} onClick={() => { setAchievement(true); setActivity(false); setMember(false); setShop(false) }}>Achievements</button></li>
+                        </ul>
+                    </nav>
+                </div>
 
-                <div className="col-sm-7 p-3 inter" style={{ backgroundColor: '#d9d9d9' }}>
+                <div >
+                    <div className='row mx-5 my-1'>
+                        <img className="bgshopprop" src={pencilkid} alt="kid" />
 
-                    {/* createpost */}
-                    <div className='mb-3 p-3' style={{ backgroundColor: 'white' }}>
-                        <form onSubmit={postSubmit}>
+                        {activity && <Activities />}
+                        {member && <Members />}
+                        {shop && <Shop />}
+                        {achievement && <Achievements />}
 
-                            <div style={{ display: 'flex', alignItems: 'center' }}><i className="fa fa-regular fa-pen-to-square fa-2x"></i>
-                                <textarea rows="2" className="form-control mx-1" style={{ resize: 'none' }} placeholder="Whats on your mind?" value={text} onChange={(e) => setText(e.target.value)} ></textarea>
-                            </div>
-
-                            <div>
-                                {image.preview && <img className='img-thumbnail mx-5 my-1' src={image.preview} width='100' height='100' alt='' />}
-                                <div className='text-end py-1'>
-                                    <label htmlFor="photo1"><i className="fa fa-solid fa-image"></i>
-                                        <input className="form-control" type="file" id="photo1" onChange={handleFileChange} style={{ display: 'none' }} />Photo</label>
-                                    <label style={{ width: '15px' }}></label>
-                                    <label htmlFor="attach1"><i className="fa fa-solid fa-paperclip"></i>
-                                        <input className="form-control" type="file" id="attach1" style={{ display: 'none' }} />Attach File</label>
-                                </div>
-                            </div>
-
-                            <div className="text-end mt-1">
-                                <button type="submit" className="btn btn-primary" style={{ backgroundColor: 'var(--vista)' }}>Post</button>
-                            </div>
-                        </form>
-                    </div>
-
-                    {posts.map((post) => (
-
-                        // displaypost
-                        <div key={`${post.post_id}`} className='mb-2 px-3 pt-2' style={{ backgroundColor: 'white', boxShadow: '1px 1px 5px grey', position: 'relative' }}>
-
-                            <div>
-                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <img src={`${post.post_op.dp}`} className='img-thumbnail' width='50' height='50' style={{ border: 'none', borderRadius: '50px' }} alt='' />
-                                    <h5 >@{post.post_op.username}
-                                        <p style={{ fontSize: '10px', color: 'grey', margin: '0' }}>{post.dop}</p>
-                                    </h5>
-                                    <p style={{ marginLeft: 'auto' }}></p>
-                                    <Modify1 flag={['p', { post }]} />
-                                </div>
-
-                                <p className='m-0'>{post.post_body}</p>
-                                <a href={`${post.image_path}`} target="_blank" rel="noreferrer">
-                                    <img src={`${post.image_path}`} width='250' alt='' />
-                                </a>
-                            </div>
-
-                            <div className='py-4'>
-
-                                {/* createcomment */}
-                                <div className='mb-3'>
-                                    <form onSubmit={commentSubmit} style={{ display: 'flex', alignItems: 'center' }}>
-                                        <i className="fa fa-regular fa-comment fa-lg ms-1"></i>
-                                        <textarea rows="1" className="form-control ms-4 me-2" style={{ resize: 'none', borderRadius: '25px' }} onChange={(e) => setCommentText({ post_id: post.post_id, comment_body: e.target.value })} ></textarea>
-                                        <button type="submit" style={{ border: 'none', backgroundColor: 'transparent' }} ><i className="fa fa-regular fa-paper-plane fa-lg me-1"></i></button>
-                                    </form>
-                                </div>
-
-                                {/* displaycomment */}
-                                <div style={{ maxHeight: '114px', overflowY: 'auto' }}>
-                                    {post.comments.map((comment) => (
-                                        <div className='m-1 px-3 py-1' key={`${comment.comment_id}`} style={{ backgroundColor: '#d9d9d9', borderRadius: '25px' }} >
-
-                                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                <h6 >@{comment.comment_op.username}
-                                                    <small style={{ fontSize: '10px', color: 'grey', margin: '0' }}>&ensp;{comment.doc}</small>
-                                                </h6>
-                                                <p style={{ marginLeft: 'auto' }}></p>
-                                            </div>
-
-                                            <p className='m-0'>{comment.comment_body}</p>
-                                            <Modify1 flag={['c', { comment }]} />
+                        <div className="col-sm-1"></div>
+                        <div className="col-sm-3">
+                            <div className='sidebar row p-3 m-1 marker'>
+                                <h5>Upcoming</h5>
+                                <h6 className=''>Sessions</h6>
+                                {/* {sessions.map((session) => (
+                                    <div className="card p-0 mb-1" key={`${session.event_id}`} onClick={() => { setSessionPopUp(true); setSessionDetails(session) }}>
+                                        <div className="card-body p-1 inter" style={{ backgroundColor: color, cursor: 'pointer' }}>
+                                            <h5>{session.title}</h5>
+                                            <small>{session.date}</small>
                                         </div>
-                                    ))}
-                                </div>
-
+                                    </div>
+                                ))} */}
                             </div>
                         </div>
-                    ))}
-                </div>
-
-
-                <div className="col-sm-1"></div>
-                <div className="col-sm-3">
-                    <div className='row'>
-                        <img className="bgprop" src={abckid} alt="kid" />
-                    </div>
-                    <div className='row p-3 m-1 marker' style={{ backgroundColor: '#d9d9d9cc', width: '27%', position: 'fixed', marginRight: '50px' }}>
-                        <h5>Upcoming sessions</h5>
-                        {/* {sessions.map((event) => (
-                            <div className="card p-0 mb-1" key={`${event.event_id}`} onClick={() => { }}>
-                                <div className="card-body p-1 inter" style={{ backgroundColor: color2, cursor: 'pointer' }}>
-                                    <h6>{event.title}</h6>
-                                    <small>{event.date}</small> &ensp; <small>{event.place}</small>
-                                </div>
-                            </div>
-                        ))} */}
                     </div>
                 </div>
 
-            </div>
-            {postEditPopUp && <Edit setPostEditPopUp={setPostEditPopUp} setPropToEdit={propToEdit} />}
-        </div >
+
+
+
+                {postEditPopUp && <Edit setPostEditPopUp={setPostEditPopUp} setPropToEdit={propToEdit} />}
+                {sessionPopUp && <Session setSessionPopUp={setSessionPopUp} setSessionDetails={sessionDetails} setUser={user} />}
+            </div >
+        </div>
     )
 }
 
