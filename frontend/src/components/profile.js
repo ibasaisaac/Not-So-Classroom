@@ -19,6 +19,10 @@ const Profile = () => {
     const [orders, setOrders] = useState('')
     const [item, setItem] = useState('')
     const [popUpProduct, setPopUpProduct] = useState(false);
+    const [productOrder, setProductOrder] = useState([]);
+    const [myproduct, setMyProduct] = useState([]);
+    const [status, setStatus] = useState('');
+    const [oid, setOID] = useState('');
 
     useEffect(() => {
 
@@ -39,17 +43,41 @@ const Profile = () => {
                                 setOrders(res2.data)
                             }
                         })
+
+                    axios.post('http://localhost:5000/getmyproduct', {
+                        seller_id: resp.data.student_id,
+                    })
+                        .then(function (ress2) {
+                            if (ress2.status === 201) {
+                                console.log('lol 2 ', ress2.data)
+                                setMyProduct(ress2.data)
+                            }
+                        })
+
+                    axios.post('http://localhost:5000/getproductorders', {
+                        seller_id: resp.data.student_id,
+                        status: status,
+                        oid: oid
+                    })
+                        .then(function (ress) {
+                            if (ress.status === 201) {
+                                console.log('lol ', ress.data)
+                                console.log(status)
+                                console.log(oid)
+                                setProductOrder(ress.data)
+                            }
+                        })
                 })
                 .catch(error => {
                     console.log(error);
                 })
         }
-    
+
 
         prepareProfile()
     }, []);
 
-   
+
     const createGroupEvent = async (e) => {
         e.preventDefault();
         axios.post('http://localhost:5000/postevent', {
@@ -289,7 +317,8 @@ const Profile = () => {
                                 </div>
                                 <div id="placeblock" className="clc">
 
-                                    <select defaultValue={0} className="form-control custom-select" id="place" style={{ backgroundColor: 'white', border: 'none' }} onChange={(e) => handleProg(e.target.value)}>
+                                    <select defaultValue={0} className="form-control custom-select" id="place" style={{ backgroundColor: 'white', border: 'none' }}
+                                        onChange={(e) => handleProg(e.target.value)}>
                                         <option value={0} disabled>Select Place</option>
                                         <option value="AB2">AB2</option>
                                         <option value="AB3">AB3</option>
@@ -356,6 +385,81 @@ const Profile = () => {
                                     </td>
                                     <td>{order.amount}</td>
                                     <td>{order.status}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="#section5">
+                <h5 style={{
+                    position: 'relative', left: '22%', height: '100%', width: '100%',
+                    background: 'white'
+                }}>My Product</h5>
+                <div className="sec2">
+                    <table class="table table-hover table-responsive">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Product Name</th>
+                                <th scope="col">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {myproduct.map((m, i) => (
+                                <tr>
+                                    <th scope="row">{i + 1}</th>
+                                    <td>{m.product_name}</td>
+                                    <td>{m.price}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="#section6">
+                <h5 style={{
+                    position: 'relative', left: '22%', height: '100%', width: '100%',
+                    background: 'white'
+                }}>My Product(s) Orders</h5>
+                <div className="sec2">
+                    <table class="table table-hover table-responsive">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Product Name</th>
+                                <th scope="col">Buyer ID</th>
+                                <th scope="col">Size</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Total Amount</th>
+                                <th scope="col">Room No.</th>
+                                <th scope="col">Contact No.</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {productOrder.map((p, i) => (
+                                <tr>
+                                    <th scope="row">{i + 1}</th>
+                                    <td>{p.items[0].details.product_name}</td>
+                                    <td>{p.buyer_id}</td>
+                                    <td>{p.items[0].size}</td>
+                                    <td>{p.items[0].quantity}</td>
+                                    <td>{p.amount}</td>
+                                    <td>{p.shipping}</td>
+                                    <td>{p.contact}</td>
+                                    <td>
+                                        <select defaultValue={0} className="form-control custom-select" id="status"
+                                            style={{ backgroundColor: 'white', border: 'none' }}
+                                            onChange={(e) => { setStatus(e.target.value); setOID(p.order_id) }}>
+                                            <option value={0}>{p.status}</option>
+                                            <option value="Processing">Processing</option>
+                                            <option value="Canceled">Canceled</option>
+                                            <option value="Delivered">Delivered</option>
+                                        </select>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>

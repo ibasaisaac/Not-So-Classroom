@@ -137,7 +137,7 @@ export const createEvent = async (req, res) => {
         student_id: req.body.student_id
       }
     });
-    const datetime = req.body.date+' '+req.body.time+' +06:00'
+    const datetime = req.body.date + ' ' + req.body.time + ' +06:00'
     await Event.create({
       date: datetime,
       place: req.body.place + ' ' + req.body.room,
@@ -181,6 +181,63 @@ export const showOrders = async (req, res) => {
       ],
     });
 
+    res.status(201).json(results);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const showProductOrders = async (req, res) => {
+  try {
+    console.log(req.body.status);
+    const results = await Order.findAll({
+      attributes: ['order_id', 'buyer_id', 'DOO', 'amount', 'status', 'shipping', 'contact'],
+      subQuery: false,
+      where: {
+        ['$items.details.seller_id$']: req.body.seller_id
+      },
+      include: [
+        {
+          model: OrderedItems, as: "items",
+          attributes: ['product_id', 'size', 'quantity'],
+          include: [
+            {
+              model: Product, as: "details"
+            }
+          ],
+        }
+      ],
+      order: [
+        ['DOO', 'DESC']
+      ],
+    });
+
+    // Order.update({
+    //   status: req.body.status,
+    // }, {
+    //   where: {
+    //     order_id: req.body.oid
+    //   }
+    // });
+
+    res.status(201).json(results);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const showMyProduct = async (req, res) => {
+  try {
+    const results = await Product.findAll({
+      attributes: ['product_id', 'product_name','price'],
+      where: {
+        seller_id: req.body.seller_id
+      },
+      order: [
+        ['product_id', 'ASC']
+      ],
+    });
+    console.log(req.body.seller_id)
     res.status(201).json(results);
   } catch (error) {
     console.log(error);
