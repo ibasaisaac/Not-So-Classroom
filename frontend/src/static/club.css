@@ -7,7 +7,7 @@
     text-align: center;
     font-size: 50px;
 }
-.bgshopprop {
+.bgclubprop {
     left: 75%;
     bottom: 0%;
     width: 13%;
@@ -19,7 +19,7 @@
     bottom: 80px;
 }
 
-.navbar{
+/* .navbar{
     height: 50px;
     display: flex;
     align-items: center;
@@ -42,7 +42,7 @@ nav ul li a{
     text-decoration: none;
     color: black;
     font-size: 20px;
-}
+} */
 
 .box{
     height: 300px;

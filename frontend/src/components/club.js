@@ -373,7 +373,7 @@ const Club = () => {
 
                 <div >
                     <div className='row mx-5 my-1'>
-                        <img className="bgshopprop" src={pencilkid} alt="kid" />
+                        <img className="bgclubprop" src={pencilkid} alt="kid" />
 
                         {activity && <Activities />}
                         {member && <Members />}
