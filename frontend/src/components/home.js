@@ -59,7 +59,7 @@ const Home = () => {
         prepareHomePage()
     }, []);
 
-    
+
     const postSubmit = async (e) => {
         e.preventDefault();
         const data = new FormData();
@@ -100,9 +100,7 @@ const Home = () => {
                 post_id: props
             });
             if (res.status === 200) {
-                toast.success(res.data.msg, {
-                    // onClose: () => window.location.reload(true)
-                });
+                toast.success(res.data.msg)
                 var newPosts = posts.filter((post) => props !== post.post_id);
                 setPosts(newPosts);
             }
@@ -165,8 +163,8 @@ const Home = () => {
                         <i className="fa fa-solid fa-ellipsis fa-lg"></i>
                     </button>
                     <ul className="dropdown-menu">
-                        <li><a href='/#' className="dropdown-item" onClick={() => { setPostEditPopUp(true); setPropToEdit(['p', props.flag[1].post]); }}>Edit</a></li>
-                        <li><a href='/#' className="dropdown-item" onClick={(e) => postDelete(e, props.flag[1].post.post_id)}>Delete</a></li>
+                        <li><button style={{ backgroundColor: 'transparent', border: '0' }}className="dropdown-item" onClick={() => { setPostEditPopUp(true); setPropToEdit(['p', props.flag[1].post]); }}>Edit</button></li>
+                        <li><button style={{ backgroundColor: 'transparent', border: '0' }}className="dropdown-item" onClick={(e) => postDelete(e, props.flag[1].post.post_id)}>Delete</button></li>
                     </ul>
                 </div>
             )
@@ -174,8 +172,8 @@ const Home = () => {
         else if (props.flag[0] === 'c' && user.student_id === props.flag[1].comment.comment_op.student_id) {
             return (
                 <div className='text-end me-3'>
-                    <a href='/#' className='anc' onClick={() => { setPostEditPopUp(true); setPropToEdit(['c', props.flag[1].comment]); }}>edit</a> &ensp;
-                    <a href='/#' className='anc' onClick={(e) => commentDelete(e, props.flag[1].comment.comment_id)} >delete</a>
+                    <button style={{ backgroundColor: 'transparent', border: '0' }}className='anc' onClick={() => { setPostEditPopUp(true); setPropToEdit(['c', props.flag[1].comment]); }}>edit</button> &ensp;
+                    <button style={{ backgroundColor: 'transparent', border: '0' }}className='anc' onClick={(e) => commentDelete(e, props.flag[1].comment.comment_id)} >delete</button>
                 </div>
             )
         }
@@ -183,10 +181,10 @@ const Home = () => {
 
     const groupButton = async (e) => {
         e.preventDefault()
-        if (user.role === 'cr' && !user.class_group) {
+        if (user.role === 'cr' && user.class_group===0) {
             setGroupCreatePopUp(true);
         }
-        else if (!user.class_group) {
+        else if (user.class_group===0) {
             setGroupJoinPopUp(true);
         }
         else {
@@ -205,142 +203,143 @@ const Home = () => {
     if (!user || !posts)
         return <div style={{ textAlign: 'center', lineHeight: '600px' }}><i className="fa-regular fa-circle fa-beat fa-3x"></i><i className="fa-solid fa-circle fa-beat fa-3x"></i><i className="fa-regular fa-circle fa-beat fa-3x"></i></div>
     return (
-        <div className="container-fluid bg2">
+        <div className="container-fluid p-0">
+            <div className="bg2">
+                <div className="row mx-5 py-4">
 
-            <div className="row mx-5 my-4">
+                    <div className="col-sm-8 p-3" style={{ backgroundColor: '#d9d9d9' }}>
 
-                <div className="col-sm-8 p-3" style={{ backgroundColor: '#d9d9d9' }}>
+                        {/* createpost */}
+                        <div className='mb-3 p-3' style={{ backgroundColor: 'white' }}>
+                            <form onSubmit={postSubmit}>
 
-                    {/* createpost */}
-                    <div className='mb-3 p-3' style={{ backgroundColor: 'white' }}>
-                        <form onSubmit={postSubmit}>
-
-                            <div style={{ display: 'flex', alignItems: 'center' }}><i className="fa fa-regular fa-pen-to-square fa-2x"></i>
-                                <textarea rows="2" className="form-control mx-1" style={{ resize: 'none' }} placeholder="Whats on your mind?" value={text} onChange={(e) => setText(e.target.value)} ></textarea>
-                            </div>
-
-                            <div>
-                                <div style={{ display: 'flex' }}>
-                                    {image && Array.from(image).map((img) => (
-                                        <div key={img.name}>
-                                            {img && <img className='img-thumbnail my-1' src={URL.createObjectURL(img)} width='100' height='100' alt='' />}
-                                        </div>
-                                    ))}
-                                    {file && <p>{file.name}</p>}
+                                <div style={{ display: 'flex', alignItems: 'center' }}><i className="fa fa-regular fa-pen-to-square fa-2x"></i>
+                                    <textarea rows="2" className="form-control mx-1" style={{ resize: 'none' }} placeholder="Whats on your mind?" value={text} onChange={(e) => setText(e.target.value)} ></textarea>
                                 </div>
 
-                                <div className='text-end py-1'>
-                                    <label htmlFor="photo1"><i className="fa fa-solid fa-image"></i>
-                                        <input className="form-control" type="file" id="photo1" accept="image/*" multiple onChange={(e) => {setImage(e.target.files)}} style={{ display: 'none' }} />Photo</label>
-                                    <label style={{ width: '15px' }}></label>
-                                    <label htmlFor="attach1"><i className="fa fa-solid fa-paperclip"></i>
-                                        <input className="form-control" type="file" id="attach1" accept='application/pdf' onChange={(e) => {setFile(e.target.files[0])}} style={{ display: 'none' }} />Attach File</label>
-                                </div>
-                            </div>
-
-                            <div className="text-end mt-1">
-                                <button type="submit" className="btn btn-primary" style={{ backgroundColor: 'var(--vista)' }}>Post</button>
-                            </div>
-                        </form>
-                    </div>
-
-                    {posts.map((post) => (
-
-                        // displaypost
-                        <div key={`${post.post_id}`} className='mb-2 px-3 pt-2' style={{ backgroundColor: 'white', boxShadow: '1px 1px 5px grey', position: 'relative' }}>
-
-                            <div>
-                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <img alt='' src={`${post.post_op.dp}`} className='img-thumbnail' width='50' height='50' style={{ border: 'none', borderRadius: '50px' }} />
-                                    <h5 >@{post.post_op.username}
-                                        <p style={{ fontSize: '10px', color: 'grey', margin: '0' }}>{post.dop}</p>
-                                    </h5>
-                                    <p style={{ marginLeft: 'auto' }}></p>
-                                    <Modify1 flag={['p', { post }]} />
-                                </div>
-
-                                <p className='m-0'>{post.post_body}</p>
-                                <div className="gallery">
-                                    {post.media.map((m) => (
-
-                                        <a key={m.media_id} href={`${m.path}`} target="_blank" rel="noreferrer">
-                                            {m.type === 'application/pdf' ?
-                                                <iframe rel="preload" src={`${m.path}`} style={{ width: '500px', height: '300px' }} title={m.path} as="fetch" type="application/pdf" crossOrigin="true" ></iframe> :
-                                                <img alt='' src={`${m.path}`} className="gallery_item" />}</a>
-
-                                    )
-                                    )}
-                                </div>
-                            </div>
-
-                            <div className='py-4'>
-
-                                {/* createcomment */}
-                                <div className='mb-3'>
-                                    <form onSubmit={commentSubmit} style={{ display: 'flex', alignItems: 'center' }}>
-                                        <i className="fa fa-regular fa-comment fa-lg ms-1"></i>
-                                        <textarea rows="1" className="form-control ms-4 me-2" style={{ resize: 'none', borderRadius: '25px' }} onChange={(e) => setCommentText({ post_id: post.post_id, comment_body: e.target.value })} ></textarea>
-                                        <button type="submit" style={{ border: 'none', backgroundColor: 'transparent' }} ><i className="fa fa-regular fa-paper-plane fa-lg me-1"></i></button>
-                                    </form>
-                                </div>
-
-                                {/* displaycomment */}
-                                <div style={{ maxHeight: '114px', overflowY: 'auto' }}>
-                                    {post.comments.map((comment) => (
-                                        <div className='m-1 px-3 py-1' key={`${comment.comment_id}`} style={{ backgroundColor: '#d9d9d9', borderRadius: '25px' }} >
-
-                                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                <h6 >@{comment.comment_op.username}
-                                                    <small style={{ fontSize: '10px', color: 'grey', margin: '0' }}>&ensp;{comment.doc}</small>
-                                                </h6>
-                                                <p style={{ marginLeft: 'auto' }}></p>
+                                <div>
+                                    <div style={{ display: 'flex' }}>
+                                        {image && Array.from(image).map((img) => (
+                                            <div key={img.name}>
+                                                {img && <img className='img-thumbnail my-1' src={URL.createObjectURL(img)} width='100' height='100' alt='' />}
                                             </div>
+                                        ))}
+                                        {file && <p>{file.name}</p>}
+                                    </div>
 
-                                            <p className='m-0'>{comment.comment_body}</p>
-                                            <Modify1 flag={['c', { comment }]} />
-                                        </div>
-                                    ))}
+                                    <div className='text-end py-1'>
+                                        <label htmlFor="photo1"><i className="fa fa-solid fa-image"></i>
+                                            <input className="form-control" type="file" id="photo1" accept="image/*" multiple onChange={(e) => { setImage(e.target.files) }} style={{ display: 'none' }} />Photo</label>
+                                        <label style={{ width: '15px' }}></label>
+                                        <label htmlFor="attach1"><i className="fa fa-solid fa-paperclip"></i>
+                                            <input className="form-control" type="file" id="attach1" accept='application/pdf' onChange={(e) => { setFile(e.target.files[0]) }} style={{ display: 'none' }} />Attach File</label>
+                                    </div>
                                 </div>
 
-                            </div>
+                                <div className="text-end mt-1">
+                                    <button type="submit" className="btn btn-primary" style={{ backgroundColor: 'var(--vista)' }}>Post</button>
+                                </div>
+                            </form>
                         </div>
-                    ))}
-                </div>
+
+                        {posts.map((post) => (
+
+                            // displaypost
+                            <div key={`${post.post_id}`} className='mb-2 px-3 pt-2' style={{ backgroundColor: 'white', boxShadow: '1px 1px 5px grey', position: 'relative' }}>
+
+                                <div>
+                                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                                        <img alt='' src={`${post.post_op.dp}`} className='img-thumbnail' width='50' height='50' style={{ border: 'none', borderRadius: '50px' }} />
+                                        <h5 >@{post.post_op.username}
+                                            <p style={{ fontSize: '10px', color: 'grey', margin: '0' }}>{post.dop}</p>
+                                        </h5>
+                                        <p style={{ marginLeft: 'auto' }}></p>
+                                        <Modify1 flag={['p', { post }]} />
+                                    </div>
+
+                                    <p className='m-0'>{post.post_body}</p>
+                                    <div className="gallery">
+                                        {post.media.map((m) => (
+
+                                            <a key={m.media_id} href={`${m.path}`} target="_blank" rel="noreferrer">
+                                                {m.type === 'application/pdf' ?
+                                                    <iframe rel="preload" src={`${m.path}`} style={{ width: '500px', height: '300px' }} title={m.path} as="fetch" type="application/pdf" crossOrigin="true" ></iframe> :
+                                                    <img alt='' src={`${m.path}`} className="gallery_item" />}</a>
+
+                                        )
+                                        )}
+                                    </div>
+                                </div>
+
+                                <div className='py-4'>
+
+                                    {/* createcomment */}
+                                    <div className='mb-3'>
+                                        <form onSubmit={commentSubmit} style={{ display: 'flex', alignItems: 'center' }}>
+                                            <i className="fa fa-regular fa-comment fa-lg ms-1"></i>
+                                            <textarea rows="1" className="form-control ms-4 me-2" style={{ resize: 'none', borderRadius: '25px' }} onChange={(e) => setCommentText({ post_id: post.post_id, comment_body: e.target.value })} ></textarea>
+                                            <button type="submit" style={{ border: 'none', backgroundColor: 'transparent' }} ><i className="fa fa-regular fa-paper-plane fa-lg me-1"></i></button>
+                                        </form>
+                                    </div>
+
+                                    {/* displaycomment */}
+                                    <div style={{ maxHeight: '114px', overflowY: 'auto' }}>
+                                        {post.comments.map((comment) => (
+                                            <div className='m-1 px-3 py-1' key={`${comment.comment_id}`} style={{ backgroundColor: '#d9d9d9', borderRadius: '25px' }} >
+
+                                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                    <h6 >@{comment.comment_op.username}
+                                                        <small style={{ fontSize: '10px', color: 'grey', margin: '0' }}>&ensp;{comment.doc}</small>
+                                                    </h6>
+                                                    <p style={{ marginLeft: 'auto' }}></p>
+                                                </div>
+
+                                                <p className='m-0'>{comment.comment_body}</p>
+                                                <Modify1 flag={['c', { comment }]} />
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                </div>
+                            </div>
+                        ))}
+                    </div>
 
 
-                <div className="col-sm-1"></div>
-                <div className="col-sm-3">
-                    <div className='row p-0 marker' style={{ position: 'fixed', marginRight: '50px' }}>
-                        <div className="card p-0">
-                            <div className="card-body p-0">
-                                <a href='/#' className="btn cards m-0" onClick={groupButton} style={{ backgroundColor: 'var(--caramel)', }}><img src={bag} width="40" height="40" alt="logo" />  Group</a>
+                    <div className="col-sm-1"></div>
+                    <div className="col-sm-3">
+                        <div className='row p-0 marker' style={{ position: 'fixed', marginRight: '50px' }}>
+                            <div className="card p-0">
+                                <div className="card-body p-0">
+                                    <button style={{ border: '0', backgroundColor: 'var(--caramel)' }} className="btn cards m-0" onClick={groupButton}><img src={bag} width="40" height="40" alt="logo" />  Group</button>
+                                </div>
+                            </div>
+                            <div className="card mt-1 mb-1 p-0">
+                                <div className="card-body p-0">
+                                    <button style={{ border: '0', backgroundColor: 'var(--vista)' }} className="btn cards m-0" onClick={clubButton}><img src={paint} width="40" height="40" alt="logo" />  Clubs</button>
+                                </div>
+                            </div>
+                            <div className="card p-0">
+                                <div className="card-body p-0">
+                                    <button style={{ border: '0', backgroundColor: 'var(--melon)' }} className="btn cards m-0" onClick={shopButton}><img src={shop} width="40" height="40" alt="logo" />  Shop</button>
+                                </div>
                             </div>
                         </div>
-                        <div className="card mt-1 mb-1 p-0">
-                            <div className="card-body p-0">
-                                <a href='/#' className="btn cards m-0" onClick={clubButton} style={{ backgroundColor: 'var(--vista)' }}><img src={paint} width="40" height="40" alt="logo" />  Clubs</a>
-                            </div>
-                        </div>
-                        <div className="card p-0">
-                            <div className="card-body p-0">
-                                <a href='/#' className="btn cards m-0" onClick={shopButton} style={{ backgroundColor: 'var(--melon)' }}><img src={shop} width="40" height="40" alt="logo" />  Shop</a>
-                            </div>
+
+                        <div className='row'>
+                            <img className="bgprop" src={homekids} alt="kids" />
                         </div>
                     </div>
 
-                    <div className='row'>
-                        <img className="bgprop" src={homekids} alt="kids" />
-                    </div>
                 </div>
-
+                {postEditPopUp && <Edit setPostEditPopUp={setPostEditPopUp} setPropToEdit={propToEdit} />}
+                {groupJoinPopUp && <GroupJoin setGroupJoinPopUp={setGroupJoinPopUp} setUser={user} />}
+                {groupCreatePopUp && <GroupCreate setGroupCreatePopUp={setGroupCreatePopUp} setUser={user} />}
             </div>
-            {postEditPopUp && <Edit setPostEditPopUp={setPostEditPopUp} setPropToEdit={propToEdit} />}
-            {groupJoinPopUp && <GroupJoin setGroupJoinPopUp={setGroupJoinPopUp} setUser={user} />}
-            {groupCreatePopUp && <GroupCreate setGroupCreatePopUp={setGroupCreatePopUp} setUser={user} />}
         </div >
     )
 
-    
+
 }
 
 export default Home

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Forget from './forget_pass.js';
 
-import '../static/login.css';
+import '../static/register.css';
 
 
 
@@ -69,7 +69,7 @@ const Login = () => {
         <div className="container-fluid bg">
             <div className="row content">
                 <div className="col-md-8">
-                    <form className="form-container" style={{ fontFamily: 'comfortaa' }} onSubmit={Auth}>
+                    <form className="form-container1" style={{ fontFamily: 'comfortaa' }} onSubmit={Auth}>
                         <h3 className="text-center mb-3">Welcome back!</h3>
 
                         <div className="form-group mb-3">
@@ -90,7 +90,7 @@ const Login = () => {
                             <span className='left' style={{ height: '13px' }}><p style={{ fontFamily: 'actor', color: 'var(--vista)', fontSize: '13px' }}>{msg2}</p></span>
                             <span className='right text-end'>
                                 {isLoading && <i className='fa fa-spinner fa-spin'></i>}
-                                <a href='/#' className="" style={{ fontFamily: 'actor' }} onClick={Forget_pass}> Forgot your password?</a>
+                                <button style={{ backgroundColor: 'transparent', border: '0', fontFamily: 'actor'}} className="" onClick={Forget_pass}> Forgot your password?</button>
                             </span>
                         </div>
 

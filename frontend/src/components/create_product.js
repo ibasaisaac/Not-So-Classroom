@@ -44,14 +44,14 @@ const ProductCreate = props => {
 
     function Stock() {
         if (product.category === '1') {
-            return <div className="col-sm-9">
+            return <div className="col-sm-8">
                 <input type="number" placeholder='S' required className="form-control" value={product.s_stock} onChange={(e) => setProduct({ ...product, s_stock: e.target.value })} />
                 <input type="number" placeholder='M' required className="form-control" value={product.m_stock} onChange={(e) => setProduct({ ...product, m_stock: e.target.value })} />
                 <input type="number" placeholder='L' required className="form-control" value={product.l_stock} onChange={(e) => setProduct({ ...product, l_stock: e.target.value })} />
                 <input type="number" id="count" placeholder='Total' readOnly className="form-control" value={parseInt(product.s_stock) + parseInt(product.m_stock) + parseInt(product.l_stock)} onChange={(e) => setProduct({ ...product, total: e.target.value })}/>
             </div>
         } else {
-            return <div className="col-sm-9">
+            return <div className="col-sm-8">
                 <input type="number" id="count" placeholder='Total' required className="form-control" value={product.total} onChange={(e) => setProduct({ ...product, total: e.target.value })} />
             </div>
         };
@@ -62,26 +62,26 @@ const ProductCreate = props => {
     }
 
     return (
-        <div className="container-fluid PopCreate" style={{ width: '66%', height: '99%', zIndex: '1051', top: '0%' }}>
+        <div className="container-fluid PopCreate" style={{ width: '66%', height: '94%', zIndex: '1051', top: '3%' }}>
             <button className="popup-x" onClick={() => setPopUp(false)} >X</button>
 
-            <img alt='' className="giraffe" src={giraffe} />
-            <img alt='' className="birdie" src={birdies} />
+            <img alt='' className="giraffe" src={giraffe} style={{ top: '80%'}}/>
+            <img alt='' className="birdie" src={birdies} style={{ top: '20%'}}/>
 
             <form className="form-containn_create mb-3" style={{ fontFamily: 'comfortaa' }} onSubmit={create} >
 
                 <h3 className="text-center mb-2" style={{ fontFamily: 'marker', color: 'black', fontSize: '20px' }}>Enter product details</h3>
 
                 <div className="form-group row mb-2">
-                    <label htmlFor="name" className="col-sm-3 col-form-label">Product name</label>
-                    <div className="col-sm-9">
+                    <label htmlFor="name" className="col-sm-4 col-form-label">Product name</label>
+                    <div className="col-sm-8">
                         <input type="text" required className="form-control" id="name" value={product.name} onChange={(e) => setProduct({ ...product, name: e.target.value })} />
                     </div>
                 </div>
 
                 <div className="form-group row mb-2" >
-                    <label htmlFor="category" className="col-sm-3 col-form-label">Category</label>
-                    <div className="col-sm-9">
+                    <label htmlFor="category" className="col-sm-4 col-form-label">Category</label>
+                    <div className="col-sm-8">
                         <select defaultValue={0} className="form-select" id='category' onChange={(e) => setProduct({ ...product, category: e.target.value })}>
                             <option value={0} disabled>Choose..</option>
                             <option value={1}>Clothes</option>
@@ -91,14 +91,14 @@ const ProductCreate = props => {
                 </div>
 
                 <div className="form-group row mb-2" >
-                    <label htmlFor="count" className="col-sm-3 col-form-label">Stock</label>
+                    <label htmlFor="count" className="col-sm-4 col-form-label">Stock</label>
                     <Stock />
                 </div>
 
 
                 <div className="form-group row mb-2" >
-                    <label className="col-sm-3 col-form-label">Image (upto 3)</label>
-                    <div className="col-sm-9">
+                    <label className="col-sm-4 col-form-label">Image (upto 3)</label>
+                    <div className="col-sm-8">
                         <input className="form-control" required type="file" accept="image/*" multiple id="photo" onChange={handleFileChange} />
                         <div style={{ display: 'flex' }}>
                             {images && Array.from(images).map((image) => (
@@ -111,15 +111,15 @@ const ProductCreate = props => {
                 </div>
 
                 <div className="form-group row mb-2" >
-                    <label htmlFor="info" className="col-sm-3 col-form-label">Additional details</label>
-                    <div className="col-sm-9">
-                        <textarea id="info" rows="2" style={{ resize: 'none' }} required className="form-control" onChange={(e) => setProduct({ ...product, info: e.target.value })} ></textarea>
+                    <label htmlFor="info" className="col-sm-4 col-form-label">Additional details</label>
+                    <div className="col-sm-8">
+                        <textarea id="info" rows="1" style={{ resize: 'none' }} required className="form-control" onChange={(e) => setProduct({ ...product, info: e.target.value })} ></textarea>
                     </div>
                 </div>
 
                 <div className="form-group row mb-3" >
-                    <label htmlFor="price" className="col-sm-3 col-form-label">Price</label>
-                    <div className="col-sm-9">
+                    <label htmlFor="price" className="col-sm-4 col-form-label">Price</label>
+                    <div className="col-sm-8">
                         <input type="number" id="price" required className="form-control" onChange={(e) => setProduct({ ...product, price: e.target.value })} />
                     </div>
                 </div>

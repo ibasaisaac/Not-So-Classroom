@@ -1,10 +1,10 @@
 @import "style.css";
 
-body{
+body {
     background-color: white;
 }
 
-.cont{
+.cont {
     margin-top: 10vh;
     text-align: center;
     max-width: max-content;
@@ -13,7 +13,7 @@ body{
     display: block;
 }
 
-.us{
+.us {
     width: 50vh;
     height: 22vh;
     margin: 0 auto;
@@ -23,7 +23,7 @@ body{
     transform: translate(-50%, -50%);
 }
 
-.button{
+.button {
     margin: 1em;
     border-radius: 0px;
     padding: 1em;
@@ -33,38 +33,38 @@ body{
     border: none;
 }
 
-.btn1{
+.btn1 {
     background: #FFD580;
 }
 
-.btn2{
+.btn2 {
     background: #7cb9e8;
 }
 
-.btn3{
+.btn3 {
     background: #FFB0AD;
     /* position: relative;
     bottom: 12.5px; */
 }
 
-.btn4{
+.btn4 {
     background: #FFB0AD;
 }
 
-.btn5{
+.btn5 {
     background: #FFD580;
     position: relative;
 }
 
-.btn6{
+.btn6 {
     background: #B3DCD6;
     position: relative;
     top: 10px;
 }
 
-.btn7{
+.btn7 {
     background: #E8E8E8;
-    position:relative;
+    position: relative;
     right: 0px;
     top: 10px;
-} 
+}

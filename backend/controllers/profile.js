@@ -137,7 +137,7 @@ export const createEvent = async (req, res) => {
         student_id: req.body.student_id
       }
     });
-    const datetime = req.body.date + ' ' + req.body.time + ' +06:00'
+    const datetime = req.body.date  +  ' '  +  req.body.time  +  ' +06:00'
     await Event.create({
       date: datetime,
       place: req.body.place + ' ' + req.body.room,
@@ -155,8 +155,6 @@ export const createEvent = async (req, res) => {
     console.log(error)
   }
 }
-
-
 
 export const showOrders = async (req, res) => {
   try {

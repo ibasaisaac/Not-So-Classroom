@@ -17,8 +17,11 @@ export const refreshToken = async(req, res) => {
             const userId = user.student_id;
             const username = user.username;
             const email = user.email;
+            const group = user.class_group;
+            const role = user.role;
+            const dp = user.dp;
             storeUser(userId, email, username, user.dp, user.class_group, user.role);
-            const accessToken = jwt.sign({userId,  username, email}, process.env.ACCESS_TOKEN_SECRET,{
+            const accessToken = jwt.sign({userId,  username, email, group, role, dp}, process.env.ACCESS_TOKEN_SECRET,{
                 expiresIn: '15s'
             });
 

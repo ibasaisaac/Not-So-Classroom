@@ -20,7 +20,7 @@ const Edit = props => {
             .then(res => {
                 if (res.status === 200) {
                     toast.success(res.data.msg, {
-                        onClose: () => window.location.reload(true)
+                        // onClose: () => window.location.reload(true)
                     });
                 }
             })
@@ -38,7 +38,7 @@ const Edit = props => {
             .then(res => {
                 if (res.status === 200) {
                     toast.success(res.data.msg, {
-                        onClose: () => window.location.reload(true)
+                        // onClose: () => window.location.reload(true)
                     });
                 }
             })
@@ -56,7 +56,7 @@ const Edit = props => {
                 <div className='form-contain'>
                     <form onSubmit={Edit_post} style={{ display: 'flex', alignItems: 'center', fontFamily: 'comfortaa' }} >
                         <i className="fa fa-regular fa-pen-to-square fa-2x"></i>
-                        <textarea rows="1" className="form-control ms-4 me-2 box" value={text.post_body} onChange={(e) => setText({ ...text, post_body: e.target.value })}></textarea>
+                        <textarea rows="3" className="form-control ms-3 me-3 box" value={text.post_body} style={{borderRadius: '10px'}} onChange={(e) => setText({ ...text, post_body: e.target.value })}></textarea>
                         <button type="submit" className="btn btn-light btn-sn btn_modal" >Enter</button>
                     </form>
                 </div>

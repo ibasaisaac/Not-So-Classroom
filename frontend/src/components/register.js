@@ -61,7 +61,7 @@ const Register = () => {
         <div className={"container-fluid bg"}>
             <div className="row content">
                 <div className="col-md-8">
-                    <form className="form-container" style={{ fontFamily: 'comfortaa' }} onSubmit={Register} >
+                    <form className="form-container1" style={{ fontFamily: 'comfortaa' }} onSubmit={Register} >
                         <h3 className="text-center mb-4">Create an account</h3>
 
                         <div className="form-group mb-3">
@@ -89,7 +89,7 @@ const Register = () => {
 
                         <div className="form-group mb-4">
                             <label htmlFor="password">Password</label>
-                            <input type="password" id="password" name="password" minLength="8" maxLength="15" required className="form-control" style={{ borderRadius: 0 }} value={password} onChange={(e) => setPassword(e.target.value)} />
+                            <input type="password" id="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must be more than 8 characters with at least one number, one uppercase and one lowercase letter" required className="form-control" style={{ borderRadius: 0 }} value={password} onChange={(e) => setPassword(e.target.value)} />
                         </div>
 
                         <label className="mb-2" style={{ fontSize: '13px', fontFamily: 'actor' }}>

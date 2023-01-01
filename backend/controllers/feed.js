@@ -257,9 +257,11 @@ export const showEvent = async (req, res) => {
 
 export const search = async (req, res) => {
   const room = req.body.building + ' ' + req.body.room
+  let day = new Date(req.body.date).getDay();
+  
   try {
-    var results;
-    if (req.body.day === 'Mon') {
+    var results
+    if (day === 1) {
       results = await ScheduleMon.findOne({
         include: [
           {
@@ -292,7 +294,7 @@ export const search = async (req, res) => {
         }
       })
     }
-    else if (req.body.day === 'Tue') {
+    else if (day === 2) {
       results = await ScheduleTue.findOne({
         include: [
           {
@@ -325,7 +327,7 @@ export const search = async (req, res) => {
         }
       })
     }
-    else if (req.body.day === 'Wed') {
+    else if (day === 3) {
       results = await ScheduleWed.findOne({
         include: [
           {
@@ -358,7 +360,7 @@ export const search = async (req, res) => {
         }
       })
     }
-    else if (req.body.day === 'Thu') {
+    else if (day === 4) {
       results = await ScheduleThu.findOne({
         include: [
           {
@@ -391,7 +393,7 @@ export const search = async (req, res) => {
         }
       })
     }
-    else if (req.body.day === 'Fri') {
+    else if (day === 5) {
       results = await ScheduleFri.findOne({
         include: [
           {
@@ -424,7 +426,21 @@ export const search = async (req, res) => {
         }
       })
     }
-    res.status(200).json(results);
+    
+    const e = await Event.findAll({
+      where: {
+        category: 'Quiz',
+        place: room,
+        date: {
+          [Op.gte]: req.body.date+' '+'00:00:00'+' +06:00',
+          [Op.lte]: req.body.date+' '+'23:59:59'+' +06:00'
+        }
+      },
+      order: [
+        ['date', 'ASC']
+      ]
+    })
+    res.status(200).json({ results, e });
   } catch (error) {
     console.log(error);
   }
@@ -515,15 +531,23 @@ export const buyProduct = async (req, res) => {
           size: req.body.size,
           quantity: req.body.quantity
         })
-        Product.increment({
-          [req.body.size + '_stock']: -req.body.quantity
-        },
-          { where: { product_id: req.body.product_id } })
           .then(function () {
+
+            if (req.body.size) {
+              Product.increment({
+                [req.body.size]: -req.body.quantity,
+                stock: -req.body.quantity
+              },
+                { where: { product_id: req.body.product_id } })
+            }
+            else {
+              Product.increment({
+                stock: -req.body.quantity
+              },
+                { where: { product_id: req.body.product_id } })
+            }
+
             res.status(200).json({ msg: "Order placed" });
-          })
-          .catch(err => {
-            console.log(err);
           })
       })
   } catch (error) {

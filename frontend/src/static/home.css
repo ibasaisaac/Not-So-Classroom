@@ -13,15 +13,22 @@
 .bg2 {
     background: url('bgmask.svg');
     background-position: center;
-    background-size: cover;
-    background-attachment: fixed;
-    position: absolute;
+     background-attachment: fixed; 
+     min-height: 90vh;
 }
 
 .bgprop {
     left: 73%;
     bottom: 0%;
     width: 20%;
+    height: auto;
+    position: fixed;
+}
+
+.bggroupprop {
+    left: 75%;
+    bottom: 0%;
+    width: 15%;
     height: auto;
     position: fixed;
 }
@@ -33,7 +40,12 @@
     height: 80px;
     line-height: 65px;
 }
-
+.classcards {
+    width: 100%;
+    display: block;
+    height: 80px;
+    line-height: 65px;
+}
 .anc {
     font-size: 10px;
 }
@@ -42,6 +54,26 @@
     color: var(--vista) !important;
 }
 
+.PopEvent {
+    position: fixed;
+
+    left: 35%;
+    top: 35%;
+
+    width: 30%;
+    height: auto;
+
+    border: none;
+    border-radius: 0;
+    box-shadow: 1px 1px 10px black;
+}
+
+.modal-backdrop {
+    background: #00000066;
+    height: 100%;
+    width: 100vw;
+    overflow: hidden;
+}
 .PopEdit {
     position: fixed;
 
@@ -50,6 +82,27 @@
 
     width: 40%;
     height: 30%;
+
+    border: 1px solid black;
+    box-shadow: 1px 1px 10px black;
+
+    background-color: white;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+}
+
+.PopCreate {
+    position: fixed;
+
+    left: 17%;
+    top: 10%;
+
+    width: 65%;
+    height: 85%;
 
     border: 1px solid black;
     box-shadow: 1px 1px 10px black;
@@ -138,3 +191,16 @@
     object-fit: fit;
     display: block;
 }
+
+.sidebar {
+    background-color: #d9d9d9cc;
+    width: 27%;
+    height: 80vh;
+    position: fixed;
+    margin-right: 50px;
+    overflow-y: scroll;
+}
+.sidebar::-webkit-scrollbar {
+    display: none;
+  }
+  

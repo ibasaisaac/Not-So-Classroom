@@ -68,12 +68,12 @@ const Forget = props => {
                     <span className='left' style={{ height: '13px' }}><p style={{ fontFamily: 'actor', color: 'var(--vista)', fontSize: '13px' }}>{msg}</p></span>
                     <span className='right text-end'>
                         {isLoading && <i className='fa fa-spinner fa-spin'></i>}
-                        <a href='/#' className="mt-0" style={{ fontFamily: 'actor' }} onClick={Resend}>  Resend code</a></span>
+                        <button style={{ backgroundColor: 'transparent', border: '0', fontFamily: 'actor'}}className="mt-0" onClick={Resend}>  Resend code</button></span>
                 </div>
 
                 <div className="form-group mt-4 mb-3">
                     <label htmlFor="password">Enter new password</label>
-                    <input type="password" id="password" name="password" minLength="8" maxLength="15" required className="form-control otp-box" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <input type="password" id="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must be more than 8 characters with at least one number, one uppercase and one lowercase letter" required className="form-control otp-box" value={password} onChange={(e) => setPassword(e.target.value)} />
                 </div>
 
                 <div className="text-center">

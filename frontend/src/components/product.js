@@ -9,7 +9,7 @@ const Product = props => {
     const setPopUp = props.setPopUpProduct;
     const [item] = useState(props.setItem)
     const [user] = useState(props.setUser);
-    const [size, setSize] = useState('S_stock');
+    const [size, setSize] = useState('');
     const [quantity, setQuantity] = useState(0);
     const [address, setAddress] = useState('');
     const [phone, setPhone] = useState('');
@@ -23,13 +23,12 @@ const Product = props => {
             shipping: address,
             contact: phone,
             product_id: item.product_id,
-            size: size[0],
+            size: size,
             quantity: quantity
         })
             .then(res => {
                 if (res.status === 200) {
                     setPopUp(false);
-                    window.location.reload(true)
                     toast.success("Order placed!");
                 }
             })
@@ -45,23 +44,31 @@ const Product = props => {
             <div className="container-fluid PopUpp">
                 <button className="popup-x" onClick={() => setPopUp(false)} >X</button>
 
-                <div className="row">
+                <div className="row mt-1">
 
                     <div className="col-md-8">
 
                         <div className="col"><h4><b>Basket</b></h4></div>
 
-                        <div className="row border-top border-bottom mt-3">
+                        <div className="row border-top border-bottom mt-3 py-1">
 
                             <div className="row align-items-center">
-                                <div className="col-2"><img alt='' className="img-fluid" src={item.pic3_path} /></div>
-                                <div className="col">{item.product_name}     {size[0]}</div>
-                                <div className="col">
-                                    {(quantity > 1) ? <button onClick={() => setQuantity(quantity - 1)}> - </button> : <button disabled> - </button>}
-                                    <label>{quantity}</label>
-                                    {(quantity < item[size]) ? <button onClick={() => setQuantity(quantity + 1)}> + </button> : <button disabled> + </button>}
-                                </div>
-                                <div className="col">BDT {item.price} <span className="" ><a href='/#' onClick={() => setQuantity(0)}>&#10005;</a></span></div>
+                                <div className="col-3"><img alt='' className="img-fluid" src={item.pic1_path} /></div>
+
+                                {size ? <div className="col">{item.product_name}   {size[0]}</div> : <div className="col">{item.product_name}</div>}
+                                {size ?
+                                    <div className="col">
+                                        {(quantity > 1) ? <button onClick={() => setQuantity(quantity - 1)}> - </button> : <button disabled> - </button>}
+                                        <label>{quantity}</label>
+                                        {(quantity < item[size]) ? <button onClick={() => setQuantity(quantity + 1)}> + </button> : <button disabled> + </button>}
+                                    </div> :
+                                    <div className="col">
+                                        {(quantity > 1) ? <button onClick={() => setQuantity(quantity - 1)}> - </button> : <button disabled> - </button>}
+                                        <label>{quantity}</label>
+                                        {(quantity < item.stock) ? <button onClick={() => setQuantity(quantity + 1)}> + </button> : <button disabled> + </button>}
+                                    </div>}
+
+                                <button className="col" style={{ backgroundColor: 'transparent', border: '0' }} onClick={() => setIsOpen(false)}>BDT {item.price} &#10005;</button>
                             </div>
 
                         </div>
@@ -75,15 +82,15 @@ const Product = props => {
                             <div className="col text-right">BDT {item.price}</div>
                         </div>
                         <hr />
-                        <div className="row mb-5">
+                        <div className="row mb-3">
                             <div className="col">Total</div>
                             <div className="col text-right">BDT {quantity * item.price}</div>
                         </div>
                         <form onSubmit={Buy}>
                             <label>Room No.
-                                <input id="room" placeholder="NH-102" value={address} onChange={(e) => setAddress(e.target.value)} /></label>
+                                <input id="room" required placeholder="NH-102" value={address} onChange={(e) => setAddress(e.target.value)} /></label>
                             <label>Contact no.
-                                <input id="code" placeholder="+880" value={phone} onChange={(e) => setPhone(e.target.value)} /></label>
+                                <input id="code" required placeholder="+880" pattern=".{11}" title="11 digits phone number" value={phone} onChange={(e) => setPhone(e.target.value)} /></label>
                             <label className="mt-3">Payment method
                                 <p>
                                     <input className="form-check-input" name='payment' type="radio" selected />Cash on Delivery
@@ -92,7 +99,7 @@ const Product = props => {
                                 </p>
                             </label>
                             <div className='text-center m-3'>
-                                <button className="btn btn-lg btn-primary">Checkout</button></div>
+                                <button className="btn btn-light btn-lg bt_modal">Checkout</button></div>
                         </form>
 
                     </div>
@@ -100,14 +107,14 @@ const Product = props => {
                 </div>
             </div >)
     }
-    else {
 
+    else {
         return (
             <div className="container-fluid PopUpp">
                 <button className="popup-x" onClick={() => setPopUp(false)} >X</button>
-                <div className='row m-0' style={{ position: 'absolute', top: '15%' }}>
-                    <div className='col-sm-5'>
-                        <div id="carouselExampleDark" className="carousel carousel-dark slide m-0 p-0" data-bs-ride="carousel" style={{ border: '1px solid black', height: '200px', width: '200px' }}>
+                <div className='row w-100' style={{ position: 'absolute', top: '15%' }}>
+                    <div className='col-lg-4 ms-5' >
+                        <div id="carouselExampleDark" className="carousel carousel-dark slide" data-bs-ride="carousel" style={{ border: '1px solid black', height: '250px', width: '250px' }}>
                             <div className="carousel-indicators">
                                 <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" className="active"></button>
                                 <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -115,7 +122,7 @@ const Product = props => {
                             </div>
                             <div className="carousel-inner">
                                 <div className="carousel-item active" data-bs-interval="3000">
-                                    <img alt='' src={item.pic1_path} className="d-block w-100" />
+                                    <img alt='' src={item.pic1_path} className="d-block d-100" style={{ height: '250px', width: '250px' }} />
                                     <div className="carousel-caption d-none d-md-block">
                                     </div>
                                 </div>
@@ -140,35 +147,36 @@ const Product = props => {
                             </button>
                         </div>
                     </div>
-                    <div className='col-sm-1'></div>
-                    <div className='col-sm-5'>
+                    <div className='col-lg-2' ></div>
+                    <div className='col-lg-4 me-2'>
                         <h5>{item.product_name}</h5>
-                        <h6>{item.price}</h6>
+                        <h6>BDT {item.price}</h6>
 
-                        <p>{item.product_info}</p>
+                        <p className='mb-5'>{item.product_info}</p>
 
                         {item.stock === 0 &&
                             <div className="form-group">
-                                <select defaultValue={0} required className="form-control" style={{ overflow: 'none' }} onChange={(e) => setSize(e.target.value)}>
+                                <select defaultValue={0} required className="form-control" style={{ overflow: 'none' }}>
                                     {<option value={0} disabled>Out of stock</option>}
                                 </select>
                             </div>}
 
                         {(item.stock !== 0) && (item.S_stock === 0) && (item.M_stock === 0) && (item.L_stock === 0) &&
                             <div className="form-group">
-                                <select required className="form-control" style={{ overflow: 'none' }} onChange={(e) => setSize(e.target.value)}>
+                                <select required className="form-control" style={{ overflow: 'none' }}>
                                     {<option value={item.stock}>{item.stock} items left</option>}
                                 </select>
                             </div>}
 
                         {((item.S_stock > 0) || (item.M_stock > 0) || (item.L_stock > 0)) &&
                             <div className="form-group">
-                                <select required className="form-control" style={{ overflow: 'none' }} onChange={(e) => setSize(e.target.value)}>
-                                    {item.S_stock === 0 && <option disabled>S - Out of stock</option>}
+                                <select defaultValue={""} required className="form-control" style={{ overflow: 'none' }} onChange={(e) => setSize(e.target.value)}>
+                                    <option value="" disabled>Choose size: </option>
+                                    {item.S_stock === 0 && <option value="" disabled>S - Out of stock</option>}
                                     {item.S_stock > 0 && <option value={'S_stock'}>S - {item.S_stock} items left</option>}
-                                    {item.M_stock === 0 && <option disabled>M - Out of stock</option>}
+                                    {item.M_stock === 0 && <option value="" disabled>M - Out of stock</option>}
                                     {item.M_stock > 0 && <option value={'M_stock'}>M - {item.M_stock} items left</option>}
-                                    {item.L_stock === 0 && <option disabled>L - Out of stock</option>}
+                                    {item.L_stock === 0 && <option value="" disabled>L - Out of stock</option>}
                                     {item.L_stock > 0 && <option value={'L_stock'}>L - {item.L_stock} items left</option>}
                                 </select>
                             </div>}
