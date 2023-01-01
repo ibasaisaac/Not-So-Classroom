@@ -129,7 +129,6 @@ export const CR_verification = async (req, res) => {
 }
 
 export const createEvent = async (req, res) => {
-  var newEventID
   try {
     const role = await Role.findOne({
       attributes: ['group_id', 'club_id'],
@@ -137,7 +136,7 @@ export const createEvent = async (req, res) => {
         student_id: req.body.student_id
       }
     });
-    const datetime = req.body.date  +  ' '  +  req.body.time  +  ' +06:00'
+    const datetime = req.body.date + ' ' + req.body.time + ' +06:00'
     await Event.create({
       date: datetime,
       place: req.body.place + ' ' + req.body.room,
@@ -187,7 +186,6 @@ export const showOrders = async (req, res) => {
 
 export const showProductOrders = async (req, res) => {
   try {
-    console.log(req.body.status);
     const results = await Order.findAll({
       attributes: ['order_id', 'buyer_id', 'DOO', 'amount', 'status', 'shipping', 'contact'],
       subQuery: false,
@@ -217,14 +215,13 @@ export const showProductOrders = async (req, res) => {
 
 export const changeStatus = async (req, res) => {
   try {
-    console.log(req.body.status);
-    const results = Order.update({
-          status: req.body.status,
-        }, {
-          where: {
-            order_id: req.body.oid
-          }
-        })
+    Order.update({
+      status: req.body.status,
+    }, {
+      where: {
+        order_id: req.body.oid
+      }
+    })
     res.status(201).json({ msg: "Status Updated" });
   } catch (error) {
     console.log(error);
@@ -235,7 +232,7 @@ export const changeStatus = async (req, res) => {
 export const showMyProduct = async (req, res) => {
   try {
     const results = await Product.findAll({
-      attributes: ['product_id', 'product_name','price'],
+      attributes: ['product_id', 'product_name', 'price'],
       where: {
         seller_id: req.body.seller_id
       },
@@ -243,18 +240,21 @@ export const showMyProduct = async (req, res) => {
         ['product_id', 'ASC']
       ],
     });
-    console.log(req.body.seller_id)
     res.status(201).json(results);
   } catch (error) {
     console.log(error);
   }
 }
 
-
-    // Order.update({
-    //   status: req.body.status,
-    // }, {
-    //   where: {
-    //     order_id: req.body.oid
-    //   }
-    // });
+export const deleteProduct = async (req, res) => {
+  try {
+    Product.destroy({
+      where: { 
+        product_id : req.body.product_id  
+      }
+    });
+    res.status(200).json({ msg: "Product Deleted" });
+  } catch (error) {
+    console.log(error);
+  }
+}

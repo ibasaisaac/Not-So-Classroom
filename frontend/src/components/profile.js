@@ -23,6 +23,7 @@ const Profile = () => {
     const [myproduct, setMyProduct] = useState([]);
     const [status, setStatus] = useState('');
     const [oid, setOID] = useState('');
+    const [product_id, setPID] = useState('');
 
     useEffect(() => {
 
@@ -49,7 +50,6 @@ const Profile = () => {
                     })
                         .then(function (ress2) {
                             if (ress2.status === 201) {
-                                console.log('lol 2 ', ress2.data)
                                 setMyProduct(ress2.data)
                             }
                         })
@@ -59,20 +59,7 @@ const Profile = () => {
                     })
                         .then(function (ress) {
                             if (ress.status === 201) {
-                                // console.log('lol ', ress.data)
                                 setProductOrder(ress.data)
-                            }
-                        })
-
-                    axios.post('http://localhost:5000/changestatus', {
-                        status: status,
-                        oid: oid
-                    })
-                        .then(function (res3) {
-                            if (res3.status === 201) {
-                                console.log('lol stat', res3.data)
-                                console.log(status)
-                                console.log(oid)
                             }
                         })
                 })
@@ -81,42 +68,37 @@ const Profile = () => {
                 })
         }
 
-
         prepareProfile()
     }, []);
 
-    // const productDelete = async (e, props) => {
-    //     e.preventDefault();
-    //     try {
-    //         const res = await axios.post('http://localhost:5000/del_product', {
-    //             product_id: props
-    //         });
-    //         if (res.status === 200) {
-    //             toast.success(res.data.msg)
-    //             var newProduct = myproduct.filter((p) => props !== p.product_id);
-    //             setMyProduct(newProduct);
-    //         }
-    //     }
-    //     catch (error) {
-    //         console.log(error);
-    //     }
-    // }
+    const productDelete = async (e, product_id) => {
+        e.preventDefault();
+        try {
+            const res = await axios.post('http://localhost:5000/del_product', {
+                product_id: product_id
+            });
+            if (res.status === 200) {
+                toast.success(res.data.msg)
+                // var newProduct = myproduct.filter((p) => props !== p.product_id);
+                // setMyProduct(newProduct);
+            }
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
 
-    // const changeStatus = async (e) => {
-    //     e.preventDefault();
-    //     axios.post('http://localhost:5000/getstatus', {
-    //         status: status,
-    //         oid: oid
-    //     })
-    //         .then(function (res3) {
-    //             if (res3.status === 201) {
-    //                 console.log('lol stat', res3.data)
-    //                 console.log(status)
-    //                 console.log(oid)
-    //                 setProductOrder(res3.data)
-    //             }
-    //         })
-    // }
+    const changeStatus = async (status, oid) => {
+        axios.post('http://localhost:5000/changestatus', {
+            status: status,
+            oid: oid
+        })
+            .then(function (res3) {
+                if (res3.status === 201) {
+                    toast.success(res3.data.msg)
+                }
+            })
+    }
 
     const createGroupEvent = async (e) => {
         e.preventDefault();
@@ -434,7 +416,7 @@ const Profile = () => {
                     background: 'white'
                 }}>My Product</h5>
                 <div className="sec2">
-                    <table class="table table-hover table-responsive">
+                    <table className="table table-hover table-responsive">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -444,12 +426,12 @@ const Profile = () => {
                         </thead>
                         <tbody>
                             {myproduct.map((m, i) => (
-                                <tr>
+                                <tr key={m.product_id}>
                                     <th scope="row">{i + 1}</th>
                                     <td>{m.product_name}</td>
                                     <td>{m.price}</td>
                                     <td><a
-                                    // onClick={(e) => Delete(e, props.flag[1].p.product_id)}
+                                    onClick={(e) => productDelete(e, m.product_id)}
                                     >Delete</a></td>
                                 </tr>
                             ))}
@@ -464,7 +446,7 @@ const Profile = () => {
                     background: 'white'
                 }}>My Product(s) Orders</h5>
                 <div className="sec2">
-                    <table class="table table-hover table-responsive">
+                    <table className="table table-hover table-responsive">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -480,7 +462,7 @@ const Profile = () => {
                         </thead>
                         <tbody>
                             {productOrder.map((p, i) => (
-                                <tr>
+                                <tr key={p.order_id}>
                                     <th scope="row">{i + 1}</th>
                                     <td>{p.items[0].details.product_name}</td>
                                     <td>{p.buyer_id}</td>
@@ -492,7 +474,7 @@ const Profile = () => {
                                     <td>
                                         <select defaultValue={0} className="form-control custom-select" id="status"
                                             style={{ backgroundColor: 'white', border: 'none' }}
-                                            onChange={(e) => { setStatus(e.target.value); setOID(p.order_id) }}>
+                                            onChange={(e) => { changeStatus(e.target.value, p.order_id) }}>
                                             <option value={0}>{p.status}</option>
                                             <option value="Processing">Processing</option>
                                             <option value="Canceled">Canceled</option>
