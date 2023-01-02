@@ -21,9 +21,6 @@ const Profile = () => {
     const [popUpProduct, setPopUpProduct] = useState(false);
     const [productOrder, setProductOrder] = useState([]);
     const [myproduct, setMyProduct] = useState([]);
-    const [status, setStatus] = useState('');
-    const [oid, setOID] = useState('');
-    const [product_id, setPID] = useState('');
 
     useEffect(() => {
 
@@ -410,7 +407,7 @@ const Profile = () => {
                 </div>
             </div>
 
-            <div id="#section5">
+            <div className="mb-5" id="#section5">
                 <h5 style={{
                     position: 'relative', left: '22%', height: '100%', width: '100%',
                     background: 'white'
@@ -430,9 +427,11 @@ const Profile = () => {
                                     <th scope="row">{i + 1}</th>
                                     <td>{m.product_name}</td>
                                     <td>{m.price}</td>
-                                    <td><a
-                                    onClick={(e) => productDelete(e, m.product_id)}
-                                    >Delete</a></td>
+                                    <td>
+                                        <button style={{ backgroundColor: 'transparent', border: '0' }}
+                                            onClick={(e) => productDelete(e, m.product_id)}
+                                        >Delete</button>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
@@ -440,7 +439,7 @@ const Profile = () => {
                 </div>
             </div>
 
-            <div id="#section6">
+            <div className="mb-5" id="#section6">
                 <h5 style={{
                     position: 'relative', left: '22%', height: '100%', width: '100%',
                     background: 'white'

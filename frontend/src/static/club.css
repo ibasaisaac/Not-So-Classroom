@@ -1,12 +1,13 @@
 @import "style.css";
 
-.mask{
+.mask {
     height: 200px;
     width: 100%;
     background-color: white;
     text-align: center;
     font-size: 50px;
 }
+
 .bgclubprop {
     left: 75%;
     bottom: 0%;
@@ -14,37 +15,48 @@
     height: auto;
     position: fixed;
 }
-.iut{
+
+.iut {
     position: relative;
     bottom: 80px;
 }
 
-/* .navbar{
+.r {
     height: 50px;
     display: flex;
     align-items: center;
-    color:black;
+    color: black;
     background-color: white;
 }
 
-nav{
+.v {
     flex: 1;
     text-align: center;
 }
 
-nav ul li{
+.i {
     list-style: none;
     display: inline-block;
     margin-left: 60px;
 }
 
-nav ul li a{
+.ibn {
+    background-color: transparent;
+    border: none;
     text-decoration: none;
     color: black;
     font-size: 20px;
-} */
+}
 
-.box{
+.ibn:active {
+    background: #e5e5e5;
+    outline: none;
+    box-shadow: 0 0 0 white;
+}
+
+
+
+*/ .box {
     height: 300px;
     width: 50%;
     background-color: #D3D3D3;
@@ -54,7 +66,7 @@ nav ul li a{
 }
 
 
-.box1{
+.box1 {
     height: 70px;
     width: 47.6%;
     background-color: white;
@@ -63,13 +75,13 @@ nav ul li a{
     bottom: 265px;
 }
 
-.b1{
+.b1 {
     position: relative;
     top: 40px;
     left: 10px;
 }
 
-.box2{
+.box2 {
     height: 190px;
     width: 47.6%;
     background-color: white;
@@ -79,17 +91,17 @@ nav ul li a{
     bottom: 250px;
 }
 
-.box3{
+.box3 {
     height: 100px;
     width: 20%;
     background-color: #D3D3D3;
     padding: 10px;
     position: relative;
     left: 12.25%;
-    bottom:360px;
+    bottom: 360px;
 }
 
-.box4{
+.box4 {
     height: 300px;
     width: 30%;
     font-size: 20px;
@@ -97,10 +109,10 @@ nav ul li a{
     padding: 10px;
     position: relative;
     left: 65%;
-    bottom:640px;
+    bottom: 640px;
 }
 
-.box5{
+.box5 {
     height: 90px;
     width: 28%;
     font-size: 15px;
@@ -108,10 +120,10 @@ nav ul li a{
     padding: 10px;
     position: relative;
     left: 66%;
-    bottom:850px;
+    bottom: 850px;
 }
 
-.box6{
+.box6 {
     height: 90px;
     width: 28%;
     font-size: 15px;
@@ -119,11 +131,11 @@ nav ul li a{
     padding: 10px;
     position: relative;
     left: 66%;
-    bottom:835px;
+    bottom: 835px;
 }
 
 /* member */
-.mod{
+.mod {
     height: 50px;
     width: 350px;
     background-color: #87CEEB;
@@ -136,7 +148,7 @@ nav ul li a{
     border-radius: 10px;
 }
 
-.mod1{
+.mod1 {
     height: 30px;
     width: 280px;
     background-color: #D3D3D3;
@@ -148,7 +160,7 @@ nav ul li a{
     color: black;
 }
 
-.mod2{
+.mod2 {
     height: 30px;
     width: 280px;
     background-color: #D3D3D3;
@@ -160,7 +172,7 @@ nav ul li a{
     color: black;
 }
 
-.peo{
+.peo {
     height: 50px;
     width: 350px;
     background-color: #FFAE9C;
@@ -173,7 +185,7 @@ nav ul li a{
     border-radius: 10px;
 }
 
-.peo1{
+.peo1 {
     height: 30px;
     width: 280px;
     background-color: #D3D3D3;
@@ -185,7 +197,7 @@ nav ul li a{
     color: black;
 }
 
-.peo2{
+.peo2 {
     height: 30px;
     width: 280px;
     background-color: #D3D3D3;
@@ -197,7 +209,7 @@ nav ul li a{
     color: black;
 }
 
-.peo3{
+.peo3 {
     height: 30px;
     width: 280px;
     background-color: #D3D3D3;
@@ -209,7 +221,7 @@ nav ul li a{
     color: black;
 }
 
-.peo4{
+.peo4 {
     height: 30px;
     width: 280px;
     background-color: #D3D3D3;
@@ -221,7 +233,7 @@ nav ul li a{
     color: black;
 }
 
-.peo5{
+.peo5 {
     height: 30px;
     width: 280px;
     background-color: #D3D3D3;
@@ -233,7 +245,7 @@ nav ul li a{
     color: black;
 }
 
-.peo6{
+.peo6 {
     height: 30px;
     width: 280px;
     background-color: #D3D3D3;
@@ -245,7 +257,7 @@ nav ul li a{
     color: black;
 }
 
-.we{
+.we {
     width: 40vh;
     height: 300px;
     margin: 0 auto;
@@ -256,21 +268,19 @@ nav ul li a{
 }
 
 /* achievements */
-.achi{
+.achi {
     height: 300px;
     width: 500px;
-    top: 25px;
     text-align: center;
     color: black;
     font-size: 25px;
     padding: 15px;
-    align-items: center;
-    background-color:  #87CEEB;
+    background-color: #87CEEB;
     position: relative;
-    left: 375px;
+    left: 150px;
 }
 
-.achi1{
+.achi1 {
     height: 160px;
     width: 450px;
     text-align: center;

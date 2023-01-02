@@ -353,26 +353,26 @@ const Club = () => {
     if (!user || !posts)
         return <div style={{ textAlign: 'center', lineHeight: '600px' }}><i className="fa-regular fa-circle fa-beat fa-3x"></i><i className="fa-solid fa-circle fa-beat fa-3x"></i><i className="fa-regular fa-circle fa-beat fa-3x"></i></div>
     return (
-        <div className="container-fluid">
+        <div className="container-fluid" style={{overflowX: 'hidden'}}>
             <div className="bg2">
                 <div className="mask">
                     <img className="mask" alt='banner' src={banner} />
                     <p className="iut"><b>club.name</b></p>
                 </div>
 
-                <div className="navbar">
-                    <nav>
+                <div className="navbar r">
+                    <nav className='v'>
                         <ul>
-                            <li><button style={{ backgroundColor: 'transparent', border: 'none' }} onClick={() => { setActivity(true); setMember(false); setShop(false); setAchievement(false) }}>Activities</button></li>
-                            <li><button style={{ backgroundColor: 'transparent', border: 'none' }} onClick={() => { setMember(true); setActivity(false); setShop(false); setAchievement(false) }}>Members</button></li>
-                            <li><button style={{ backgroundColor: 'transparent', border: 'none' }} onClick={() => { setShop(true); setActivity(false); setMember(false); setAchievement(false) }}>Shop</button></li>
-                            <li><button style={{ backgroundColor: 'transparent', border: 'none' }} onClick={() => { setAchievement(true); setActivity(false); setMember(false); setShop(false) }}>Achievements</button></li>
+                            <li className='i'><button className='ibn' onClick={() => { setActivity(true); setMember(false); setShop(false); setAchievement(false) }}>Activities</button></li>
+                            <li className='i'><button className='ibn' onClick={() => { setMember(true); setActivity(false); setShop(false); setAchievement(false) }}>Members</button></li>
+                            <li className='i'><button className='ibn' onClick={() => { setShop(true); setActivity(false); setMember(false); setAchievement(false) }}>Shop</button></li>
+                            <li className='i'><button className='ibn' onClick={() => { setAchievement(true); setActivity(false); setMember(false); setShop(false) }}>Achievements</button></li>
                         </ul>
                     </nav>
                 </div>
 
                 <div >
-                    <div className='row mx-5 my-1'>
+                    <div className='row mx-5 my-4'>
                         <img className="bgclubprop" src={pencilkid} alt="kid" />
 
                         {activity && <Activities />}
