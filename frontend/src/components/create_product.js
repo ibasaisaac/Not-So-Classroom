@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import '../static/verification_pop.css';
@@ -10,13 +11,19 @@ import birdies from '../static/birdies.svg';
 const ProductCreate = props => {
     const setPopUp = props.setProductCreatePopUp
     const [user] = useState(props.setUser);
+    const location = useLocation()
+    const [club] = useState(location.state.club)
     const [product, setProduct] = useState({ name: '', info: '', category: '', s_stock: '0', m_stock: '0', l_stock: '0', total: '0', price: '', pic: [] });
     const [images, setImages] = useState([])
 
     const create = async (e) => {
         e.preventDefault();
+        console.log(club.moderator_id)
         const data = new FormData();
-        data.set('club_id', 0);
+        if(club.moderator_id === user.student_id)
+            data.set('club_id', club.club_id);
+        else
+            data.set('club_id', 0);
         data.set('seller_id', user.student_id);
         data.set('product_name', product.name);
         data.set('stock', parseInt(product.total) + parseInt(product.s_stock) + parseInt(product.m_stock) + parseInt(product.l_stock));
