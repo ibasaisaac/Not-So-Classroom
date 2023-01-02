@@ -50,6 +50,7 @@ const Profile = () => {
                     })
                         .then(function (ress2) {
                             if (ress2.status === 201) {
+                                console.log(ress2.data)
                                 setMyProduct(ress2.data)
                             }
                         })
@@ -74,13 +75,29 @@ const Profile = () => {
     const productDelete = async (e, product_id) => {
         e.preventDefault();
         try {
+            orderDelete(e,product_id)
             const res = await axios.post('http://localhost:5000/del_product', {
                 product_id: product_id
             });
             if (res.status === 200) {
+                console.log(product_id)
                 toast.success(res.data.msg)
-                // var newProduct = myproduct.filter((p) => props !== p.product_id);
-                // setMyProduct(newProduct);
+            }
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
+    const orderDelete = async (e,product_id) => {
+        e.preventDefault();
+        try {
+            const res = await axios.post('http://localhost:5000/del_order', {
+                product_id: product_id
+            });
+            if (res.status === 200) {
+                console.log('order and product deleted')
+                // toast.success(res.data.msg)
             }
         }
         catch (error) {
@@ -223,6 +240,10 @@ const Profile = () => {
                                 return <a href="#section2" className="btnn"
                                     style={{ background: '#7cb9e8' }}>CR</a>
                             }
+                            else if (user.role === 'cr+club') {
+                                return <a href="#section2" className="btnn"
+                                    style={{ background: '#7cb9e8' }}>CR</a>
+                            }
                             else {
                                 return <a href="#section2" className="btnn"
                                     style={{ background: 'none' }}>CR</a>
@@ -231,15 +252,30 @@ const Profile = () => {
                     }
                     {
                         (() => {
-                            if (user.role !== 'cr' && user.role !== null) {
+                            if (user.role === 'club') {
                                 return <a href="#section3" className="btnn"
                                     style={{ background: '#FFB0AD' }}>Club Moderator</a>
-                            } else {
+                            } else if (user.role === 'cr+club'){
+                                return <a href="#section3" className="btnn"
+                                    style={{ background: '#FFB0AD' }}>Club Moderator</a>
+                            }
+                            else if (user.role !== 'club'){
                                 return <a href="#section3" className="btnn"
                                     style={{ background: 'none' }}>Club Moderator</a>
                             }
                         })()
                     }
+                    {/* {
+                        (() => {
+                            if (user.role === 'cr+club') {
+                                return <a href="#section3" className="btnn"
+                                    style={{ background: '#FFB0AD' }}>Club Moderator</a>
+                            } if (user.role === 'cr+club') {
+                                return <a href="#section2" className="btnn"
+                                    style={{ background: '#7cb9e8' }}>CR</a>
+                            }
+                        })()
+                    } */}
                     <button style={{ color: 'black', position: 'relative', left: '20px' }} onClick={handlePopup}>Ask role access</button>
                 </div>
 

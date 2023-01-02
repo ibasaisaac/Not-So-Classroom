@@ -116,6 +116,9 @@ export const CR_verification = async (req, res) => {
             if (response.role === "cr") {
               return res.status(200).json({ msg: "CR verified!" });
             }
+            else if (response.role === "cr+club") {
+              return res.status(200).json({ msg: "CR and Club Moderator verified!" });
+            }
             else {
               return res.status(200).json({ msg: "Club Moderator verified!" });
             }
@@ -230,7 +233,8 @@ export const changeStatus = async (req, res) => {
 
 
 export const showMyProduct = async (req, res) => {
-  try {
+
+try {
     const results = await Product.findAll({
       attributes: ['product_id', 'product_name', 'price'],
       where: {
@@ -244,6 +248,50 @@ export const showMyProduct = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
+
+
+  // try {
+  //   // console.log(req.body.seller_id)
+  //   const results = await Order.findAll({
+  //     attributes: ['order_id'],
+  //     subQuery: false,
+  //     where: {
+  //       ['$items.details.seller_id$']: req.body.seller_id
+  //     },
+  //     include: [
+  //       {
+  //         model: OrderedItems, as: "items",
+  //         attributes: ['product_id'],
+  //         include: [
+  //           {
+  //             model: Product, as: "details"
+  //           }
+  //         ],
+  //         order: [
+  //           ['product_id', 'ASC']
+  //         ],
+  //       }
+  //     ]
+  //   });
+  //   res.status(201).json(results);
+  // } catch (error) {
+  //   console.log(error);
+  // }
+
+  // try {
+  //   const results = await Product.findAll({
+  //     attributes: ['product_id', 'product_name', 'price'],
+  //     where: {
+  //       seller_id: req.body.seller_id
+  //     },
+  //     order: [
+  //       ['product_id', 'ASC']
+  //     ],
+  //   });
+  //   res.status(201).json(results);
+  // } catch (error) {
+  //   console.log(error);
+  // }
 }
 
 export const deleteProduct = async (req, res) => {
@@ -254,6 +302,34 @@ export const deleteProduct = async (req, res) => {
       }
     });
     res.status(200).json({ msg: "Product Deleted" });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const deleteOrder = async (req, res) => {
+  try {
+    Order.findAll({
+      attributes: ['order_id'],
+      where: {
+        ['$items.details.product_id$']: req.body.product_id
+      },
+      include: [
+        {
+          model: OrderedItems, as: "items",
+          include: [
+            {
+              model: Product, as: "details"
+            }
+          ],
+        }
+      ]
+    }).then(function(oids){
+      if(oids.length === 0)
+      res.status(201).json('nothing to del');
+      return Order.destroy({where: {order_id: {$in: oids}}});
+    })
+        // res.status(201).json(results);
   } catch (error) {
     console.log(error);
   }
