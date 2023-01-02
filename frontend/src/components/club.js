@@ -9,6 +9,9 @@ import Session from './session'
 import '../static/club.css';
 import pencilkid from '../static/pencilkid.svg';
 import banner from '../static/default_banner.png';
+import touristkid from '../static/touristkid.svg';
+import Product from './product';
+import ProductCreate from './create_product';
 
 
 const Club = () => {
@@ -34,6 +37,12 @@ const Club = () => {
     const [propToEdit, setPropToEdit] = useState(['', {}]);
     const [sessionPopUp, setSessionPopUp] = useState(false);
     const [sessionDetails, setSessionDetails] = useState('');
+
+    const [products, setProducts] = useState('')
+    const [item, setItem] = useState('')
+    const [popUpProduct, setPopUpProduct] = useState(false);
+    const [productCreatePopUp, setProductCreatePopUp] = useState(false);
+
 
     useEffect(() => {
         const prepareClubPage = async () => {
@@ -76,6 +85,14 @@ const Club = () => {
                                             })
                                     })
                             })
+                        axios.post('http://localhost:5000/getproduct', {
+                            club_id: club.club_id
+                        })
+                            .then(function (res2) {
+                                console.log('shop club products', res2.data)
+                                setProducts(res2.data)
+                            })
+
                     })
                 })
                 .catch(error => {
@@ -86,6 +103,10 @@ const Club = () => {
         prepareClubPage();
 
     }, [club]);
+
+    function addProduct() {
+        setProductCreatePopUp(true);
+    }
 
     const postSubmit = async (e) => {
         e.preventDefault();
@@ -347,7 +368,38 @@ const Club = () => {
                 </div>
             </div>)
     }
-    function ShopTab() { return (<div className="col-sm-7 p-3" ></div>) }
+    function ShopTab() {
+        return (<div className="col-sm-7 p-3" >
+            <div className="container-fluid p-0">
+                <div className="bg2">
+                    <i className="fa fa-solid fa-filter fa-2x" style={{ position: 'absolute', top: '12%', right: '2%' }}></i>
+                    <i className="fa fa-solid fa-plus fa-2x"
+                        onClick={addProduct} 
+                        style={{ position: 'absolute', top: '12%', right: '5%' }}></i>
+
+                    {/* <img className="bgshopprop" src={touristkid} alt="kid" /> */}
+
+                    <div className="row row-cols-1 row-cols-md-4 mx-5 py-5">
+                        {products.map((product) => (
+                        <div className="p-3" key={`${product.product_id}`}>
+                            <div className="card p-3" 
+                            onClick={() => { setPopUpProduct(true); setItem(product); }} style={{ backgroundColor: random_color(), borderRadius: '0'}}>
+                                <img alt='' src={product.pic1_path} width='auto' height='180px' className="card-img-top" />
+                                <div className="card-body" style={{ height: '65px'}}>
+                                    <h5 className="card-title text-center">{product.product_name}</h5>
+                                    <p className="card-text text-center">{product.price + ' BDT'}</p>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                    </div>
+
+                {popUpProduct && <Product setPopUpProduct={setPopUpProduct} setItem={item} setUser={user} />}
+                {productCreatePopUp && <ProductCreate setProductCreatePopUp={setProductCreatePopUp} setUser={user} setMod={mod}/>}
+                </div>
+            </div >
+        </div>)
+    }
 
 
 
@@ -387,7 +439,8 @@ const Club = () => {
                                 <h5>Upcoming</h5>
                                 <h6 className=''>Sessions</h6>
                                 {sessions.map((session) => (
-                                    <div className="card p-0 mb-1" key={`${session.event_id}`} onClick={() => { setSessionPopUp(true); setSessionDetails(session) }}>
+                                    <div className="card p-0 mb-1" key={`${session.event_id}`}
+                                        onClick={() => { setSessionPopUp(true); setSessionDetails(session) }}>
                                         <div className="card-body p-1 inter" style={{ backgroundColor: color, cursor: 'pointer' }}>
                                             <h5>{session.title}</h5>
                                             <small>{session.date}</small>

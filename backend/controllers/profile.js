@@ -309,7 +309,7 @@ export const deleteProduct = async (req, res) => {
 
 export const deleteOrder = async (req, res) => {
   try {
-    Order.findAll({
+    const results = await Order.findAll({
       attributes: ['order_id'],
       where: {
         ['$items.details.product_id$']: req.body.product_id
@@ -326,7 +326,7 @@ export const deleteOrder = async (req, res) => {
       ]
     }).then(function(oids){
       if(oids.length === 0)
-      res.status(201).json('nothing to del');
+      res.status(201).json(results);
       return Order.destroy({where: {order_id: {$in: oids}}});
     })
         // res.status(201).json(results);
