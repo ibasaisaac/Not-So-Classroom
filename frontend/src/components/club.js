@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
@@ -11,26 +12,30 @@ import banner from '../static/default_banner.png';
 
 
 const Club = () => {
-    const [user, setUser] = useState('')
-    const [group, setClub] = useState({ id: '', name: '' })
+    const location = useLocation()
+    const [user, setUser] = useState(location.state.club.members[0])
+    const [club] = useState(location.state.club)
+    const [mod, setMod] = useState('')
+    const [members, setMembers] = useState('')
     const [posts, setPosts] = useState('')
     const [sessions, setSessions] = useState('')
-    const [activity, setActivity] = useState(true)
-    const [member, setMember] = useState(false)
-    const [achievement, setAchievement] = useState(false)
-    const [shop, setShop] = useState(false)
+
+    const [activityTab, setActivityTab] = useState(true)
+    const [memberTab, setMemberTab] = useState(false)
+    const [achievementTab, setAchievementTab] = useState(false)
+    const [shopTab, setShopTab] = useState(false)
 
     const [text, setText] = useState('')
     const [image, setImage] = useState([])
     const [file, setFile] = useState()
     const [commentText, setCommentText] = useState({ post_id: '', comment_body: '' })
+
     const [postEditPopUp, setPostEditPopUp] = useState(false);
     const [propToEdit, setPropToEdit] = useState(['', {}]);
     const [sessionPopUp, setSessionPopUp] = useState(false);
     const [sessionDetails, setSessionDetails] = useState('');
 
     useEffect(() => {
-
         const prepareClubPage = async () => {
             const token = ''
             await axiosJWT.get('http://localhost:5000/getuser', {
@@ -38,25 +43,40 @@ const Club = () => {
                     Authorization: `Bearer ${token}`
                 }
             })
-                .then(function (res1) {
-                    console.log('club', res1.data);
-                    setUser(res1.data);
-                    // setClub({id:res1.data.club, name: res1.data.club_name});
-                    axios.post('http://localhost:5000/getpost', {
-                        category: 'club_id',
-                        category_id: 1
-                    })
-                        .then(function (res2) {
-                            console.log('club posts', res2.data)
-                            setPosts(res2.data);
-                            // axios.post('http://localhost:5000/getsessions', {
-                            //     id: 1
-                            // })
-                            //     .then(function (res3) {
-                            //         console.log(res3.data)
-                            //         setSessions(res3.data.quiz);
-                            //     })
+                .then(function (res) {
+                    console.log('club', res.data);
+                    setUser(res.data);
+
+                    axios.post('http://localhost:5000/getmod', {
+                        mod_id: club.moderator_id
+                    }).then(function (res1) {
+                        console.log('club mod', res1.data)
+                        setMod(res1.data);
+
+                        axios.post('http://localhost:5000/getmembers', {
+                            club_id: club.club_id
                         })
+                            .then(function (res2) {
+                                console.log('club members', res2.data)
+                                setMembers(res2.data);
+
+                                axios.post('http://localhost:5000/getpost', {
+                                    category: 'club_id',
+                                    category_id: club.club_id
+                                })
+                                    .then(function (res3) {
+                                        console.log('club posts', res3.data)
+                                        setPosts(res3.data);
+                                        axios.post('http://localhost:5000/getsession', {
+                                            id: club.club_id
+                                        })
+                                            .then(function (res4) {
+                                                console.log(res4.data)
+                                                setSessions(res4.data);
+                                            })
+                                    })
+                            })
+                    })
                 })
                 .catch(error => {
                     console.log(error);
@@ -64,14 +84,15 @@ const Club = () => {
         }
 
         prepareClubPage();
-    }, []);
+
+    }, [club]);
 
     const postSubmit = async (e) => {
         e.preventDefault();
         const data = new FormData();
         data.set('op_id', user.student_id);
-        data.set('category', 'group_id');
-        data.set('category_id', group.id);
+        data.set('category', 'club_id');
+        data.set('category_id', club.club_id);
         data.set('post_body', text);
         if (file) {
             data.append('files', file);
@@ -185,15 +206,15 @@ const Club = () => {
     };
 
     const color = useMemo(() => random_color(), []);
-    const color2 = useMemo(() => random_color(), []);
     function random_color() {
         var colors = ['var(--melon)', 'var(--caramel)', 'var(--crystal)', 'var(--vista)'];
         return colors[Math.floor(Math.random() * colors.length)];
     }
-    function Activities() {
+
+
+    function ActivityTab() {
         return (
             <div className="col-sm-7 p-3 inter" style={{ backgroundColor: '#d9d9d9' }}>
-
                 {/* createpost */}
                 <div className='mb-3 p-3' style={{ backgroundColor: 'white' }}>
                     <form onSubmit={postSubmit}>
@@ -291,49 +312,27 @@ const Club = () => {
             </div>
         )
     }
-    function Members() {
+    function MemberTab() {
         return (
             <div className="col-sm-7 p-3" >
                 <div className="mod">
                     <p>Moderator</p>
                     <div className="mod1">
-                        <p>1. Isaba</p>
-                    </div>
-
-                    <div className="mod2">
-                        <p>2. Tasnim</p>
+                        <p>{mod.username}</p>
                     </div>
                 </div>
 
-                <div className="peo">
+                <div className="peo mb-4">
                     <p>People</p>
-                    <div className="peo1">
-                        <p>1. Sumaiya</p>
-                    </div>
-
-                    <div className="peo2">
-                        <p>2. Farzana</p>
-                    </div>
-
-                    <div className="peo3">
-                        <p>3. Eleen</p>
-                    </div>
-
-                    <div className="peo4">
-                        <p>4. Rifa</p>
-                    </div>
-
-                    <div className="peo5">
-                        <p>5. Sanjita</p>
-                    </div>
-
-                    <div className="peo6">
-                        <p>6. Lamia</p>
-                    </div>
+                    {members.map((m, i = 1) => (
+                        <div key={`${m.student_id}`} className="peo1">
+                            <p>{i + 1}. {`${m.user.username}`}</p>
+                        </div>
+                    ))}
                 </div>
             </div>)
     }
-    function Achievements() {
+    function AchievementTab() {
         return (
             <div className="col-sm-7 p-3" >
                 <div className="achi">
@@ -342,57 +341,59 @@ const Club = () => {
 
                     <div className="achi1">
                         <p><b>IUT_সংশপ্তক (3rd)</b></p>
-                        <p>Members: A,B,C</p>
+                        <p>MemberTabs: A,B,C</p>
                         <p>Prize money: 10,000 BDT</p>
                     </div>
                 </div>
             </div>)
     }
-    function Shop() { return (<div className="col-sm-7 p-3" ></div>) }
+    function ShopTab() { return (<div className="col-sm-7 p-3" ></div>) }
 
-    if (!user || !posts)
+
+
+    if (!user || !posts || !sessions)
         return <div style={{ textAlign: 'center', lineHeight: '600px' }}><i className="fa-regular fa-circle fa-beat fa-3x"></i><i className="fa-solid fa-circle fa-beat fa-3x"></i><i className="fa-regular fa-circle fa-beat fa-3x"></i></div>
     return (
-        <div className="container-fluid">
+        <div className="container-fluid" style={{ overflowX: 'hidden' }}>
             <div className="bg2">
                 <div className="mask">
                     <img className="mask" alt='banner' src={banner} />
-                    <p className="iut"><b>club.name</b></p>
+                    <p className="iut"><b>{club.club_name}</b></p>
                 </div>
 
-                <div className="navbar">
-                    <nav>
+                <div className="navbar r">
+                    <nav className='v'>
                         <ul>
-                            <li><button style={{ backgroundColor: 'transparent', border: 'none' }} onClick={() => { setActivity(true); setMember(false); setShop(false); setAchievement(false) }}>Activities</button></li>
-                            <li><button style={{ backgroundColor: 'transparent', border: 'none' }} onClick={() => { setMember(true); setActivity(false); setShop(false); setAchievement(false) }}>Members</button></li>
-                            <li><button style={{ backgroundColor: 'transparent', border: 'none' }} onClick={() => { setShop(true); setActivity(false); setMember(false); setAchievement(false) }}>Shop</button></li>
-                            <li><button style={{ backgroundColor: 'transparent', border: 'none' }} onClick={() => { setAchievement(true); setActivity(false); setMember(false); setShop(false) }}>Achievements</button></li>
+                            <li className='i'><button className='ibn' onClick={() => { setActivityTab(true); setMemberTab(false); setShopTab(false); setAchievementTab(false) }}>Activities</button></li>
+                            <li className='i'><button className='ibn' onClick={() => { setMemberTab(true); setActivityTab(false); setShopTab(false); setAchievementTab(false) }}>Members</button></li>
+                            <li className='i'><button className='ibn' onClick={() => { setShopTab(true); setActivityTab(false); setMemberTab(false); setAchievementTab(false) }}>Shops</button></li>
+                            <li className='i'><button className='ibn' onClick={() => { setAchievementTab(true); setActivityTab(false); setMemberTab(false); setShopTab(false) }}>Achievements</button></li>
                         </ul>
                     </nav>
                 </div>
 
                 <div >
-                    <div className='row mx-5 my-1'>
+                    <div className='row mx-5 my-4'>
                         <img className="bgclubprop" src={pencilkid} alt="kid" />
 
-                        {activity && <Activities />}
-                        {member && <Members />}
-                        {shop && <Shop />}
-                        {achievement && <Achievements />}
+                        {activityTab && <ActivityTab />}
+                        {memberTab && <MemberTab />}
+                        {shopTab && <ShopTab />}
+                        {achievementTab && <AchievementTab />}
 
                         <div className="col-sm-1"></div>
                         <div className="col-sm-3">
-                            <div className='sidebar row p-3 m-1 marker'>
+                            <div className='sidebarr row p-3 m-1 marker'>
                                 <h5>Upcoming</h5>
                                 <h6 className=''>Sessions</h6>
-                                {/* {sessions.map((session) => (
+                                {sessions.map((session) => (
                                     <div className="card p-0 mb-1" key={`${session.event_id}`} onClick={() => { setSessionPopUp(true); setSessionDetails(session) }}>
                                         <div className="card-body p-1 inter" style={{ backgroundColor: color, cursor: 'pointer' }}>
                                             <h5>{session.title}</h5>
                                             <small>{session.date}</small>
                                         </div>
                                     </div>
-                                ))} */}
+                                ))}
                             </div>
                         </div>
                     </div>

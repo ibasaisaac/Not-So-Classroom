@@ -258,7 +258,7 @@ export const showEvent = async (req, res) => {
 export const search = async (req, res) => {
   const room = req.body.building + ' ' + req.body.room
   let day = new Date(req.body.date).getDay();
-  
+
   try {
     var results
     if (day === 1) {
@@ -426,14 +426,14 @@ export const search = async (req, res) => {
         }
       })
     }
-    
+
     const e = await Event.findAll({
       where: {
         category: 'Quiz',
         place: room,
         date: {
-          [Op.gte]: req.body.date+' '+'00:00:00'+' +06:00',
-          [Op.lte]: req.body.date+' '+'23:59:59'+' +06:00'
+          [Op.gte]: req.body.date + ' ' + '00:00:00' + ' +06:00',
+          [Op.lte]: req.body.date + ' ' + '23:59:59' + ' +06:00'
         }
       },
       order: [
@@ -550,6 +550,25 @@ export const buyProduct = async (req, res) => {
             res.status(200).json({ msg: "Order placed" });
           })
       })
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const showSession = async (req, res) => {
+
+  try {
+    const results = await Event.findAll({
+      where: {
+        category: 'Session',
+        club_id: req.body.id
+      },
+      order: [
+        ['date', 'ASC']
+      ],
+      limit: 4
+    })
+    res.json(results);
   } catch (error) {
     console.log(error);
   }
