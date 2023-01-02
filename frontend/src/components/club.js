@@ -314,7 +314,7 @@ const Club = () => {
     }
     function MemberTab() {
         return (
-            <div className="col-sm-7 p-3" >
+            <div className="col-sm-7 p-3 inter" >
                 <div className="mod">
                     <p>Moderator</p>
                     <div className="mod1">

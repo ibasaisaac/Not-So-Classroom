@@ -8,7 +8,7 @@
     font-size: 50px;
 }
 .mask2 {
-    height: 200px;
+    height: 150px;
     width: 100%;
     background-color: white;
     text-align: center;
@@ -16,7 +16,7 @@
 }
 
 .bgclubprop {
-    left: 75%;
+    left: 70%;
     bottom: 0%;
     width: 13%;
     height: auto;
@@ -27,7 +27,7 @@
     background-color: #d9d9d9cc;
     width: 27%;
     height: 40vh;
-    position: fixed;
+    position:absolute;
     margin-right: 50px;
     overflow-y: scroll;
 }
@@ -79,10 +79,8 @@
 .mod {
     height: 50px;
     width: 350px;
-    background-color: #87CEEB;
     position: relative;
-    left: 150px;
-    top: 20px;
+    background-color: var(--vista);
     text-align: center;
     font-size: 30px;
     color: white;
@@ -92,20 +90,19 @@
 .mod1 {
     height: 30px;
     width: 280px;
-    background-color: #D3D3D3;
     position: relative;
+    background-color: #d9d9d9d9;
     text-align: left;
-    font-size: 15px;
+    font-size: 20px;
     color: black;
 }
 
 .peo {
     height: 50px;
     width: 350px;
-    background-color: #FFAE9C;
+    top: 100px;
     position: relative;
-    left: 150px;
-    top: 150px;
+    background-color: var(--melon);
     text-align: center;
     font-size: 30px;
     color: white;
@@ -115,10 +112,10 @@
 .peo1 {
     height: 30px;
     width: 280px;
-    background-color: #D3D3D3;
     position: relative;
+    background-color: #d9d9d9d9;
     text-align: left;
-    font-size: 15px;
+    font-size: 20px;
     color: black;
 }
 

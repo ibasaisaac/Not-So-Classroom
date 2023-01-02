@@ -9,6 +9,7 @@ import Group from "../models/groupModel.js"
 import { ScheduleMon, ScheduleTue, ScheduleWed, ScheduleThu, ScheduleFri } from "../models/scheduleModel.js";
 import Product from "../models/productModel.js"
 import { Order, OrderedItems } from "../models/orderModel.js";
+import Booking from "../models/bookingModel.js";
 
 
 const storage = multer.diskStorage({
@@ -569,6 +570,21 @@ export const showSession = async (req, res) => {
       limit: 4
     })
     res.json(results);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const bookSession = async (req, res) => {
+  try {
+    Booking.create({
+      participant_id: req.body.participant_id,
+      session_id: req.body.session_id,
+      status: 'processing'
+    })
+      .then(function (response) {
+        res.status(200).json({ msg: "Booked" });
+      })
   } catch (error) {
     console.log(error);
   }
