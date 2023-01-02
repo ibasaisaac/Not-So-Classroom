@@ -3,7 +3,7 @@ import db from "../config/database.js";
 import {Post, Comment} from "../models/postModel.js";
 import Media from "../models/mediaModel.js";
 import Group from "../models/groupModel.js";
-import Club from "../models/clubModel.js";
+import {Club, ClubMembers} from "../models/clubModel.js";
 
 const { DataTypes } = Sequelize;
 
@@ -64,8 +64,8 @@ Media.belongsTo(Post, { as: "media", foreignKey: "post_id" });
 User.belongsTo(Group, { as: "group", foreignKey: "class_group" });
 Group.hasMany(User, { as: "students", foreignKey: "class_group" });
 
-User.belongsToMany(Club, { through: 'Club_members' });
-Club.belongsToMany(User, { through: 'Club_members' });
+User.belongsToMany(Club, { through: ClubMembers });
+Club.belongsToMany(User, { through: ClubMembers });
 
 
 export default User;

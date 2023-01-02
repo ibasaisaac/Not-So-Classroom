@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { axiosJWT } from './header.js';
 import ClubJoin from './join_club.js';
+import ClubCreate from './create_club.js';
 
 import '../static/clubmenu.css';
 import clubkids from '../static/clubkids.svg';
@@ -11,6 +12,7 @@ import clubkids from '../static/clubkids.svg';
 const Clubmenu = () => {
     const [user, setUser] = useState('')
     const [clubJoinPopUp, setClubJoinPopUp] = useState(false);
+    const [clubCreatePopUp, setClubCreatePopUp] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -43,6 +45,7 @@ const Clubmenu = () => {
 
     return (
         <div className="container-fluid cont">
+             <i className="fa fa-solid fa-plus fa-2x" onClick={()=>setClubCreatePopUp(true)} style={{ position: 'absolute', top: '12%', right: '5%' }}></i>
             <img alt='' className="bgprop" src={clubkids} />
 
             <div className="container-fluid" style={{ fontFamily: 'marker' }}>
@@ -50,6 +53,7 @@ const Clubmenu = () => {
                 <button className="button btn7" onClick={() => setClubJoinPopUp(true)}>+</button>
             </div>
             {clubJoinPopUp && <ClubJoin setClubJoinPopUp={setClubJoinPopUp} setUser={user} />}
+            {clubCreatePopUp && <ClubCreate setClubCreatePopUp={setClubCreatePopUp} setUser={user} />}
         </div>
     )
 }

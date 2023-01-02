@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import Student from "../models/studentModel.js";
 import User from "../models/userModel.js";
 import Group from "../models/groupModel.js";
-
+import { Club, ClubMembers } from "../models/clubModel.js";
 
 let id, email, username, password;
 let currentUser = {
@@ -303,6 +303,37 @@ export const joinGroup = async (req, res) => {
             })
     }
     catch (error) { console.log(error) }
+}
+
+export const createClub = async (req, res) => {
+    generateOTP();
+    console.log(otp);
+    try {
+        await Club.create({
+            club_code: otp,
+            moderator_id: req.body.mod_id,
+            club_name: req.body.name,
+            about: req.body.about
+        })
+            .then(function (response) {
+
+                if (!response) {
+                    return res.status(402).json({ msg: "Incorrect code" });
+                }
+                
+                ClubMembers.create({
+                    club_id: response.club_id,
+                    student_id: response.moderator_id
+                })
+                    .then(function () {
+                        return res.status(200).json({ msg: "success" });
+                    })
+            })
+    }
+    catch (error) {
+        console.log(error)
+        return res.status(402).json({ msg: 'You are already moderator of a group! poralekha nai? 😒' });
+    }
 }
 
 

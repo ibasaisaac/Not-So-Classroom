@@ -3,7 +3,7 @@ import express from "express";
 import { verifyToken } from "../middleware/verifyToken.js";
 import { refreshToken } from "../controllers/refreshToken.js";
 
-import { getUser, Register, Login, Logout, Resend, Verification, Forget, joinGroup, createGroup} from "../controllers/users.js";
+import { getUser, Register, Login, Logout, Resend, Verification, Forget, joinGroup, createGroup, createClub} from "../controllers/users.js";
 import { submitPost, editPost, deletePost, showPost, editComment, submitComment, deleteComment, showEvent, search, showProduct, addProduct, buyProduct} from "../controllers/feed.js";
 import { CR_verification, changeDP, changePassword, createEvent, showOrders, showProductOrders, showMyProduct, changeStatus,deleteProduct} from "../controllers/profile.js";
  
@@ -24,6 +24,8 @@ router.post('/verify', Verification);
 router.post('/forget', Forget);
 router.post('/joingroup', joinGroup);
 router.post('/creategroup', createGroup);
+
+router.post('/createclub', createClub);
 
 router.get('/register', verifyToken);
 router.get('/getuser', verifyToken, getUser);
