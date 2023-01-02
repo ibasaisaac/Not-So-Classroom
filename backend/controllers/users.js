@@ -320,7 +320,7 @@ export const createClub = async (req, res) => {
                 if (!response) {
                     return res.status(402).json({ msg: "Incorrect code" });
                 }
-                
+
                 ClubMembers.create({
                     club_id: response.club_id,
                     student_id: response.moderator_id
@@ -336,6 +336,49 @@ export const createClub = async (req, res) => {
     }
 }
 
+export const showClubs = async (req, res) => {
+
+    try {
+        const results = await Club.findAll({
+            include: [{
+                model: ClubMembers,
+                as: 'members',
+                require: true,
+                where: { student_id: req.body.student_id }
+            }]
+        })
+        res.json(results);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const showMod = async (req, res) => {
+    try {
+        const results = await User.findOne({
+            attributes: ['username'],
+            where: { student_id: req.body.mod_id }
+        })
+        res.json(results);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const showMembers = async (req, res) => {
+    try {
+        const results = await ClubMembers.findAll({
+            include: [{
+                model: User,
+                as: 'user'
+            }],
+            where: { club_id: req.body.club_id }
+        })
+        res.json(results);
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 var otp;
 function generateOTP() {

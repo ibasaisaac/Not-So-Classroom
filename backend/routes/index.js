@@ -3,8 +3,8 @@ import express from "express";
 import { verifyToken } from "../middleware/verifyToken.js";
 import { refreshToken } from "../controllers/refreshToken.js";
 
-import { getUser, Register, Login, Logout, Resend, Verification, Forget, joinGroup, createGroup, createClub} from "../controllers/users.js";
-import { submitPost, editPost, deletePost, showPost, editComment, submitComment, deleteComment, showEvent, search, showProduct, addProduct, buyProduct} from "../controllers/feed.js";
+import { getUser, Register, Login, Logout, Resend, Verification, Forget, joinGroup, createGroup, createClub, showClubs, showMembers, showMod} from "../controllers/users.js";
+import { submitPost, editPost, deletePost, showPost, editComment, submitComment, deleteComment, showEvent, search, showProduct, addProduct, buyProduct, showSession} from "../controllers/feed.js";
 import { CR_verification, changeDP, changePassword, createEvent, showOrders, showProductOrders, showMyProduct, changeStatus,deleteProduct} from "../controllers/profile.js";
  
 const router = express.Router();
@@ -24,8 +24,12 @@ router.post('/verify', Verification);
 router.post('/forget', Forget);
 router.post('/joingroup', joinGroup);
 router.post('/creategroup', createGroup);
+router.post('/getMod', showMod);
 
 router.post('/createclub', createClub);
+router.post('/getclubs', showClubs);
+router.post('/getmembers', showMembers);
+router.post('/getsession', showSession);
 
 router.get('/register', verifyToken);
 router.get('/getuser', verifyToken, getUser);

@@ -64,8 +64,7 @@ Media.belongsTo(Post, { as: "media", foreignKey: "post_id" });
 User.belongsTo(Group, { as: "group", foreignKey: "class_group" });
 Group.hasMany(User, { as: "students", foreignKey: "class_group" });
 
-User.belongsToMany(Club, { through: ClubMembers });
-Club.belongsToMany(User, { through: ClubMembers });
-
+Club.hasMany(ClubMembers, { as: "members", foreignKey: "club_id" });
+ClubMembers.belongsTo(User, { as: "user", foreignKey: "student_id" });
 
 export default User;

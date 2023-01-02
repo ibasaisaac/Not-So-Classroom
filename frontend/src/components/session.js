@@ -7,6 +7,7 @@ import '../static/club.css';
 
 const Session = props => {
     const setPopUp = props.setSessionPopUp;
+    console.log(props.setSessionDetails)
     const [session] = useState(props.setSessionDetails)
     const [user] = useState(props.setUser);
 
@@ -28,16 +29,14 @@ const Session = props => {
     }
 
 
-
-
     return (
         <div className="container-fluid PopUpp">
             <button className="popup-x" onClick={() => setPopUp(false)} >X</button>
-            <img alt='banner' src={banner} />
-            <h4>session.title</h4>
-            <h5>session.time</h5>
-            <p>session.details</p>
-            <button type='submit' clasName='btn btn-light btn-lg btn-modal'></button>
+            <img className='mask2' alt='banner' src={banner} />
+            <h4>{session.title}</h4>
+            <h5>{session.date}</h5>
+            <p>{session.info}</p>
+            <button type='submit' className='btn btn-light btn-lg btn-modal'></button>
         </div >
     )
 }

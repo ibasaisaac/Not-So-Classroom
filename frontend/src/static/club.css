@@ -7,6 +7,13 @@
     text-align: center;
     font-size: 50px;
 }
+.mask2 {
+    height: 200px;
+    width: 100%;
+    background-color: white;
+    text-align: center;
+    font-size: 50px;
+}
 
 .bgclubprop {
     left: 75%;
@@ -14,6 +21,19 @@
     width: 13%;
     height: auto;
     position: fixed;
+}
+
+.sidebarr {
+    background-color: #d9d9d9cc;
+    width: 27%;
+    height: 40vh;
+    position: fixed;
+    margin-right: 50px;
+    overflow-y: scroll;
+}
+
+.sidebarr::-webkit-scrollbar {
+    display: none;
 }
 
 .iut {
@@ -55,85 +75,6 @@
 }
 
 
-
-*/ .box {
-    height: 300px;
-    width: 50%;
-    background-color: #D3D3D3;
-    position: relative;
-    left: 10%;
-    top: 20px;
-}
-
-
-.box1 {
-    height: 70px;
-    width: 47.6%;
-    background-color: white;
-    position: relative;
-    left: 11.2%;
-    bottom: 265px;
-}
-
-.b1 {
-    position: relative;
-    top: 40px;
-    left: 10px;
-}
-
-.box2 {
-    height: 190px;
-    width: 47.6%;
-    background-color: white;
-    padding: 10px;
-    position: relative;
-    left: 11.2%;
-    bottom: 250px;
-}
-
-.box3 {
-    height: 100px;
-    width: 20%;
-    background-color: #D3D3D3;
-    padding: 10px;
-    position: relative;
-    left: 12.25%;
-    bottom: 360px;
-}
-
-.box4 {
-    height: 300px;
-    width: 30%;
-    font-size: 20px;
-    background-color: #E4E3DB;
-    padding: 10px;
-    position: relative;
-    left: 65%;
-    bottom: 640px;
-}
-
-.box5 {
-    height: 90px;
-    width: 28%;
-    font-size: 15px;
-    background-color: #FFD580;
-    padding: 10px;
-    position: relative;
-    left: 66%;
-    bottom: 850px;
-}
-
-.box6 {
-    height: 90px;
-    width: 28%;
-    font-size: 15px;
-    background-color: #BDD9CD;
-    padding: 10px;
-    position: relative;
-    left: 66%;
-    bottom: 835px;
-}
-
 /* member */
 .mod {
     height: 50px;
@@ -153,20 +94,6 @@
     width: 280px;
     background-color: #D3D3D3;
     position: relative;
-    /* left: 185px;
-    top: 30px; */
-    text-align: left;
-    font-size: 15px;
-    color: black;
-}
-
-.mod2 {
-    height: 30px;
-    width: 280px;
-    background-color: #D3D3D3;
-    position: relative;
-    /* left: 185px;
-    top: 40px; */
     text-align: left;
     font-size: 15px;
     color: black;
@@ -190,82 +117,11 @@
     width: 280px;
     background-color: #D3D3D3;
     position: relative;
-    /* left: 185px;
-    top: 60px; */
     text-align: left;
     font-size: 15px;
     color: black;
 }
 
-.peo2 {
-    height: 30px;
-    width: 280px;
-    background-color: #D3D3D3;
-    position: relative;
-    /* left: 185px;
-    top: 70px; */
-    text-align: left;
-    font-size: 15px;
-    color: black;
-}
-
-.peo3 {
-    height: 30px;
-    width: 280px;
-    background-color: #D3D3D3;
-    position: relative;
-    /* left: 185px;
-    top: 80px; */
-    text-align: left;
-    font-size: 15px;
-    color: black;
-}
-
-.peo4 {
-    height: 30px;
-    width: 280px;
-    background-color: #D3D3D3;
-    position: relative;
-    /* left: 185px;
-    top: 90px; */
-    text-align: left;
-    font-size: 15px;
-    color: black;
-}
-
-.peo5 {
-    height: 30px;
-    width: 280px;
-    background-color: #D3D3D3;
-    position: relative;
-    /* left: 185px;
-    top: 100px; */
-    text-align: left;
-    font-size: 15px;
-    color: black;
-}
-
-.peo6 {
-    height: 30px;
-    width: 280px;
-    background-color: #D3D3D3;
-    position: relative;
-    /* left: 185px;
-    top: 110px; */
-    text-align: left;
-    font-size: 15px;
-    color: black;
-}
-
-.we {
-    width: 40vh;
-    height: 300px;
-    margin: 0 auto;
-    position: fixed;
-    right: 0%;
-    bottom: -8%;
-    transform: translate(-50%, -50%);
-}
 
 /* achievements */
 .achi {
