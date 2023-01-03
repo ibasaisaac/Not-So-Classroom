@@ -33,12 +33,13 @@ const GroupCreate = props => {
                 if (res.status === 200) {
                     setCode(res.data);
                     setMsg('Copy and share it with others!');
-                    toast.success("Registration Successful!", {
-                        onClose: () => {
-                            setPopUp(false);
-                            navigate('/group')
-                        }
-                    })
+                    toast.success("Registration Successful!")
+                    // {
+                    //     onClose: () => {
+                    //         setPopUp(false);
+                    //         navigate('/group')
+                    //     }
+                    // })
                 }
             })
             .catch(error => {

@@ -25,12 +25,14 @@ const ClubCreate = props => {
             .then(res => {
                 if (res.status === 200) {
                     setCode(res.data);
+                    console.log(res.data);
                     setMsg('Copy and share it with others!');
-                    toast.success("Registration Successful!", {
-                        onClose: () => {
-                            setPopUp(false)
-                        }
-                    })
+                    toast.success("Registration Successful!")
+                    // {
+                    //     onClose: () => {
+                    //         setPopUp(false)
+                    //     }
+                    // })
                 }
             })
             .catch(error => {

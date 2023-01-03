@@ -561,7 +561,7 @@ export const showSession = async (req, res) => {
   try {
     const results = await Event.findAll({
       where: {
-        category: 'Session',
+        category: 'club',
         club_id: req.body.id
       },
       order: [

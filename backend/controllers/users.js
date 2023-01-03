@@ -326,7 +326,7 @@ export const createClub = async (req, res) => {
                     student_id: response.moderator_id
                 })
                     .then(function () {
-                        return res.status(200).json({ msg: "success" });
+                        return res.status(200).json(otp);
                     })
             })
     }
@@ -334,6 +334,36 @@ export const createClub = async (req, res) => {
         console.log(error)
         return res.status(402).json({ msg: 'You are already moderator of a group! poralekha nai? 😒' });
     }
+}
+
+export const joinClub = async (req, res) => {
+    try {
+        await Club.findOne({
+            attributes: ['club_id'],
+            where: {
+                club_code: req.body.code
+            }
+        })
+            .then(function (response) {
+
+                if (!response) {
+                    return res.status(402).json({ msg: "Incorrect code" });
+                }
+
+                ClubMembers.create({
+                    club_id: response.club_id,
+                    student_id: req.body.student_id
+                }, {
+                    where: {
+                        student_id: req.body.student_id
+                    }
+                })
+                    .then(function () {
+                        return res.status(200).json({ msg: "success" });
+                    })
+            })
+    }
+    catch (error) { console.log(error) }
 }
 
 export const showClubs = async (req, res) => {

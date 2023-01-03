@@ -80,7 +80,7 @@ const Club = () => {
                                             id: club.club_id
                                         })
                                             .then(function (res4) {
-                                                console.log(res4.data)
+                                                console.log('session', res4.data)
                                                 setSessions(res4.data);
                                             })
                                     })
@@ -395,7 +395,7 @@ const Club = () => {
                     </div>
 
                 {popUpProduct && <Product setPopUpProduct={setPopUpProduct} setItem={item} setUser={user} />}
-                {productCreatePopUp && <ProductCreate setProductCreatePopUp={setProductCreatePopUp} setUser={user} setMod={mod}/>}
+                {productCreatePopUp && <ProductCreate setProductCreatePopUp={setProductCreatePopUp} setUser={user}/>}
                 </div>
             </div >
         </div>)

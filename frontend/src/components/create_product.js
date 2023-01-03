@@ -12,18 +12,19 @@ const ProductCreate = props => {
     const setPopUp = props.setProductCreatePopUp
     const [user] = useState(props.setUser);
     const location = useLocation()
-    const [club] = useState(location.state.club)
+    const [club, setClub] = useState('')
     const [product, setProduct] = useState({ name: '', info: '', category: '', s_stock: '0', m_stock: '0', l_stock: '0', total: '0', price: '', pic: [] });
     const [images, setImages] = useState([])
 
     const create = async (e) => {
         e.preventDefault();
-        console.log(club.moderator_id)
         const data = new FormData();
-        if(club.moderator_id === user.student_id)
-            data.set('club_id', club.club_id);
-        else
-            data.set('club_id', 0);
+        data.set('club_id', 0)
+        if (location.state) {
+            club = location.state.club;
+            if (club.moderator_id === parseInt(user.student_id))
+                data.set('club_id', club.club_id);
+        }
         data.set('seller_id', user.student_id);
         data.set('product_name', product.name);
         data.set('stock', parseInt(product.total) + parseInt(product.s_stock) + parseInt(product.m_stock) + parseInt(product.l_stock));
@@ -55,7 +56,7 @@ const ProductCreate = props => {
                 <input type="number" placeholder='S' required className="form-control" value={product.s_stock} onChange={(e) => setProduct({ ...product, s_stock: e.target.value })} />
                 <input type="number" placeholder='M' required className="form-control" value={product.m_stock} onChange={(e) => setProduct({ ...product, m_stock: e.target.value })} />
                 <input type="number" placeholder='L' required className="form-control" value={product.l_stock} onChange={(e) => setProduct({ ...product, l_stock: e.target.value })} />
-                <input type="number" id="count" placeholder='Total' readOnly className="form-control" value={parseInt(product.s_stock) + parseInt(product.m_stock) + parseInt(product.l_stock)} onChange={(e) => setProduct({ ...product, total: e.target.value })}/>
+                <input type="number" id="count" placeholder='Total' readOnly className="form-control" value={parseInt(product.s_stock) + parseInt(product.m_stock) + parseInt(product.l_stock)} onChange={(e) => setProduct({ ...product, total: e.target.value })} />
             </div>
         } else {
             return <div className="col-sm-8">
@@ -72,8 +73,8 @@ const ProductCreate = props => {
         <div className="container-fluid PopCreate" style={{ width: '66%', height: '94%', zIndex: '1051', top: '3%' }}>
             <button className="popup-x" onClick={() => setPopUp(false)} >X</button>
 
-            <img alt='' className="giraffe" src={giraffe} style={{ top: '80%'}}/>
-            <img alt='' className="birdie" src={birdies} style={{ top: '20%'}}/>
+            <img alt='' className="giraffe" src={giraffe} style={{ top: '80%' }} />
+            <img alt='' className="birdie" src={birdies} style={{ top: '20%' }} />
 
             <form className="form-containn_create mb-3" style={{ fontFamily: 'comfortaa' }} onSubmit={create} >
 

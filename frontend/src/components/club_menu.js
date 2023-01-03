@@ -61,9 +61,9 @@ const Clubmenu = () => {
             {clubs.map((club) => (
                 <div key={`${club.club_id}`} className="container-fluid" style={{ fontFamily: 'marker' }}>
                     <button className="button btn1" onClick={(e) => clubButton(e, club)}>{`${club.club_name}`}</button>
-                    <button className="button btn7" onClick={() => setClubJoinPopUp(true)}>+</button>
                 </div>
             ))}
+            <button className="button btn7" onClick={() => setClubJoinPopUp(true)}>+</button>
 
             {clubJoinPopUp && <ClubJoin setClubJoinPopUp={setClubJoinPopUp} setUser={user} />}
             {clubCreatePopUp && <ClubCreate setClubCreatePopUp={setClubCreatePopUp} setUser={user} />}
